@@ -286,7 +286,7 @@ class TestPasswordValidation:
 
     def test_valid_strong_password(self):
         """Test strong password passes validation."""
-        is_valid, error = SecurityValidator.validate_password_strength("SecurePass123")
+        is_valid, error = SecurityValidator.validate_password_strength("SecureP@ssw0rd")
         assert is_valid is True
         assert error is None
 
@@ -297,26 +297,26 @@ class TestPasswordValidation:
         assert "required" in error.lower()
 
     def test_password_too_short(self):
-        """Test password shorter than 8 characters is rejected."""
-        is_valid, error = SecurityValidator.validate_password_strength("Pass1")
+        """Test password shorter than 12 characters is rejected."""
+        is_valid, error = SecurityValidator.validate_password_strength("Pass@1")
         assert is_valid is False
-        assert "at least 8 characters" in error.lower()
+        assert "at least 12 characters" in error.lower()
 
     def test_password_no_uppercase(self):
         """Test password without uppercase is rejected."""
-        is_valid, error = SecurityValidator.validate_password_strength("password123")
+        is_valid, error = SecurityValidator.validate_password_strength("password9@pass")
         assert is_valid is False
         assert "uppercase" in error.lower()
 
     def test_password_no_lowercase(self):
         """Test password without lowercase is rejected."""
-        is_valid, error = SecurityValidator.validate_password_strength("PASSWORD123")
+        is_valid, error = SecurityValidator.validate_password_strength("PASSWORD9@PASS")
         assert is_valid is False
         assert "lowercase" in error.lower()
 
     def test_password_no_digit(self):
         """Test password without digit is rejected."""
-        is_valid, error = SecurityValidator.validate_password_strength("PasswordOnly")
+        is_valid, error = SecurityValidator.validate_password_strength("PasswordOnly@Pas")
         assert is_valid is False
         assert "digit" in error.lower()
 
@@ -329,7 +329,7 @@ class TestPasswordValidation:
 
     def test_password_with_special_chars(self):
         """Test password with special characters is valid."""
-        is_valid, error = SecurityValidator.validate_password_strength("Secure@Pass123!")
+        is_valid, error = SecurityValidator.validate_password_strength("SecureP@ssw0rd2")
         assert is_valid is True
         assert error is None
 

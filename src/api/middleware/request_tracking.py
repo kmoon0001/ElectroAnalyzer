@@ -163,7 +163,17 @@ def log_with_request_id(message: str, level: str = "info", **kwargs) -> None:
         **kwargs: Additional log context
     """
     request_id = get_request_id()
-    extra = {"request_id": request_id, **kwargs}
+
+    # Filter out reserved LogRecord fields to avoid conflicts
+    reserved_fields = {
+        'name', 'msg', 'args', 'created', 'filename', 'funcName', 'levelname',
+        'levelno', 'lineno', 'module', 'msecs', 'millisecs', 'message', 'pathname',
+        'process', 'processName', 'relativeCreated', 'thread', 'threadName', 'exc_info',
+        'exc_text', 'stack_info', 'taskName'
+    }
+
+    filtered_kwargs = {k: v for k, v in kwargs.items() if k not in reserved_fields}
+    extra = {"request_id": request_id, **filtered_kwargs}
 
     if level == "info":
         logger.info(message, extra=extra)

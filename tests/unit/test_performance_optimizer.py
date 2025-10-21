@@ -230,9 +230,9 @@ class TestPerformanceOptimizer:
 
         assert optimizer.advanced_cache is not None
         assert optimizer.optimization_history == []
-        assert optimizer.last_optimization is None
+        assert optimizer.optimization_count == 0
         assert optimizer.optimization_in_progress is False
-        assert "min_hit_rate" in optimizer.performance_thresholds
+        assert optimizer.enabled is True
 
     @pytest.mark.asyncio
     async def test_analyze_performance(self):

@@ -31,6 +31,10 @@ class SecurityMiddleware(BaseHTTPMiddleware):
         """Process request through security middleware."""
         start_time = time.time()
 
+        # Initialize variables that might be used in exception handler
+        client_ip = "unknown"
+        user_agent = ""
+
         try:
             # Bypass heavy security checks for health/metrics and during tests to avoid masking other failures
             path = request.url.path.rstrip("/")

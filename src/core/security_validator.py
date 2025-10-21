@@ -26,6 +26,7 @@ class SecurityValidator:
 
     # Strictness validation
     ALLOWED_STRICTNESS_LEVELS: Final[set[str]] = {
+        "standard",
         "ultra_fast",
         "balanced",
         "thorough",
