@@ -1,0 +1,25 @@
+............................E
+=========================== short test summary info ===========================
+ERROR tests/e2e/test_document_analysis_workflow.py::TestDocumentAnalysisWorkflow::test_complete_analysis_workflow
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!
+28 passed, 1 error in 28.99s
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\logging\__init__.py", line 1113, in emit
+    stream.write(msg + self.terminator)
+ValueError: I/O operation on closed file.
+Call stack:
+  File "C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\memory_manager.py", line 448, in stop
+    logger.info("Memory manager stopped")
+Message: 'Memory manager stopped'
+Arguments: ()
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\logging\__init__.py", line 1113, in emit
+    stream.write(msg + self.terminator)
+ValueError: I/O operation on closed file.
+Call stack:
+  File "C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\memory_manager.py", line 448, in stop
+    logger.info("Memory manager stopped")
+Message: 'Memory manager stopped'
+Arguments: ()

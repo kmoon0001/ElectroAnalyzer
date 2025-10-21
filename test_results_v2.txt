@@ -1,0 +1,463 @@
+............................EEEEEEEEEEEE...........................F...F [  9%]
+FF.........................ss..F..F.F.F.FF.F..ssssssss.................. [ 18%]
+ssEEE....F.F.EEEF...FFFF.F.................................F............ [ 27%]
+........................................................................ [ 36%]
+...FFF..............................FFF................................. [ 45%]
+.........................F...........................FF.F...F....F...... [ 55%]
+..FFF...FFFF...............sssssss................sssss..............ss. [ 64%]
+.........F...........................................FFF....F..FFFFF.FFs [ 73%]
+s.........FFFFFF.FFFFF....F............................................. [ 82%]
+........................................................................ [ 91%]
+.................................................................        [100%]
+============================== warnings summary ===============================
+tests/unit/test_metrics_collector.py::TestApplicationMetricsSource::test_application_metrics_collection
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\pluggy\_manager.py:516: RuntimeWarning: coroutine 'TestSystemMetricsSource.test_system_metrics_collection' was never awaited
+    plugins_to_remove = {plug for plug in remove_plugins if hasattr(plug, name)}
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_metrics_collector.py::TestApplicationMetricsSource::test_application_metrics_collection
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\pluggy\_manager.py:516: RuntimeWarning: coroutine 'TestSystemMetricsSource.test_system_metrics_error_handling' was never awaited
+    plugins_to_remove = {plug for plug in remove_plugins if hasattr(plug, name)}
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_metrics_collector.py::TestMetricsCollector::test_callback_system
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\_pytest\config\compat.py:50: RuntimeWarning: coroutine 'TestAIModelMetricsSource.test_ai_metrics_collection' was never awaited
+    hook: pluggy.HookCaller = getattr(self._hook_relay, key)
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_ml_trainer.py::TestMLTrainingPipeline::test_successful_training_and_deployment
+  C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\pathlib.py:69: RuntimeWarning: coroutine 'TestMLTrainingPipeline.test_insufficient_training_data' was never awaited
+    for x in reversed(rel.split(sep)):
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_ml_trainer.py::TestMLTrainingPipeline::test_training_error_handling
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\pluggy\_manager.py:516: RuntimeWarning: coroutine 'TestMLTrainingPipeline.test_training_with_insufficient_improvement' was never awaited
+    plugins_to_remove = {plug for plug in remove_plugins if hasattr(plug, name)}
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_ner.py::TestNERPipeline::test_initialization_with_empty_models
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\yaml\scanner.py:599: RuntimeWarning: coroutine 'TestMLTrainingPipeline.test_skipped_training_due_to_time' was never awaited
+    self.tokens.append(ValueToken(start_mark, end_mark))
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_ner.py::TestNERPipeline::test_initialization_with_empty_models
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\yaml\scanner.py:599: RuntimeWarning: coroutine 'test_legacy_function_compatibility' was never awaited
+    self.tokens.append(ValueToken(start_mark, end_mark))
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_ner.py::TestNERPipeline::test_initialization_with_empty_models
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\yaml\scanner.py:599: RuntimeWarning: coroutine 'TestMLTrainingIntegration.test_end_to_end_training_pipeline' was never awaited
+    self.tokens.append(ValueToken(start_mark, end_mark))
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_ner.py::TestNERPipeline::test_initialization_with_empty_models
+  C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\configparser.py:1381: RuntimeWarning: coroutine 'TestApplicationMetricsSource.test_application_metrics_collection' was never awaited
+    return iter(self._data)
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_ner.py::TestNERPipeline::test_initialization_with_empty_models
+  C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\configparser.py:1381: RuntimeWarning: coroutine 'TestMetricsCollector.test_metrics_collection' was never awaited
+    return iter(self._data)
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_ner.py::TestNERPipeline::test_initialization_with_empty_models
+  C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\configparser.py:1381: RuntimeWarning: coroutine 'TestMLTrainingPipeline.test_successful_training_and_deployment' was never awaited
+    return iter(self._data)
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_ner.py::TestNERPipeline::test_initialization_with_empty_models
+  C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\configparser.py:1381: RuntimeWarning: coroutine 'TestMLTrainingPipeline.test_training_error_handling' was never awaited
+    return iter(self._data)
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_performance_optimizer.py::TestBatchCacheOperations::test_batch_get_ner_results
+  C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\inspect.py:756: RuntimeWarning: coroutine 'TestBatchCacheOperations.test_batch_get_embeddings' was never awaited
+    while not isinstance(func, type) and hasattr(func, '__wrapped__'):
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_performance_optimizer.py::TestBatchCacheOperations::test_batch_get_ner_results
+  C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\inspect.py:756: RuntimeWarning: coroutine 'TestBatchCacheOperations.test_batch_set_embeddings' was never awaited
+    while not isinstance(func, type) and hasattr(func, '__wrapped__'):
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_performance_optimizer.py::TestPerformanceOptimizer::test_identify_bottlenecks
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\_pytest\_code\code.py:369: RuntimeWarning: coroutine 'TestBatchCacheOperations.test_batch_get_ner_results' was never awaited
+    yield TracebackEntry(cur_)
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_performance_optimizer.py::TestPerformanceOptimizer::test_identify_bottlenecks
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\_pytest\_code\code.py:369: RuntimeWarning: coroutine 'TestCacheWarmingService.test_execute_warming' was never awaited
+    yield TracebackEntry(cur_)
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_performance_optimizer.py::TestPerformanceOptimizer::test_identify_bottlenecks
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\_pytest\_code\code.py:369: RuntimeWarning: coroutine 'TestPerformanceOptimizer.test_analyze_performance' was never awaited
+    yield TracebackEntry(cur_)
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_performance_optimizer.py::TestPerformanceOptimizer::test_identify_bottlenecks
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\_pytest\_code\code.py:369: RuntimeWarning: coroutine 'TestPerformanceOptimizer.test_optimize_performance' was never awaited
+    yield TracebackEntry(cur_)
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_performance_optimizer.py::TestPerformanceOptimizer::test_full_optimization_cycle
+  C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\traceback.py:836: RuntimeWarning: coroutine 'TestPerformanceOptimizer.test_generate_optimization_recommendations' was never awaited
+    _walk_tb_with_full_positions(exc_traceback),
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_performance_optimizer.py::TestPerformanceOptimizer::test_full_optimization_cycle
+  C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\traceback.py:836: RuntimeWarning: coroutine 'TestPerformanceOptimizer.test_calculate_performance_improvements' was never awaited
+    _walk_tb_with_full_positions(exc_traceback),
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_performance_optimizer.py::TestPerformanceOptimizer::test_full_optimization_cycle
+  C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\traceback.py:836: RuntimeWarning: coroutine 'TestPerformanceOptimizer.test_memory_optimization' was never awaited
+    _walk_tb_with_full_positions(exc_traceback),
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_performance_test_orchestrator.py::TestExecutionEngine::test_execute_test_timeout
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\_pytest\_code\code.py:369: RuntimeWarning: coroutine 'TestExecutionEngine.test_execute_test_success' was never awaited
+    yield TracebackEntry(cur_)
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_performance_test_orchestrator.py::TestExecutionEngine::test_execute_test_timeout
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\_pytest\_code\code.py:369: RuntimeWarning: coroutine 'TestExecutionEngine.test_execute_test_failure' was never awaited
+    yield TracebackEntry(cur_)
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_performance_test_orchestrator.py::TestPerformanceTestOrchestrator::test_run_baseline_tests
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\pluggy\_manager.py:516: RuntimeWarning: coroutine 'TestExecutionEngine.test_execute_test_no_runner' was never awaited
+    plugins_to_remove = {plug for plug in remove_plugins if hasattr(plug, name)}
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_performance_test_orchestrator.py::TestPerformanceTestOrchestrator::test_run_baseline_tests
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\pluggy\_manager.py:516: RuntimeWarning: coroutine 'TestExecutionEngine.test_execute_tests_parallel' was never awaited
+    plugins_to_remove = {plug for plug in remove_plugins if hasattr(plug, name)}
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_performance_test_orchestrator.py::TestPerformanceTestOrchestrator::test_run_baseline_tests
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\pluggy\_manager.py:516: RuntimeWarning: coroutine 'TestExecutionEngine.test_execute_tests_parallel_with_disabled' was never awaited
+    plugins_to_remove = {plug for plug in remove_plugins if hasattr(plug, name)}
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_performance_test_orchestrator.py::TestPerformanceTestOrchestrator::test_calculate_summary_metrics
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\pluggy\_callers.py:95: RuntimeWarning: coroutine 'TestPerformanceTestOrchestrator.test_run_optimization_tests' was never awaited
+    args = [caller_kwargs[argname] for argname in hook_impl.argnames]
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_performance_test_orchestrator.py::TestPerformanceTestOrchestrator::test_calculate_summary_metrics
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\pluggy\_callers.py:95: RuntimeWarning: coroutine 'TestPerformanceTestOrchestrator.test_run_test_suite' was never awaited
+    args = [caller_kwargs[argname] for argname in hook_impl.argnames]
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_performance_test_orchestrator.py::TestPerformanceTestOrchestrator::test_calculate_summary_metrics
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\pluggy\_callers.py:95: RuntimeWarning: coroutine 'TestPerformanceTestOrchestrator.test_run_full_performance_suite' was never awaited
+    args = [caller_kwargs[argname] for argname in hook_impl.argnames]
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_phi_scrubber.py::test_scrub_logs_and_returns_original_when_wrapper_errors
+  C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\textwrap.py:499: RuntimeWarning: coroutine 'test_integration_full_workflow' was never awaited
+    for line in text.splitlines(True):
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_report_branding_service.py::TestIntegrationScenarios::test_corrupted_logo_file_handling
+  C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\enum.py:290: RuntimeWarning: coroutine 'TestPerformanceOptimizer.test_proactive_warming' was never awaited
+    enum_member = enum_class._value2member_map_[value]
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_report_branding_service.py::TestIntegrationScenarios::test_corrupted_logo_file_handling
+2025-10-21 12:29:22,318 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-12016' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-12016' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-12016' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2025-10-21 12:29:22,318 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-12000' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-12000' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-12000' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2025-10-21 12:29:22,318 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-12013' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-12013' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-12013' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2025-10-21 12:29:22,318 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-12012' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-12012' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-12012' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2025-10-21 12:29:22,318 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-12010' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-12010' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-12010' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2025-10-21 12:29:22,318 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-11992' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-11992' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-11992' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2025-10-21 12:29:22,318 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-12007' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-12007' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-12007' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2025-10-21 12:29:22,318 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-11982' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-11982' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-11982' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2025-10-21 12:29:22,318 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-12003' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-12003' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-12003' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2025-10-21 12:29:22,318 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-11986' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-11986' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-11986' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2025-10-21 12:29:22,318 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-12015' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-12015' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-12015' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2025-10-21 12:29:22,318 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-11999' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-11999' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-11999' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2025-10-21 12:29:22,318 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-12009' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-12009' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-12009' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2025-10-21 12:29:22,318 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-12006' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-12006' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-12006' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2025-10-21 12:29:22,324 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-12002' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-12002' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-12002' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2025-10-21 12:29:22,324 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-11985' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-11985' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-11985' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2025-10-21 12:29:22,324 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-11991' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-11991' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-11991' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2025-10-21 12:29:22,324 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-11981' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-11981' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-11981' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+  C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\enum.py:290: RuntimeWarning: coroutine 'TestExecutionEngine.test_execute_test_timeout' was never awaited
+    enum_member = enum_class._value2member_map_[value]
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_report_branding_service.py::TestIntegrationScenarios::test_corrupted_logo_file_handling
+  C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\enum.py:290: RuntimeWarning: coroutine 'TestPerformanceTestOrchestrator.test_run_baseline_tests' was never awaited
+    enum_member = enum_class._value2member_map_[value]
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_report_branding_service.py::TestIntegrationScenarios::test_corrupted_logo_file_handling
+  C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\enum.py:290: RuntimeWarning: coroutine 'TestPerformanceTestOrchestrator.test_run_nonexistent_suite' was never awaited
+    enum_member = enum_class._value2member_map_[value]
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_system_integration_service.py::TestSystemIntegrationService::test_get_system_metrics
+tests/unit/test_system_integration_service.py::TestSystemIntegrationService::test_system_optimization
+tests/unit/test_system_integration_service.py::TestSystemIntegrationService::test_system_optimization_aggressive_mode
+tests/unit/test_system_integration_service.py::TestSystemIntegrationService::test_callback_registration
+tests/unit/test_system_integration_service.py::TestSystemIntegrationService::test_system_status_report
+tests/unit/test_system_integration_service.py::TestIntegration::test_end_to_end_system_integration
+tests/unit/test_system_integration_service.py::TestIntegration::test_service_lifecycle
+tests/unit/test_system_integration_service.py::TestIntegration::test_auto_optimization_trigger
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\_pytest\stash.py:108: RuntimeWarning: coroutine 'PerformanceOptimizer.analyze_performance' was never awaited
+    del self._storage[key]
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_system_integration_service.py::TestIntegration::test_end_to_end_system_integration
+  C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\memory_manager.py:355: RuntimeWarning: coroutine 'TestPerformanceOptimizer.test_identify_bottlenecks' was never awaited
+    collected = gc.collect(generation)
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_system_integration_service.py::TestIntegration::test_end_to_end_system_integration
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\_pytest\stash.py:108: RuntimeWarning: coroutine 'PerformanceOptimizer.optimize_performance' was never awaited
+    del self._storage[key]
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/integration/test_enhanced_features_integration.py::TestEnhancedFeaturesIntegration::test_websocket_integration
+FAILED tests/integration/test_enhanced_features_integration.py::TestEnhancedFeaturesIntegration::test_database_integration
+FAILED tests/integration/test_enhanced_features_integration.py::TestPerformanceIntegration::test_metrics_collection_integration
+FAILED tests/integration/test_enhanced_features_integration.py::TestPerformanceIntegration::test_performance_monitoring_integration
+FAILED tests/performance/test_load_performance.py::TestPerformanceLoad::test_single_request_performance
+FAILED tests/performance/test_load_performance.py::TestPerformanceLoad::test_metrics_collection_performance
+FAILED tests/performance/test_load_performance.py::TestPerformanceLoad::test_memory_usage_under_load
+FAILED tests/performance/test_load_performance.py::TestPerformanceLoad::test_websocket_performance
+FAILED tests/performance/test_load_performance.py::TestPerformanceLoad::test_security_headers_performance
+FAILED tests/performance/test_load_performance.py::TestPerformanceLoad::test_rate_limiting_performance
+FAILED tests/performance/test_load_performance.py::TestStressTesting::test_sustained_load_stress
+FAILED tests/test_new_components.py::TestUnifiedMLSystem::test_document_analysis_with_caching
+FAILED tests/test_new_components.py::TestUnifiedMLSystem::test_performance_monitoring
+FAILED tests/test_new_components.py::TestCachingSystem::test_cache_operations
+FAILED tests/test_new_components.py::TestTypeSafety::test_string_validator - ...
+FAILED tests/test_new_components.py::TestTypeSafety::test_email_validator - N...
+FAILED tests/test_new_components.py::TestTypeSafety::test_error_handler - Nam...
+FAILED tests/test_new_components.py::TestPerformance::test_ml_system_performance
+FAILED tests/test_new_components.py::TestIntegration::test_full_pipeline_integration
+FAILED tests/unit/test_analysis_service_pipeline.py::test_analysis_service_uses_analysis_utils
+FAILED tests/unit/test_database_crud.py::test_get_rubric - assert None is not...
+FAILED tests/unit/test_database_crud.py::test_update_rubric - AttributeError:...
+FAILED tests/unit/test_database_crud.py::test_delete_rubric - assert False is...
+FAILED tests/unit/test_enhanced_error_context.py::TestEnhancedExceptionHandler::test_generic_exception_handling
+FAILED tests/unit/test_enhanced_error_context.py::TestEnhancedExceptionHandler::test_debug_mode_response
+FAILED tests/unit/test_enhanced_error_context.py::TestEnhancedExceptionHandler::test_error_handler_exception_safety
+FAILED tests/unit/test_llm_service_backend.py::test_transformers_generate_applies_stop_sequences
+FAILED tests/unit/test_metrics_collector.py::TestSystemMetricsSource::test_system_metrics_collection
+FAILED tests/unit/test_metrics_collector.py::TestSystemMetricsSource::test_system_metrics_error_handling
+FAILED tests/unit/test_metrics_collector.py::TestApplicationMetricsSource::test_application_metrics_collection
+FAILED tests/unit/test_metrics_collector.py::TestAIModelMetricsSource::test_ai_metrics_collection
+FAILED tests/unit/test_metrics_collector.py::TestMetricsCollector::test_metrics_collection
+FAILED tests/unit/test_ml_trainer.py::TestMLTrainingPipeline::test_insufficient_training_data
+FAILED tests/unit/test_ml_trainer.py::TestMLTrainingPipeline::test_successful_training_and_deployment
+FAILED tests/unit/test_ml_trainer.py::TestMLTrainingPipeline::test_training_with_insufficient_improvement
+FAILED tests/unit/test_ml_trainer.py::TestMLTrainingPipeline::test_training_error_handling
+FAILED tests/unit/test_ml_trainer.py::TestMLTrainingPipeline::test_skipped_training_due_to_time
+FAILED tests/unit/test_ml_trainer.py::test_legacy_function_compatibility - Ru...
+FAILED tests/unit/test_ml_trainer.py::TestMLTrainingIntegration::test_end_to_end_training_pipeline
+FAILED tests/unit/test_performance_metrics.py::TestMetricsCollector::test_high_memory_warning
+FAILED tests/unit/test_performance_optimizer.py::TestBatchCacheOperations::test_batch_get_embeddings
+FAILED tests/unit/test_performance_optimizer.py::TestBatchCacheOperations::test_batch_set_embeddings
+FAILED tests/unit/test_performance_optimizer.py::TestBatchCacheOperations::test_batch_get_ner_results
+FAILED tests/unit/test_performance_optimizer.py::TestCacheWarmingService::test_execute_warming
+FAILED tests/unit/test_performance_optimizer.py::TestPerformanceOptimizer::test_analyze_performance
+FAILED tests/unit/test_performance_optimizer.py::TestPerformanceOptimizer::test_optimize_performance
+FAILED tests/unit/test_performance_optimizer.py::TestPerformanceOptimizer::test_identify_bottlenecks
+FAILED tests/unit/test_performance_optimizer.py::TestPerformanceOptimizer::test_generate_optimization_recommendations
+FAILED tests/unit/test_performance_optimizer.py::TestPerformanceOptimizer::test_calculate_performance_improvements
+FAILED tests/unit/test_performance_optimizer.py::TestPerformanceOptimizer::test_memory_optimization
+FAILED tests/unit/test_performance_optimizer.py::TestPerformanceOptimizer::test_proactive_warming
+FAILED tests/unit/test_performance_test_orchestrator.py::TestExecutionEngine::test_execute_test_success
+FAILED tests/unit/test_performance_test_orchestrator.py::TestExecutionEngine::test_execute_test_failure
+FAILED tests/unit/test_performance_test_orchestrator.py::TestExecutionEngine::test_execute_test_timeout
+FAILED tests/unit/test_performance_test_orchestrator.py::TestExecutionEngine::test_execute_test_no_runner
+FAILED tests/unit/test_performance_test_orchestrator.py::TestExecutionEngine::test_execute_tests_parallel
+FAILED tests/unit/test_performance_test_orchestrator.py::TestExecutionEngine::test_execute_tests_parallel_with_disabled
+FAILED tests/unit/test_performance_test_orchestrator.py::TestPerformanceTestOrchestrator::test_run_baseline_tests
+FAILED tests/unit/test_performance_test_orchestrator.py::TestPerformanceTestOrchestrator::test_run_optimization_tests
+FAILED tests/unit/test_performance_test_orchestrator.py::TestPerformanceTestOrchestrator::test_run_test_suite
+FAILED tests/unit/test_performance_test_orchestrator.py::TestPerformanceTestOrchestrator::test_run_full_performance_suite
+FAILED tests/unit/test_performance_test_orchestrator.py::TestPerformanceTestOrchestrator::test_run_nonexistent_suite
+FAILED tests/unit/test_performance_test_orchestrator.py::test_integration_full_workflow
+ERROR tests/e2e/test_document_analysis_workflow.py::TestDocumentAnalysisWorkflow::test_complete_analysis_workflow
+ERROR tests/e2e/test_document_analysis_workflow.py::TestDocumentAnalysisWorkflow::test_analysis_with_different_document_types
+ERROR tests/e2e/test_document_analysis_workflow.py::TestDocumentAnalysisWorkflow::test_concurrent_analysis
+ERROR tests/e2e/test_document_analysis_workflow.py::TestDocumentAnalysisWorkflow::test_error_handling_invalid_document
+ERROR tests/e2e/test_document_analysis_workflow.py::TestDocumentAnalysisWorkflow::test_analysis_progress_monitoring
+ERROR tests/e2e/test_plugin_system_workflow.py::TestPluginSystemWorkflow::test_plugin_discovery_workflow
+ERROR tests/e2e/test_plugin_system_workflow.py::TestPluginSystemWorkflow::test_plugin_lifecycle_management
+ERROR tests/e2e/test_plugin_system_workflow.py::TestPluginSystemWorkflow::test_plugin_extension_points
+ERROR tests/e2e/test_plugin_system_workflow.py::TestPluginSystemWorkflow::test_plugin_batch_operations
+ERROR tests/e2e/test_plugin_system_workflow.py::TestPluginSystemWorkflow::test_plugin_error_handling
+ERROR tests/e2e/test_plugin_system_workflow.py::TestPluginSystemWorkflow::test_plugin_performance_monitoring
+ERROR tests/e2e/test_plugin_system_workflow.py::TestPluginSystemWorkflow::test_plugin_integration_with_analysis
+ERROR tests/test_api_analysis.py::test_analyze_document_api_route - apschedul...
+ERROR tests/test_api_analysis.py::test_analyze_document_rejects_invalid_strictness
+ERROR tests/test_api_analysis.py::test_analyze_document_rejects_oversized_file
+ERROR tests/test_new_components.py::TestSecurityMiddleware::test_sql_injection_detection
+ERROR tests/test_new_components.py::TestSecurityMiddleware::test_xss_detection
+ERROR tests/test_new_components.py::TestSecurityMiddleware::test_rate_limiting
+63 failed, 676 passed, 28 skipped, 44 warnings, 18 errors in 528.25s (0:08:48)
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\logging\__init__.py", line 1113, in emit
+    stream.write(msg + self.terminator)
+ValueError: I/O operation on closed file.
+Call stack:
+  File "C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\memory_manager.py", line 449, in stop
+    logger.info("Memory manager stopped")
+Message: 'Memory manager stopped'
+Arguments: ()
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\logging\__init__.py", line 1113, in emit
+    stream.write(msg + self.terminator)
+ValueError: I/O operation on closed file.
+Call stack:
+  File "C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\memory_manager.py", line 449, in stop
+    logger.info("Memory manager stopped")
+Message: 'Memory manager stopped'
+Arguments: ()
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\logging\__init__.py", line 1113, in emit
+    stream.write(msg + self.terminator)
+ValueError: I/O operation on closed file.
+Call stack:
+  File "C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\memory_manager.py", line 449, in stop
+    logger.info("Memory manager stopped")
+Message: 'Memory manager stopped'
+Arguments: ()

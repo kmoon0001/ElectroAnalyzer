@@ -445,7 +445,11 @@ class MemoryManager:
     def stop(self) -> None:
         """Stop memory management services."""
         self.monitor.stop_monitoring()
-        logger.info("Memory manager stopped")
+        try:
+            logger.info("Memory manager stopped")
+        except (ValueError, AttributeError):
+            # Handle cases where logger file handler is already closed
+            pass
 
     def register_resource(
         self, component: str, resource_id: str, resource: Any, size_bytes: int = 0

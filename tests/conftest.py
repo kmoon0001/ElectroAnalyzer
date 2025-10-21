@@ -173,7 +173,7 @@ async def client(test_db, monkeypatch: pytest.MonkeyPatch):
     ]
     app.middleware_stack = app.build_middleware_stack()
 
-    transport = ASGITransport(app=app, lifespan="auto")
+    transport = ASGITransport(app=app)
     async with AsyncClient(transport=transport, base_url="http://test") as async_client:
         yield async_client
 
