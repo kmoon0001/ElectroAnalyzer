@@ -220,10 +220,11 @@ class TestSecurityMiddleware:
     @pytest.fixture
     def security_middleware(self):
         """Create security middleware instance."""
+        # Create a mock app
+        app = Mock()
         return SecurityMiddleware(
-            enable_threat_detection=True,
-            enable_rate_limiting=True,
-            enable_security_logging=True
+            app=app,
+            enable_threat_detection=True
         )
 
     @pytest.mark.asyncio
@@ -237,9 +238,9 @@ class TestSecurityMiddleware:
         mock_request.headers = {"content-type": "application/json"}
 
         # Should detect SQL injection
-        threats = security_middleware._detect_threats(mock_request)
+        threats = await security_middleware._detect_threats(mock_request)
         assert len(threats) > 0
-        assert any("sql" in threat.lower() for threat in threats)
+        assert any("sql" in str(threat).lower() for threat in threats)
 
     @pytest.mark.asyncio
     async def test_xss_detection(self, security_middleware):
@@ -252,9 +253,9 @@ class TestSecurityMiddleware:
         mock_request.headers = {"content-type": "application/json"}
 
         # Should detect XSS
-        threats = security_middleware._detect_threats(mock_request)
+        threats = await security_middleware._detect_threats(mock_request)
         assert len(threats) > 0
-        assert any("xss" in threat.lower() for threat in threats)
+        assert any("xss" in str(threat).lower() for threat in threats)
 
     @pytest.mark.asyncio
     async def test_rate_limiting(self, security_middleware):

@@ -1,0 +1,55 @@
+2025-10-21 14:17:01 [info     ] Task database initialized      db_path=tasks.db
+2025-10-21 14:17:01,377 - src.core.centralized_logging - INFO - centralized_logging:setup_logging:403 - Logging system initialized with level=INFO, format=json
+2025-10-21 14:17:01,432 - src.core.advanced_security_system - INFO - advanced_security_system:__init__:87 - Advanced security system initialized
+2025-10-21 14:17:01,433 - src.core.advanced_ensemble_optimizer - INFO - advanced_ensemble_optimizer:__init__:140 - Advanced ensemble optimizer initialized with learning=True
+2025-10-21 14:17:01,433 - src.core.unified_explanation_engine - INFO - unified_explanation_engine:__init__:214 - Unified explanation engine initialized with caching=True
+2025-10-21 14:17:01,433 - src.core.multi_tier_cache - INFO - multi_tier_cache:__init__:149 - Multi-tier cache system initialized: L1=100MB, L2=False, L3=True, Policy=lru
+2025-10-21 14:17:01,433 - src.core.advanced_security_system - INFO - advanced_security_system:__init__:87 - Advanced security system initialized
+2025-10-21 14:17:01,437 - src.core.unified_ml_system - INFO - unified_ml_system:__init__:266 - Unified ML system initialized with dependency injection
+2025-10-21 14:17:01 [info     ] Enhanced WorkerManager initialized max_queue_size=50 max_workers=2
+2025-10-21 14:17:01,664 - src.api.middleware.security_middleware - INFO - security_middleware:setup_security_middleware:248 - Security middleware setup completed
+2025-10-21 14:17:01,675 - src.core.enhanced_config - INFO - enhanced_config:load_settings:238 - Configuration loaded successfully for environment: testing
+2025-10-21 14:17:01,675 - src.core.enhanced_logging - INFO - Enhanced logging system initialized
+2025-10-21 14:17:01,817 - root - INFO - EHR Integration API enabled
+2025-10-21 14:17:01,821 - src.core.plugin_system - INFO - Plugin manager initialized
+2025-10-21 14:17:01,834 - src.core.plugin_system - INFO - Plugin manager initialized
+2025-10-21 14:17:01,842 - root - INFO - Plugin Management API enabled
+============================= test session starts =============================
+platform win32 -- Python 3.11.9, pytest-8.4.2, pluggy-1.6.0 -- C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\kevin\Desktop\ElectroAnalyzer
+configfile: pytest.ini
+plugins: anyio-4.11.0, asyncio-0.25.0, cov-6.0.0, mock-3.14.0, xdist-3.6.0
+asyncio: mode=Mode.AUTO, asyncio_default_fixture_loop_scope=None
+collecting ... collected 1 item
+
+tests/test_new_components.py::TestSecurityMiddleware::test_sql_injection_detection FAILED
+
+================================== FAILURES ===================================
+_____________ TestSecurityMiddleware.test_sql_injection_detection _____________
+
+self = <tests.test_new_components.TestSecurityMiddleware object at 0x00000194B966E7D0>
+security_middleware = <src.api.middleware.security_middleware.SecurityMiddleware object at 0x00000194B9881750>
+
+    @pytest.mark.asyncio
+    async def test_sql_injection_detection(self, security_middleware):
+        """Test SQL injection detection."""
+        test_data = TestDataGenerator.generate_security_test_data()
+    
+        # Mock request with SQL injection
+        mock_request = Mock()
+        mock_request.body = test_data["sql_injection"].encode()
+        mock_request.headers = {"content-type": "application/json"}
+    
+        # Should detect SQL injection
+        threats = security_middleware._detect_threats(mock_request)
+>       assert len(threats) > 0
+               ^^^^^^^^^^^^
+E       TypeError: object of type 'coroutine' has no len()
+
+tests\test_new_components.py:242: TypeError
+=========================== short test summary info ===========================
+FAILED tests/test_new_components.py::TestSecurityMiddleware::test_sql_injection_detection
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!
+============================== 1 failed in 0.24s ==============================
+sys:1: RuntimeWarning: coroutine 'SecurityMiddleware._detect_threats' was never awaited

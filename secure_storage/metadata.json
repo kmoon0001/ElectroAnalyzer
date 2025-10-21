@@ -442,5 +442,77 @@
       "original_filename": "test_progress_note.txt",
       "content_type": "text/plain"
     }
+  },
+  "23e09f37-ab9d-4d4f-bcf8-504320de8fc0": {
+    "filename": "test_progress_note.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-21T21:16:58.959013",
+    "file_size": 874,
+    "encrypted_size": 1252,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "test_progress_note.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "6be03097-b07c-4b2e-8766-5e2133a12aa8": {
+    "filename": "test_progress_note.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-21T21:16:59.383827",
+    "file_size": 331,
+    "encrypted_size": 524,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "test_progress_note.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "5c8d0149-3f7d-4261-a7e2-974036f3dcdc": {
+    "filename": "concurrent_test_1.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-21T21:17:04.191821",
+    "file_size": 329,
+    "encrypted_size": 524,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "concurrent_test_1.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "9e923905-3f89-4898-9fb5-7159aded7fff": {
+    "filename": "concurrent_test_2.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-21T21:17:04.518091",
+    "file_size": 329,
+    "encrypted_size": 524,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "concurrent_test_2.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "3a5dcc6c-7773-4031-ad9a-69fc1ed9ae2d": {
+    "filename": "concurrent_test_3.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-21T21:17:04.816735",
+    "file_size": 329,
+    "encrypted_size": 524,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "concurrent_test_3.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "861ed5a0-b068-4618-82bb-475aa1858483": {
+    "filename": "test_progress_note.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-21T21:17:11.847352",
+    "file_size": 874,
+    "encrypted_size": 1252,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "test_progress_note.txt",
+      "content_type": "text/plain"
+    }
   }
 }
