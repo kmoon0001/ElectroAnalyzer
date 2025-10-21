@@ -1,5 +1,5 @@
 ...........................F...FFF.........................ss..ssssssss. [  9%]
-......F....FF...........................................F............... [ 19%]
+........................................................F............... [ 19%]
 ........................................................................ [ 29%]
 .................................FFF.................................... [ 38%]
 ..................................................FF.F...F....F........F [ 48%]
@@ -7,210 +7,202 @@ FF...FFFF...............sssssss................sssss..............ss.... [ 58%]
 ......F...........................................FFF....F.FFFFFFFFFFF.. [ 67%]
 .......FFFFFF.FFFFF....F................................................ [ 77%]
 ..........FF.....F..F................................................... [ 87%]
-....................F.FFF..F.....................................F...F.F [ 97%]
-F.F...................                                                   [100%]
+....................F.FFF..F..................................F......F.. [ 97%]
+..F...................                                                   [100%]
 ============================== warnings summary ===============================
-tests/unit/test_metrics_collector.py::TestApplicationMetricsSource::test_application_metrics_collection
-  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\_pytest\runner.py:245: RuntimeWarning: coroutine 'TestSystemMetricsSource.test_system_metrics_collection' was never awaited
-    call = CallInfo.from_call(
+tests/unit/test_metrics_collector.py::TestSystemMetricsSource::test_system_metrics_error_handling
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\_pytest\_code\code.py:369: RuntimeWarning: coroutine 'TestSystemMetricsSource.test_system_metrics_collection' was never awaited
+    yield TracebackEntry(cur_)
   Enable tracemalloc to get traceback where the object was allocated.
   See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
 
-tests/unit/test_metrics_collector.py::TestApplicationMetricsSource::test_application_metrics_collection
-  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\_pytest\runner.py:245: RuntimeWarning: coroutine 'TestSystemMetricsSource.test_system_metrics_error_handling' was never awaited
-    call = CallInfo.from_call(
+tests/unit/test_metrics_collector.py::TestMetricsCollector::test_collector_initialization
+  C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\metrics_collector.py:891: RuntimeWarning: coroutine 'TestApplicationMetricsSource.test_application_metrics_collection' was never awaited
+    with _collector_lock:
   Enable tracemalloc to get traceback where the object was allocated.
   See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
 
-tests/unit/test_metrics_collector.py::TestMetricsCollector::test_callback_system
-  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\pluggy\_callers.py:135: RuntimeWarning: coroutine 'TestAIModelMetricsSource.test_ai_metrics_collection' was never awaited
-    for teardown in reversed(teardowns):
+tests/unit/test_metrics_collector.py::TestMetricsCollector::test_collector_initialization
+  C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\metrics_collector.py:891: RuntimeWarning: coroutine 'TestAIModelMetricsSource.test_ai_metrics_collection' was never awaited
+    with _collector_lock:
   Enable tracemalloc to get traceback where the object was allocated.
   See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
 
-tests/unit/test_ml_trainer.py::TestMLTrainingPipeline::test_update_training_metadata
+tests/unit/test_metrics_collector.py::TestGlobalFunctions::test_convenience_functions_error_handling
+  <frozen abc>:123: RuntimeWarning: coroutine 'TestSystemMetricsSource.test_system_metrics_error_handling' was never awaited
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_metrics_collector.py::TestGlobalFunctions::test_convenience_functions_error_handling
+  <frozen abc>:123: RuntimeWarning: coroutine 'TestMetricsCollector.test_metrics_collection' was never awaited
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_ml_trainer.py::TestMLTrainingPipeline::test_should_retrain_time_based
+  C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\json\encoder.py:254: RuntimeWarning: coroutine 'TestMLTrainingPipeline.test_insufficient_training_data' was never awaited
+    _iterencode = _make_iterencode(
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_ml_trainer.py::TestMLTrainingPipeline::test_should_retrain_time_based
   C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\json\encoder.py:254: RuntimeWarning: coroutine 'TestMLTrainingPipeline.test_successful_training_and_deployment' was never awaited
     _iterencode = _make_iterencode(
   Enable tracemalloc to get traceback where the object was allocated.
   See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
 
-tests/unit/test_ml_trainer.py::TestMLTrainingPipeline::test_update_training_metadata
+tests/unit/test_ml_trainer.py::TestMLTrainingPipeline::test_should_retrain_time_based
   C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\json\encoder.py:254: RuntimeWarning: coroutine 'TestMLTrainingPipeline.test_training_with_insufficient_improvement' was never awaited
     _iterencode = _make_iterencode(
   Enable tracemalloc to get traceback where the object was allocated.
   See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
 
-tests/unit/test_ml_trainer.py::TestMLTrainingIntegration::test_end_to_end_training_pipeline
-  C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\pathlib.py:542: RuntimeWarning: coroutine 'TestMLTrainingPipeline.test_training_error_handling' was never awaited
-    self._str = self._format_parsed_parts(self._drv, self._root,
+tests/unit/test_ml_trainer.py::test_legacy_function_compatibility
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\pluggy\_manager.py:516: RuntimeWarning: coroutine 'TestMLTrainingPipeline.test_training_error_handling' was never awaited
+    plugins_to_remove = {plug for plug in remove_plugins if hasattr(plug, name)}
   Enable tracemalloc to get traceback where the object was allocated.
   See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
 
-tests/unit/test_ml_trainer.py::TestMLTrainingIntegration::test_end_to_end_training_pipeline
-  C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\pathlib.py:542: RuntimeWarning: coroutine 'TestMLTrainingPipeline.test_skipped_training_due_to_time' was never awaited
-    self._str = self._format_parsed_parts(self._drv, self._root,
-  Enable tracemalloc to get traceback where the object was allocated.
-  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
-
-tests/unit/test_ml_trainer.py::TestMLTrainingIntegration::test_end_to_end_training_pipeline
-  C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\pathlib.py:542: RuntimeWarning: coroutine 'test_legacy_function_compatibility' was never awaited
-    self._str = self._format_parsed_parts(self._drv, self._root,
+tests/unit/test_ml_trainer.py::test_legacy_function_compatibility
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\pluggy\_manager.py:516: RuntimeWarning: coroutine 'TestMLTrainingPipeline.test_skipped_training_due_to_time' was never awaited
+    plugins_to_remove = {plug for plug in remove_plugins if hasattr(plug, name)}
   Enable tracemalloc to get traceback where the object was allocated.
   See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
 
 tests/unit/test_ner.py::TestNERPipeline::test_initialization_with_empty_models
-  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\spacy\lang\th\__init__.py:5: RuntimeWarning: coroutine 'TestMetricsCollector.test_metrics_collection' was never awaited
-    from .lex_attrs import LEX_ATTRS
+  C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\configparser.py:1040: RuntimeWarning: coroutine 'TestMLTrainingIntegration.test_end_to_end_training_pipeline' was never awaited
+    inline_prefixes = {p: -1 for p in self._inline_comment_prefixes}
   Enable tracemalloc to get traceback where the object was allocated.
   See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
 
 tests/unit/test_ner.py::TestNERPipeline::test_initialization_with_empty_models
-  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\spacy\lang\th\__init__.py:5: RuntimeWarning: coroutine 'TestMLTrainingPipeline.test_insufficient_training_data' was never awaited
-    from .lex_attrs import LEX_ATTRS
+  C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\typing.py:1366: RuntimeWarning: coroutine 'test_legacy_function_compatibility' was never awaited
+    raise AttributeError(attr)
   Enable tracemalloc to get traceback where the object was allocated.
   See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
 
-tests/unit/test_ner.py::TestNERPipeline::test_initialization_with_empty_models
-  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\spacy\lang\th\__init__.py:5: RuntimeWarning: coroutine 'TestMLTrainingIntegration.test_end_to_end_training_pipeline' was never awaited
-    from .lex_attrs import LEX_ATTRS
+tests/unit/test_performance_optimizer.py::TestCacheWarmingService::test_execute_warming
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\_pytest\config\compat.py:50: RuntimeWarning: coroutine 'TestBatchCacheOperations.test_batch_get_embeddings' was never awaited
+    hook: pluggy.HookCaller = getattr(self._hook_relay, key)
   Enable tracemalloc to get traceback where the object was allocated.
   See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
 
-tests/unit/test_ner.py::TestNERAnalyzer::test_initialization
-  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\thinc\model.py:109: RuntimeWarning: coroutine 'TestApplicationMetricsSource.test_application_metrics_collection' was never awaited
-    self._attrs = dict(attrs)
+tests/unit/test_performance_optimizer.py::TestCacheWarmingService::test_execute_warming
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\_pytest\config\compat.py:50: RuntimeWarning: coroutine 'TestBatchCacheOperations.test_batch_set_embeddings' was never awaited
+    hook: pluggy.HookCaller = getattr(self._hook_relay, key)
   Enable tracemalloc to get traceback where the object was allocated.
   See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
 
-tests/unit/test_performance_optimizer.py::TestBatchCacheOperations::test_cleanup
-  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\_pytest\fixtures.py:1121: RuntimeWarning: coroutine 'TestBatchCacheOperations.test_batch_get_embeddings' was never awaited
-    for parent_fixture in requested_fixtures_that_should_finalize_us:
+tests/unit/test_performance_optimizer.py::TestCacheWarmingService::test_execute_warming
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\_pytest\config\compat.py:50: RuntimeWarning: coroutine 'TestBatchCacheOperations.test_batch_get_ner_results' was never awaited
+    hook: pluggy.HookCaller = getattr(self._hook_relay, key)
   Enable tracemalloc to get traceback where the object was allocated.
   See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
 
-tests/unit/test_performance_optimizer.py::TestBatchCacheOperations::test_cleanup
-  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\_pytest\fixtures.py:1121: RuntimeWarning: coroutine 'TestBatchCacheOperations.test_batch_set_embeddings' was never awaited
-    for parent_fixture in requested_fixtures_that_should_finalize_us:
+tests/unit/test_performance_optimizer.py::TestPerformanceOptimizer::test_generate_optimization_recommendations
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\pluggy\_manager.py:120: RuntimeWarning: coroutine 'TestPerformanceOptimizer.test_analyze_performance' was never awaited
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
   Enable tracemalloc to get traceback where the object was allocated.
   See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
 
-tests/unit/test_performance_optimizer.py::TestPerformanceOptimizer::test_identify_bottlenecks
-  C:\Users\kevin\Desktop\ElectroAnalyzer\tests\unit\test_performance_optimizer.py:326: RuntimeWarning: coroutine 'TestBatchCacheOperations.test_batch_get_ner_results' was never awaited
-    assert any("response time" in bottleneck.lower() for bottleneck in bottlenecks)
+tests/unit/test_performance_optimizer.py::TestPerformanceOptimizer::test_generate_optimization_recommendations
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\pluggy\_manager.py:120: RuntimeWarning: coroutine 'TestPerformanceOptimizer.test_optimize_performance' was never awaited
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
   Enable tracemalloc to get traceback where the object was allocated.
   See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
 
-tests/unit/test_performance_optimizer.py::TestPerformanceOptimizer::test_identify_bottlenecks
-  C:\Users\kevin\Desktop\ElectroAnalyzer\tests\unit\test_performance_optimizer.py:326: RuntimeWarning: coroutine 'TestCacheWarmingService.test_execute_warming' was never awaited
-    assert any("response time" in bottleneck.lower() for bottleneck in bottlenecks)
-  Enable tracemalloc to get traceback where the object was allocated.
-  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
-
-tests/unit/test_performance_optimizer.py::TestPerformanceOptimizer::test_identify_bottlenecks
-  C:\Users\kevin\Desktop\ElectroAnalyzer\tests\unit\test_performance_optimizer.py:326: RuntimeWarning: coroutine 'TestPerformanceOptimizer.test_analyze_performance' was never awaited
-    assert any("response time" in bottleneck.lower() for bottleneck in bottlenecks)
-  Enable tracemalloc to get traceback where the object was allocated.
-  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
-
-tests/unit/test_performance_optimizer.py::TestPerformanceOptimizer::test_identify_bottlenecks
-  C:\Users\kevin\Desktop\ElectroAnalyzer\tests\unit\test_performance_optimizer.py:326: RuntimeWarning: coroutine 'TestPerformanceOptimizer.test_optimize_performance' was never awaited
-    assert any("response time" in bottleneck.lower() for bottleneck in bottlenecks)
-  Enable tracemalloc to get traceback where the object was allocated.
-  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
-
-tests/unit/test_performance_optimizer.py::TestPerformanceOptimizer::test_proactive_warming
-  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\_pytest\runner.py:245: RuntimeWarning: coroutine 'TestPerformanceOptimizer.test_memory_optimization' was never awaited
-    call = CallInfo.from_call(
+tests/unit/test_performance_optimizer.py::TestPerformanceOptimizerIntegration::test_full_optimization_cycle
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\_pytest\compat.py:230: RuntimeWarning: coroutine 'TestPerformanceOptimizer.test_memory_optimization' was never awaited
+    return func.__func__
   Enable tracemalloc to get traceback where the object was allocated.
   See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
 
 tests/unit/test_performance_test_orchestrator.py::TestExecutionEngine::test_execute_test_failure
-  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\_pytest\nodes.py:302: RuntimeWarning: coroutine 'TestPerformanceOptimizerIntegration.test_full_optimization_cycle' was never awaited
-    yield parent
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\_pytest\nodes.py:354: RuntimeWarning: coroutine 'TestCacheWarmingService.test_execute_warming' was never awaited
+    for node in self.iter_parents():
   Enable tracemalloc to get traceback where the object was allocated.
   See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
 
 tests/unit/test_performance_test_orchestrator.py::TestExecutionEngine::test_execute_test_failure
-  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\_pytest\nodes.py:302: RuntimeWarning: coroutine 'TestPerformanceOptimizerIntegration.test_performance_analysis_with_real_cache' was never awaited
-    yield parent
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\_pytest\nodes.py:354: RuntimeWarning: coroutine 'TestPerformanceOptimizer.test_proactive_warming' was never awaited
+    for node in self.iter_parents():
   Enable tracemalloc to get traceback where the object was allocated.
   See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
 
-tests/unit/test_performance_test_orchestrator.py::TestExecutionEngine::test_execute_tests_parallel_with_disabled
-  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\_pytest\skipping.py:263: RuntimeWarning: coroutine 'TestExecutionEngine.test_execute_test_failure' was never awaited
-    return (yield)
+tests/unit/test_performance_test_orchestrator.py::TestExecutionEngine::test_execute_test_failure
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\_pytest\nodes.py:354: RuntimeWarning: coroutine 'TestPerformanceOptimizerIntegration.test_full_optimization_cycle' was never awaited
+    for node in self.iter_parents():
   Enable tracemalloc to get traceback where the object was allocated.
   See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
 
-tests/unit/test_performance_test_orchestrator.py::TestExecutionEngine::test_execute_tests_parallel_with_disabled
-  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\_pytest\skipping.py:263: RuntimeWarning: coroutine 'TestExecutionEngine.test_execute_test_timeout' was never awaited
-    return (yield)
+tests/unit/test_performance_test_orchestrator.py::TestExecutionEngine::test_execute_test_failure
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\_pytest\nodes.py:354: RuntimeWarning: coroutine 'TestPerformanceOptimizerIntegration.test_performance_analysis_with_real_cache' was never awaited
+    for node in self.iter_parents():
   Enable tracemalloc to get traceback where the object was allocated.
   See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
 
-tests/unit/test_performance_test_orchestrator.py::TestExecutionEngine::test_execute_tests_parallel_with_disabled
-  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\_pytest\skipping.py:263: RuntimeWarning: coroutine 'TestExecutionEngine.test_execute_test_no_runner' was never awaited
-    return (yield)
+tests/unit/test_performance_test_orchestrator.py::TestExecutionEngine::test_execute_test_failure
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\_pytest\nodes.py:354: RuntimeWarning: coroutine 'TestExecutionEngine.test_execute_test_success' was never awaited
+    for node in self.iter_parents():
   Enable tracemalloc to get traceback where the object was allocated.
   See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
 
-tests/unit/test_performance_test_orchestrator.py::TestExecutionEngine::test_execute_tests_parallel_with_disabled
-  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\_pytest\skipping.py:263: RuntimeWarning: coroutine 'TestExecutionEngine.test_execute_tests_parallel' was never awaited
-    return (yield)
+tests/unit/test_performance_test_orchestrator.py::TestPerformanceTestOrchestrator::test_initialization
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\_pytest\fixtures.py:1128: RuntimeWarning: coroutine 'TestExecutionEngine.test_execute_test_timeout' was never awaited
+    result = ihook.pytest_fixture_setup(fixturedef=self, request=request)
   Enable tracemalloc to get traceback where the object was allocated.
   See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
 
-tests/unit/test_performance_test_orchestrator.py::TestPerformanceTestOrchestrator::test_run_full_performance_suite
-  C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\pathlib.py:542: RuntimeWarning: coroutine 'TestPerformanceTestOrchestrator.test_run_baseline_tests' was never awaited
-    self._str = self._format_parsed_parts(self._drv, self._root,
+tests/unit/test_performance_test_orchestrator.py::TestPerformanceTestOrchestrator::test_initialization
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\_pytest\fixtures.py:1128: RuntimeWarning: coroutine 'TestExecutionEngine.test_execute_test_no_runner' was never awaited
+    result = ihook.pytest_fixture_setup(fixturedef=self, request=request)
   Enable tracemalloc to get traceback where the object was allocated.
   See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
 
-tests/unit/test_performance_test_orchestrator.py::TestPerformanceTestOrchestrator::test_run_full_performance_suite
-  C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\pathlib.py:542: RuntimeWarning: coroutine 'TestPerformanceTestOrchestrator.test_run_optimization_tests' was never awaited
-    self._str = self._format_parsed_parts(self._drv, self._root,
+tests/unit/test_performance_test_orchestrator.py::TestPerformanceTestOrchestrator::test_initialization
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\_pytest\fixtures.py:1128: RuntimeWarning: coroutine 'TestExecutionEngine.test_execute_tests_parallel' was never awaited
+    result = ihook.pytest_fixture_setup(fixturedef=self, request=request)
   Enable tracemalloc to get traceback where the object was allocated.
   See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
 
-tests/unit/test_performance_test_orchestrator.py::TestPerformanceTestOrchestrator::test_run_full_performance_suite
-  C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\pathlib.py:542: RuntimeWarning: coroutine 'TestPerformanceTestOrchestrator.test_run_test_suite' was never awaited
-    self._str = self._format_parsed_parts(self._drv, self._root,
+tests/unit/test_performance_test_orchestrator.py::TestPerformanceTestOrchestrator::test_run_nonexistent_suite
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\pluggy\_callers.py:152: RuntimeWarning: coroutine 'TestPerformanceTestOrchestrator.test_run_baseline_tests' was never awaited
+    teardown.send(result)
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_performance_test_orchestrator.py::TestPerformanceTestOrchestrator::test_run_nonexistent_suite
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\pluggy\_callers.py:152: RuntimeWarning: coroutine 'TestPerformanceTestOrchestrator.test_run_optimization_tests' was never awaited
+    teardown.send(result)
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_performance_test_orchestrator.py::TestPerformanceTestOrchestrator::test_run_nonexistent_suite
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\pluggy\_callers.py:152: RuntimeWarning: coroutine 'TestPerformanceTestOrchestrator.test_run_test_suite' was never awaited
+    teardown.send(result)
   Enable tracemalloc to get traceback where the object was allocated.
   See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
 
 tests/unit/test_phi_scrubber.py::test_scrub_logs_and_returns_original_when_wrapper_errors
-  C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\unittest\mock.py:2236: RuntimeWarning: coroutine 'TestPerformanceTestOrchestrator.test_run_nonexistent_suite' was never awaited
-    setattr(_type, entry, MagicProxy(entry, self))
+  C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\unittest\mock.py:623: RuntimeWarning: coroutine 'TestPerformanceTestOrchestrator.test_run_nonexistent_suite' was never awaited
+    self._mock_side_effect = value
   Enable tracemalloc to get traceback where the object was allocated.
   See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
 
 tests/unit/test_phi_scrubber.py::test_scrub_logs_and_returns_original_when_wrapper_errors
-  C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\unittest\mock.py:2236: RuntimeWarning: coroutine 'test_integration_full_workflow' was never awaited
-    setattr(_type, entry, MagicProxy(entry, self))
+  C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\unittest\mock.py:623: RuntimeWarning: coroutine 'test_integration_full_workflow' was never awaited
+    self._mock_side_effect = value
   Enable tracemalloc to get traceback where the object was allocated.
   See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
 
-tests/unit/test_report_branding_service.py::TestReportBrandingService::test_get_branding_context_with_logo
-  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\yaml\representer.py:80: RuntimeWarning: coroutine 'TestPerformanceOptimizer.test_proactive_warming' was never awaited
-    node = ScalarNode(tag, value, style=style)
+tests/unit/test_report_branding_service.py::TestIntegrationScenarios::test_corrupted_logo_file_handling
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\PIL\IcnsImagePlugin.py:253: RuntimeWarning: coroutine 'TestExecutionEngine.test_execute_tests_parallel_with_disabled' was never awaited
+    class IcnsImageFile(ImageFile.ImageFile):
   Enable tracemalloc to get traceback where the object was allocated.
   See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
 
-tests/unit/test_report_branding_service.py::TestReportBrandingService::test_get_branding_context_with_logo
-  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\yaml\representer.py:80: RuntimeWarning: coroutine 'TestExecutionEngine.test_execute_test_success' was never awaited
-    node = ScalarNode(tag, value, style=style)
-  Enable tracemalloc to get traceback where the object was allocated.
-  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
-
-tests/unit/test_report_branding_service.py::TestReportBrandingService::test_get_branding_context_with_logo
-  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\yaml\representer.py:80: RuntimeWarning: coroutine 'TestExecutionEngine.test_execute_tests_parallel_with_disabled' was never awaited
-    node = ScalarNode(tag, value, style=style)
-  Enable tracemalloc to get traceback where the object was allocated.
-  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
-
-tests/unit/test_report_branding_service.py::TestReportBrandingService::test_get_branding_context_with_logo
-  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\yaml\representer.py:80: RuntimeWarning: coroutine 'TestPerformanceTestOrchestrator.test_run_full_performance_suite' was never awaited
-    node = ScalarNode(tag, value, style=style)
+tests/unit/test_report_branding_service.py::TestIntegrationScenarios::test_corrupted_logo_file_handling
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\PIL\IcnsImagePlugin.py:253: RuntimeWarning: coroutine 'TestPerformanceTestOrchestrator.test_run_full_performance_suite' was never awaited
+    class IcnsImageFile(ImageFile.ImageFile):
   Enable tracemalloc to get traceback where the object was allocated.
   See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
 
@@ -228,6 +220,12 @@ tests/unit/test_system_integration_service.py::TestIntegration::test_auto_optimi
   See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
 
 tests/unit/test_system_integration_service.py::TestIntegration::test_end_to_end_system_integration
+  C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\memory_manager.py:355: RuntimeWarning: coroutine 'TestExecutionEngine.test_execute_test_failure' was never awaited
+    collected = gc.collect(generation)
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_system_integration_service.py::TestIntegration::test_end_to_end_system_integration
   C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\_pytest\stash.py:108: RuntimeWarning: coroutine 'PerformanceOptimizer.optimize_performance' was never awaited
     del self._storage[key]
   Enable tracemalloc to get traceback where the object was allocated.
@@ -239,9 +237,6 @@ FAILED tests/integration/test_enhanced_features_integration.py::TestEnhancedFeat
 FAILED tests/integration/test_enhanced_features_integration.py::TestEnhancedFeaturesIntegration::test_database_integration
 FAILED tests/integration/test_enhanced_features_integration.py::TestPerformanceIntegration::test_metrics_collection_integration
 FAILED tests/integration/test_enhanced_features_integration.py::TestPerformanceIntegration::test_performance_monitoring_integration
-FAILED tests/api/test_api_individual_habits.py::test_create_progress_snapshot
-FAILED tests/api/test_api_rubric_router.py::test_update_rubric - assert 400 =...
-FAILED tests/api/test_api_rubric_router.py::test_delete_rubric - assert 400 =...
 FAILED tests/unit/test_analysis_service_pipeline.py::test_analysis_service_uses_analysis_utils
 FAILED tests/unit/test_enhanced_error_context.py::TestEnhancedExceptionHandler::test_generic_exception_handling
 FAILED tests/unit/test_enhanced_error_context.py::TestEnhancedExceptionHandler::test_debug_mode_response
@@ -295,12 +290,10 @@ FAILED tests/unit/test_security_validator.py::TestPasswordValidation::test_passw
 FAILED tests/unit/test_security_validator.py::TestPasswordValidation::test_password_no_uppercase
 FAILED tests/unit/test_security_validator.py::TestPasswordValidation::test_password_no_lowercase
 FAILED tests/unit/test_security_validator.py::TestPasswordValidation::test_password_with_special_chars
-FAILED tests/performance/test_load_performance.py::TestPerformanceLoad::test_metrics_collection_performance
+FAILED tests/performance/test_load_performance.py::TestPerformanceLoad::test_single_request_performance
 FAILED tests/performance/test_load_performance.py::TestPerformanceLoad::test_websocket_performance
-FAILED tests/performance/test_load_performance.py::TestPerformanceLoad::test_security_headers_performance
-FAILED tests/performance/test_load_performance.py::TestPerformanceLoad::test_rate_limiting_performance
 FAILED tests/performance/test_load_performance.py::TestStressTesting::test_sustained_load_stress
-65 failed, 653 passed, 24 skipped, 43 warnings in 170.90s (0:02:50)
+60 failed, 658 passed, 24 skipped, 43 warnings in 235.23s (0:03:55)
 --- Logging error ---
 Traceback (most recent call last):
   File "C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\logging\__init__.py", line 1113, in emit

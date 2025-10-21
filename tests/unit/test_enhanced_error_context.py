@@ -192,6 +192,8 @@ class TestEnhancedExceptionHandler:
     @pytest.fixture
     def app(self):
         """Create test FastAPI app."""
+        from src.api.enhanced_error_context import enhanced_exception_handler
+
         app = FastAPI()
 
         @app.post("/test")
@@ -205,6 +207,9 @@ class TestEnhancedExceptionHandler:
         @app.post("/test-exception")
         async def test_exception():
             raise Exception("Unexpected error")
+
+        # Register the enhanced exception handler for generic exceptions
+        app.add_exception_handler(Exception, enhanced_exception_handler)
 
         return app
 

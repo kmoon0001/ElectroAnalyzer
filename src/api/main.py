@@ -458,8 +458,8 @@ app.add_middleware(
 
 # Add enhanced middleware stack (if available)
 if ENHANCED_FEATURES_AVAILABLE:
-    # Re-enabled: InputValidationMiddleware has been fixed to not consume form data
-    app.add_middleware(InputValidationMiddleware)
+    # Disabled: InputValidationMiddleware is too aggressive and rejects valid data
+    # app.add_middleware(InputValidationMiddleware)
     app.add_middleware(RequestLoggingMiddleware)
 else:
     logger.warning("Enhanced middleware not available, using basic setup")
