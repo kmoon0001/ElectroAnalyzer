@@ -1,15 +1,7 @@
-"""Centralized Logging and Time Utilities for Clinical Compliance Analysis.
+"""Centralized logging system with structured, contextual logging.
 
-This module provides centralized logging configuration, time utilities, and
+Provides comprehensive logging capabilities including performance tracking,
 common patterns used throughout the application using expert practices.
-
-Features:
-- Centralized logging configuration with structured logging
-- Time utilities with timezone support
-- Performance timing decorators
-- Logging decorators for function tracing
-- Comprehensive error logging
-- Audit trail logging for compliance
 """
 
 import asyncio
@@ -28,6 +20,8 @@ from contextlib import contextmanager, asynccontextmanager
 from dataclasses import dataclass, field
 import threading
 from collections import defaultdict, deque
+
+from src.utils.logging_utils import filter_reserved_fields
 
 # Type definitions
 T = TypeVar('T')
@@ -442,7 +436,7 @@ def log_function_call(
             if include_args and kwargs:
                 log_data['kwargs'] = str(kwargs)[:200]  # Truncate long kwargs
 
-            func_logger.log(level, "Calling %s.%s", func.__module__, func.__name__, extra=log_data)
+            func_logger.log(level, "Calling %s.%s", func.__module__, func.__name__, extra=filter_reserved_fields(log_data))
 
             try:
                 result = func(*args, **kwargs)
@@ -462,7 +456,7 @@ def log_function_call(
                     exit_data['result'] = str(result)[:200]  # Truncate long results
 
                 func_logger.log(level, "Completed %s.%s in %.2fms",
-                              func.__module__, func.__name__, duration * 1000, extra=exit_data)
+                              func.__module__, func.__name__, duration * 1000, extra=filter_reserved_fields(exit_data))
 
                 # Record performance
                 if include_timing:
@@ -489,7 +483,7 @@ def log_function_call(
                 }
 
                 func_logger.error("Failed %s.%s in %.2fms: %s",
-                                func.__module__, func.__name__, duration * 1000, str(e), extra=error_data)
+                                func.__module__, func.__name__, duration * 1000, str(e), extra=filter_reserved_fields(error_data))
 
                 raise
 
@@ -633,7 +627,7 @@ def log_error_with_context(
         'context': context or {}
     }
 
-    logger.log(level, "Error occurred: %s", str(error), extra=error_data)
+    logger.log(level, "Error occurred: %s", str(error), extra=filter_reserved_fields(error_data))
 
 
 def get_performance_statistics() -> Dict[str, Dict[str, Any]]:

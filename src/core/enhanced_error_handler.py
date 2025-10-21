@@ -13,6 +13,8 @@ from datetime import datetime
 from enum import Enum
 from typing import Any
 
+from src.utils.logging_utils import filter_reserved_fields
+
 logger = logging.getLogger(__name__)
 
 
@@ -416,6 +418,9 @@ class ErrorHandler:
             "category": error.category.value,
             "user_id": user_id,
         }
+        
+        # Filter reserved LogRecord fields
+        log_data = filter_reserved_fields(log_data)
 
         if error.severity == ErrorSeverity.CRITICAL:
             logger.critical("Critical error: %s", error, extra=log_data)

@@ -91,7 +91,7 @@ def test_user_data():
     return {
         "username": "test_therapist",
         "email": "test@example.com",
-        "password": "test_password_123",
+        "password": "Th3r@p1sBetter",
         "is_admin": False,
     }
 

@@ -1,16 +1,15 @@
-"""Request ID tracking middleware for FastAPI.
-
-This module provides request ID tracking capabilities for better debugging,
-security monitoring, and request correlation across services.
-"""
+"""Request tracking middleware for logging requests with unique IDs."""
 
 import logging
 import uuid
 from typing import Any, Dict, Optional
+from contextvars import ContextVar
 
 from fastapi import Request, Response
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.types import ASGIApp
+
+from src.utils.logging_utils import filter_reserved_fields
 
 logger = logging.getLogger(__name__)
 
@@ -165,14 +164,7 @@ def log_with_request_id(message: str, level: str = "info", **kwargs) -> None:
     request_id = get_request_id()
 
     # Filter out reserved LogRecord fields to avoid conflicts
-    reserved_fields = {
-        'name', 'msg', 'args', 'created', 'filename', 'funcName', 'levelname',
-        'levelno', 'lineno', 'module', 'msecs', 'millisecs', 'message', 'pathname',
-        'process', 'processName', 'relativeCreated', 'thread', 'threadName', 'exc_info',
-        'exc_text', 'stack_info', 'taskName'
-    }
-
-    filtered_kwargs = {k: v for k, v in kwargs.items() if k not in reserved_fields}
+    filtered_kwargs = filter_reserved_fields(kwargs)
     extra = {"request_id": request_id, **filtered_kwargs}
 
     if level == "info":

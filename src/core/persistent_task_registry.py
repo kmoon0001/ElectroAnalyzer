@@ -226,7 +226,7 @@ class PersistentTaskRegistry:
                 return [self._row_to_task(row) for row in rows]
 
         except Exception as e:
-            logger.error("Failed to get tasks by user", user_id=user_id, error=str(e))
+            logger.error("Failed to get tasks by user: %s", str(e), extra={"user_id": user_id})
             return []
 
     async def get_tasks_by_status(

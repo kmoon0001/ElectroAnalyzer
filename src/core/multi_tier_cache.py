@@ -490,13 +490,13 @@ class MultiTierCacheSystem:
                     await self._evict_from_l1_by_size(entry.size_bytes)
 
                 # Store entry
-                self.l1_cache[key] = entry
-                self.l1_cache.move_to_end(key)
+                self.l1_cache[entry.key] = entry
+                self.l1_cache.move_to_end(entry.key)
 
                 return True
 
         except Exception as e:
-            logger.exception("L1 store error for key %s: %s", key, e)
+            logger.exception("L1 store error for key %s: %s", entry.key, e)
             return False
 
     async def _evict_from_l1(self):

@@ -516,12 +516,27 @@ class UnifiedExplanationEngine:
         explanation_types: List[ExplanationType]
     ) -> str:
         """Generate cache key for explanation."""
+        # Convert any dataclass objects to dicts for JSON serialization
+        def make_serializable(obj: Any) -> Any:
+            """Convert dataclass objects to dicts recursively."""
+            if hasattr(obj, '__dataclass_fields__'):
+                return asdict(obj)
+            elif isinstance(obj, dict):
+                return {k: make_serializable(v) for k, v in obj.items()}
+            elif isinstance(obj, (list, tuple)):
+                return [make_serializable(item) for item in obj]
+            elif isinstance(obj, Enum):
+                return obj.value
+            return obj
+        
+        serializable_analysis = make_serializable(analysis_result)
+        
         key_data = {
             'analysis_hash': hashlib.md5(
-                json.dumps(analysis_result, sort_keys=True).encode()
+                json.dumps(serializable_analysis, sort_keys=True, default=str).encode()
             ).hexdigest(),
             'context_hash': hashlib.md5(
-                json.dumps(asdict(context), sort_keys=True).encode()
+                json.dumps(asdict(context), sort_keys=True, default=str).encode()
             ).hexdigest(),
             'explanation_types': [t.value for t in explanation_types]
         }
