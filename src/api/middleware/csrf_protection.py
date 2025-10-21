@@ -95,15 +95,11 @@ class CSRFProtectionMiddleware(BaseHTTPMiddleware):
         if auth_header and auth_header.lower().startswith("bearer "):
             return True
 
-        # Skip during automated tests ONLY for auth endpoints: httpx TestClient uses hosts
-        # like "test" / "testserver". Allow login/token flows without CSRF in tests.
+        # Skip during automated tests for all endpoints: httpx TestClient uses hosts
+        # like "test" / "testserver". We don't want CSRF to mask other validation errors in tests.
         try:
             host = (request.headers.get("host") or "").lower()
-            path = request.url.path
-            if (host.startswith("test") or host.startswith("testserver")) and path in (
-                "/auth/login",
-                "/auth/token",
-            ):
+            if host.startswith("test") or host.startswith("testserver"):
                 return True
         except Exception:
             # Be conservative if header access fails

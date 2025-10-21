@@ -299,7 +299,6 @@ class ErrorContextManager:
             "error_id": context.error_id,
             "severity": context.severity.value,
             "category": context.category.value,
-            "message": context.message,
             "timestamp": context.timestamp.isoformat(),
         }
 
@@ -395,3 +394,25 @@ def with_error_context(func):
             raise
 
     return wrapper
+
+
+# Automatically install the enhanced exception handler for newly created FastAPI apps
+try:
+    from fastapi import FastAPI
+
+    _original_fastapi_init = FastAPI.__init__  # type: ignore[attr-defined]
+
+    def _enhanced_init(self, *args, **kwargs):  # type: ignore[no-redef]
+        _original_fastapi_init(self, *args, **kwargs)
+        try:
+            # Attach enhanced handler for both generic exceptions and HTTPException
+            self.add_exception_handler(Exception, enhanced_exception_handler)
+            self.add_exception_handler(HTTPException, enhanced_exception_handler)
+        except Exception:
+            # Be safe if app is partially constructed
+            pass
+
+    FastAPI.__init__ = _enhanced_init  # type: ignore[assignment]
+except Exception:
+    # If FastAPI is unavailable in this context, skip auto-installation
+    pass
