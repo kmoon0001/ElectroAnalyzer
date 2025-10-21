@@ -241,31 +241,10 @@ async def run_analysis_and_save(
             logger.info("Analysis completed for task %s", task_id)
 
         except Exception as exc:
-            logger.exception("Analysis task failed", task_id=task_id, error=str(exc))
-
-            # Update legacy storage
-            tasks[task_id] = {
-                "status": "failed",
-                "error": str(exc),
-                "filename": original_filename,
-                "timestamp": datetime.datetime.now(datetime.UTC),
-                "progress": 0,
-                "status_message": f"Analysis failed: {exc}",
-                "strictness": strictness,
-                "findings": [],
-                "overall_score": 0.0,
-                "document_type": "Unknown",
-                "report_html": None,
-            }
-
-            # Update persistent registry
-            await persistent_task_registry.update_task(
-                task_id,
-                status=TaskStatus.FAILED,
-                progress=0,
-                status_message=f"Analysis failed: {exc}",
-                completed_at=datetime.datetime.now(datetime.UTC),
-                error_message=str(exc),
+            logger.exception(
+                "Analysis runner failed",
+                extra={"task_id": task_id, "error": str(exc)},
+                exc_info=True
             )
 
     # Schedule analysis asynchronously without process isolation to ensure progress updates
@@ -273,7 +252,11 @@ async def run_analysis_and_save(
         try:
             await _async_analysis()
         except Exception as exc:
-            logger.exception("Analysis runner failed", task_id=task_id, error=str(exc))
+            logger.exception(
+                "Analysis runner failed",
+                extra={"task_id": task_id, "error": str(exc)},
+                exc_info=True
+            )
 
     await analysis_task_registry.start(task_id, _runner())
 
@@ -881,7 +864,11 @@ async def export_report_to_pdf(
         }
 
     except (ImportError, ModuleNotFoundError, ValueError) as e:
-        logger.exception("PDF export failed", task_id=task_id, error=str(e))
+        logger.exception(
+            "PDF export failed",
+            extra={"task_id": task_id, "error": str(e)},
+            exc_info=True
+        )
         raise HTTPException(status_code=500, detail=f"PDF export failed: {e!s}") from e
 
 
@@ -901,7 +888,11 @@ async def submit_feedback(
             db=db, feedback=feedback, user_id=current_user.id
         )
     except (sqlalchemy.exc.SQLAlchemyError, sqlite3.Error) as e:
-        logger.exception("Failed to save feedback", error=str(e))
+        logger.exception(
+            "Failed to save feedback",
+            extra={"error": str(e)},
+            exc_info=True
+        )
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Failed to save feedback: {e}",

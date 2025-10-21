@@ -121,7 +121,8 @@ async def register_user(
         raise HTTPException(status_code=400, detail="Registration failed") from exc
 
     logger.info(
-        f"User registered successfully: {user_data.username}", user_id=created_user.id
+        f"User registered successfully: {user_data.username}",
+        extra={"user_id": created_user.id}
     )
     return schemas.User.model_validate(created_user)
 

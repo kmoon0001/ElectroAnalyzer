@@ -200,7 +200,11 @@ def get_system_metrics() -> SystemMetrics:
         )
 
     except Exception as e:
-        logger.exception("Failed to get system metrics", error=str(e))
+        logger.exception(
+            "Failed to get system metrics",
+            extra={"error": str(e)},
+            exc_info=True
+        )
         # Return default values if metrics collection fails
         return SystemMetrics(
             cpu_percent=0.0,
@@ -250,7 +254,11 @@ def get_dependencies_info() -> dict[str, Any]:
         }
 
     except Exception as e:
-        logger.exception("Failed to get dependencies info", error=str(e))
+        logger.exception(
+            "Failed to get dependencies info",
+            extra={"error": str(e)},
+            exc_info=True
+        )
         return {"error": str(e)}
 
 
@@ -354,7 +362,11 @@ async def readiness_check(db: AsyncSession = Depends(get_async_db)):
         return {"status": "ready", "timestamp": datetime.now(UTC)}
 
     except Exception as e:
-        logger.exception("Readiness check failed", error=str(e))
+        logger.exception(
+            "Readiness check failed",
+            extra={"error": str(e)},
+            exc_info=True
+        )
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
             detail=f"Service not ready: {str(e)}",

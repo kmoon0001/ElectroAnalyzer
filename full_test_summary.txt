@@ -1,0 +1,1178 @@
+............................FFF..FF....F...........................F...F [  9%]
+FF.........................ss..F..F.F.F.FF.F..ssssssss.................. [ 18%]
+ssEEE......F.EEE....FFFF.F.................................F............ [ 27%]
+........................................................................ [ 36%]
+...FFF..............................FFF................................. [ 45%]
+.........................F...........................FF.F...F....F...... [ 55%]
+..FFF...FFFF...............sssssss................sssss..............ss. [ 64%]
+.........F...........................................FFF....F..FFFFF.FFs [ 73%]
+s.........FFFFFF.FFFFF....F............................................. [ 82%]
+........................................................................ [ 91%]
+.................................................................        [100%]
+=================================== ERRORS ====================================
+______________ ERROR at setup of test_analyze_document_api_route ______________
+E   apscheduler.schedulers.SchedulerAlreadyRunningError: Scheduler is already running
+---------------------------- Captured stdout setup ----------------------------
+2025-10-21 14:06:19,606 - logging_setup - INFO - {"event": "Structured logging configured successfully.", "logger": "logging_setup", "level": "info", "timestamp": "2025-10-21T21:06:19.606819Z"}
+{"event": "Structured logging configured successfully.", "logger": "logging_setup", "level": "info", "timestamp": "2025-10-21T21:06:19.606819Z"}
+{"event": "Structured logging configured successfully.", "logger": "logging_setup", "level": "info", "timestamp": "2025-10-21T21:06:19.606819Z"}
+2025-10-21 14:06:19,606 - src.database.database - INFO - Initializing database schema
+Initializing database schema
+Initializing database schema
+2025-10-21 14:06:19,612 - src.database.database - INFO - Applying SQLite performance optimizations
+Applying SQLite performance optimizations
+Applying SQLite performance optimizations
+2025-10-21 14:06:19,612 - src.database.database - INFO - Database initialization complete
+Database initialization complete
+Database initialization complete
+2025-10-21 14:06:19,612 - src.api.dependencies - INFO - Application starting up...
+Application starting up...
+Application starting up...
+2025-10-21 14:06:19,612 - src.api.dependencies - INFO - Initializing real AnalysisService.
+Initializing real AnalysisService.
+Initializing real AnalysisService.
+2025-10-21 14:06:19,612 - src.core.analysis_service - INFO - AnalysisService initialized with use_mocks=False
+AnalysisService initialized with use_mocks=False
+AnalysisService initialized with use_mocks=False
+2025-10-21 14:06:19,612 - presidio-analyzer - INFO - nlp_engine not provided, creating default.
+nlp_engine not provided, creating default.
+nlp_engine not provided, creating default.
+2025-10-21 14:06:20,484 - presidio-analyzer - INFO - Created NLP engine: spacy. Loaded models: ['en']
+Created NLP engine: spacy. Loaded models: ['en']
+Created NLP engine: spacy. Loaded models: ['en']
+2025-10-21 14:06:20,492 - presidio-analyzer - INFO - Loaded recognizer: CreditCardRecognizer
+Loaded recognizer: CreditCardRecognizer
+Loaded recognizer: CreditCardRecognizer
+2025-10-21 14:06:20,492 - presidio-analyzer - INFO - Loaded recognizer: CreditCardRecognizer
+Loaded recognizer: CreditCardRecognizer
+Loaded recognizer: CreditCardRecognizer
+2025-10-21 14:06:20,492 - presidio-analyzer - INFO - Loaded recognizer: CreditCardRecognizer
+Loaded recognizer: CreditCardRecognizer
+Loaded recognizer: CreditCardRecognizer
+2025-10-21 14:06:20,492 - presidio-analyzer - INFO - Loaded recognizer: CreditCardRecognizer
+Loaded recognizer: CreditCardRecognizer
+Loaded recognizer: CreditCardRecognizer
+2025-10-21 14:06:20,492 - presidio-analyzer - INFO - Loaded recognizer: UsBankRecognizer
+Loaded recognizer: UsBankRecognizer
+Loaded recognizer: UsBankRecognizer
+2025-10-21 14:06:20,492 - presidio-analyzer - INFO - Loaded recognizer: UsLicenseRecognizer
+Loaded recognizer: UsLicenseRecognizer
+Loaded recognizer: UsLicenseRecognizer
+2025-10-21 14:06:20,492 - presidio-analyzer - INFO - Loaded recognizer: UsItinRecognizer
+Loaded recognizer: UsItinRecognizer
+Loaded recognizer: UsItinRecognizer
+2025-10-21 14:06:20,492 - presidio-analyzer - INFO - Loaded recognizer: UsPassportRecognizer
+Loaded recognizer: UsPassportRecognizer
+Loaded recognizer: UsPassportRecognizer
+2025-10-21 14:06:20,492 - presidio-analyzer - INFO - Loaded recognizer: UsSsnRecognizer
+Loaded recognizer: UsSsnRecognizer
+Loaded recognizer: UsSsnRecognizer
+2025-10-21 14:06:20,492 - presidio-analyzer - INFO - Loaded recognizer: NhsRecognizer
+Loaded recognizer: NhsRecognizer
+Loaded recognizer: NhsRecognizer
+2025-10-21 14:06:20,492 - presidio-analyzer - INFO - Loaded recognizer: SgFinRecognizer
+Loaded recognizer: SgFinRecognizer
+Loaded recognizer: SgFinRecognizer
+2025-10-21 14:06:20,492 - presidio-analyzer - INFO - Loaded recognizer: AuAbnRecognizer
+Loaded recognizer: AuAbnRecognizer
+Loaded recognizer: AuAbnRecognizer
+2025-10-21 14:06:20,492 - presidio-analyzer - INFO - Loaded recognizer: AuAcnRecognizer
+Loaded recognizer: AuAcnRecognizer
+Loaded recognizer: AuAcnRecognizer
+2025-10-21 14:06:20,492 - presidio-analyzer - INFO - Loaded recognizer: AuTfnRecognizer
+Loaded recognizer: AuTfnRecognizer
+Loaded recognizer: AuTfnRecognizer
+2025-10-21 14:06:20,500 - presidio-analyzer - INFO - Loaded recognizer: AuMedicareRecognizer
+Loaded recognizer: AuMedicareRecognizer
+Loaded recognizer: AuMedicareRecognizer
+2025-10-21 14:06:20,500 - presidio-analyzer - INFO - Loaded recognizer: InPanRecognizer
+Loaded recognizer: InPanRecognizer
+Loaded recognizer: InPanRecognizer
+2025-10-21 14:06:20,500 - presidio-analyzer - INFO - Loaded recognizer: InAadhaarRecognizer
+Loaded recognizer: InAadhaarRecognizer
+Loaded recognizer: InAadhaarRecognizer
+2025-10-21 14:06:20,500 - presidio-analyzer - INFO - Loaded recognizer: InVehicleRegistrationRecognizer
+Loaded recognizer: InVehicleRegistrationRecognizer
+Loaded recognizer: InVehicleRegistrationRecognizer
+2025-10-21 14:06:20,500 - presidio-analyzer - INFO - Loaded recognizer: InPassportRecognizer
+Loaded recognizer: InPassportRecognizer
+Loaded recognizer: InPassportRecognizer
+2025-10-21 14:06:20,500 - presidio-analyzer - INFO - Loaded recognizer: EsNifRecognizer
+Loaded recognizer: EsNifRecognizer
+Loaded recognizer: EsNifRecognizer
+2025-10-21 14:06:20,500 - presidio-analyzer - INFO - Loaded recognizer: EsNieRecognizer
+Loaded recognizer: EsNieRecognizer
+Loaded recognizer: EsNieRecognizer
+2025-10-21 14:06:20,500 - presidio-analyzer - INFO - Loaded recognizer: ItDriverLicenseRecognizer
+Loaded recognizer: ItDriverLicenseRecognizer
+Loaded recognizer: ItDriverLicenseRecognizer
+2025-10-21 14:06:20,500 - presidio-analyzer - INFO - Loaded recognizer: ItFiscalCodeRecognizer
+Loaded recognizer: ItFiscalCodeRecognizer
+Loaded recognizer: ItFiscalCodeRecognizer
+2025-10-21 14:06:20,500 - presidio-analyzer - INFO - Loaded recognizer: ItVatCodeRecognizer
+Loaded recognizer: ItVatCodeRecognizer
+Loaded recognizer: ItVatCodeRecognizer
+2025-10-21 14:06:20,500 - presidio-analyzer - INFO - Loaded recognizer: ItIdentityCardRecognizer
+Loaded recognizer: ItIdentityCardRecognizer
+Loaded recognizer: ItIdentityCardRecognizer
+2025-10-21 14:06:20,500 - presidio-analyzer - INFO - Loaded recognizer: ItPassportRecognizer
+Loaded recognizer: ItPassportRecognizer
+Loaded recognizer: ItPassportRecognizer
+2025-10-21 14:06:20,500 - presidio-analyzer - INFO - Loaded recognizer: PlPeselRecognizer
+Loaded recognizer: PlPeselRecognizer
+Loaded recognizer: PlPeselRecognizer
+2025-10-21 14:06:20,500 - presidio-analyzer - INFO - Loaded recognizer: CryptoRecognizer
+Loaded recognizer: CryptoRecognizer
+Loaded recognizer: CryptoRecognizer
+2025-10-21 14:06:20,500 - presidio-analyzer - INFO - Loaded recognizer: DateRecognizer
+Loaded recognizer: DateRecognizer
+Loaded recognizer: DateRecognizer
+2025-10-21 14:06:20,500 - presidio-analyzer - INFO - Loaded recognizer: EmailRecognizer
+Loaded recognizer: EmailRecognizer
+Loaded recognizer: EmailRecognizer
+2025-10-21 14:06:20,500 - presidio-analyzer - INFO - Loaded recognizer: IbanRecognizer
+Loaded recognizer: IbanRecognizer
+Loaded recognizer: IbanRecognizer
+2025-10-21 14:06:20,500 - presidio-analyzer - INFO - Loaded recognizer: IpRecognizer
+Loaded recognizer: IpRecognizer
+Loaded recognizer: IpRecognizer
+2025-10-21 14:06:20,500 - presidio-analyzer - INFO - Loaded recognizer: MedicalLicenseRecognizer
+Loaded recognizer: MedicalLicenseRecognizer
+Loaded recognizer: MedicalLicenseRecognizer
+2025-10-21 14:06:20,500 - presidio-analyzer - INFO - Loaded recognizer: PhoneRecognizer
+Loaded recognizer: PhoneRecognizer
+Loaded recognizer: PhoneRecognizer
+2025-10-21 14:06:20,500 - presidio-analyzer - INFO - Loaded recognizer: UrlRecognizer
+Loaded recognizer: UrlRecognizer
+Loaded recognizer: UrlRecognizer
+2025-10-21 14:06:20,500 - presidio-analyzer - INFO - Loaded recognizer: InVoterRecognizer
+Loaded recognizer: InVoterRecognizer
+Loaded recognizer: InVoterRecognizer
+2025-10-21 14:06:20,500 - presidio-analyzer - WARNING - Recognizer not added to registry because language is not supported by registry - CreditCardRecognizer supported languages: es, registry supported languages: en
+Recognizer not added to registry because language is not supported by registry - CreditCardRecognizer supported languages: es, registry supported languages: en
+Recognizer not added to registry because language is not supported by registry - CreditCardRecognizer supported languages: es, registry supported languages: en
+2025-10-21 14:06:20,500 - presidio-analyzer - WARNING - Recognizer not added to registry because language is not supported by registry - CreditCardRecognizer supported languages: it, registry supported languages: en
+Recognizer not added to registry because language is not supported by registry - CreditCardRecognizer supported languages: it, registry supported languages: en
+Recognizer not added to registry because language is not supported by registry - CreditCardRecognizer supported languages: it, registry supported languages: en
+2025-10-21 14:06:20,500 - presidio-analyzer - WARNING - Recognizer not added to registry because language is not supported by registry - CreditCardRecognizer supported languages: pl, registry supported languages: en
+Recognizer not added to registry because language is not supported by registry - CreditCardRecognizer supported languages: pl, registry supported languages: en
+Recognizer not added to registry because language is not supported by registry - CreditCardRecognizer supported languages: pl, registry supported languages: en
+2025-10-21 14:06:20,500 - presidio-analyzer - WARNING - Recognizer not added to registry because language is not supported by registry - EsNifRecognizer supported languages: es, registry supported languages: en
+Recognizer not added to registry because language is not supported by registry - EsNifRecognizer supported languages: es, registry supported languages: en
+Recognizer not added to registry because language is not supported by registry - EsNifRecognizer supported languages: es, registry supported languages: en
+2025-10-21 14:06:20,500 - presidio-analyzer - WARNING - Recognizer not added to registry because language is not supported by registry - EsNieRecognizer supported languages: es, registry supported languages: en
+Recognizer not added to registry because language is not supported by registry - EsNieRecognizer supported languages: es, registry supported languages: en
+Recognizer not added to registry because language is not supported by registry - EsNieRecognizer supported languages: es, registry supported languages: en
+2025-10-21 14:06:20,500 - presidio-analyzer - WARNING - Recognizer not added to registry because language is not supported by registry - ItDriverLicenseRecognizer supported languages: it, registry supported languages: en
+Recognizer not added to registry because language is not supported by registry - ItDriverLicenseRecognizer supported languages: it, registry supported languages: en
+Recognizer not added to registry because language is not supported by registry - ItDriverLicenseRecognizer supported languages: it, registry supported languages: en
+2025-10-21 14:06:20,500 - presidio-analyzer - WARNING - Recognizer not added to registry because language is not supported by registry - ItFiscalCodeRecognizer supported languages: it, registry supported languages: en
+Recognizer not added to registry because language is not supported by registry - ItFiscalCodeRecognizer supported languages: it, registry supported languages: en
+Recognizer not added to registry because language is not supported by registry - ItFiscalCodeRecognizer supported languages: it, registry supported languages: en
+2025-10-21 14:06:20,500 - presidio-analyzer - WARNING - Recognizer not added to registry because language is not supported by registry - ItVatCodeRecognizer supported languages: it, registry supported languages: en
+Recognizer not added to registry because language is not supported by registry - ItVatCodeRecognizer supported languages: it, registry supported languages: en
+Recognizer not added to registry because language is not supported by registry - ItVatCodeRecognizer supported languages: it, registry supported languages: en
+2025-10-21 14:06:20,500 - presidio-analyzer - WARNING - Recognizer not added to registry because language is not supported by registry - ItIdentityCardRecognizer supported languages: it, registry supported languages: en
+Recognizer not added to registry because language is not supported by registry - ItIdentityCardRecognizer supported languages: it, registry supported languages: en
+Recognizer not added to registry because language is not supported by registry - ItIdentityCardRecognizer supported languages: it, registry supported languages: en
+2025-10-21 14:06:20,500 - presidio-analyzer - WARNING - Recognizer not added to registry because language is not supported by registry - ItPassportRecognizer supported languages: it, registry supported languages: en
+Recognizer not added to registry because language is not supported by registry - ItPassportRecognizer supported languages: it, registry supported languages: en
+Recognizer not added to registry because language is not supported by registry - ItPassportRecognizer supported languages: it, registry supported languages: en
+2025-10-21 14:06:20,500 - presidio-analyzer - WARNING - Recognizer not added to registry because language is not supported by registry - PlPeselRecognizer supported languages: pl, registry supported languages: en
+Recognizer not added to registry because language is not supported by registry - PlPeselRecognizer supported languages: pl, registry supported languages: en
+Recognizer not added to registry because language is not supported by registry - PlPeselRecognizer supported languages: pl, registry supported languages: en
+2025-10-21 14:06:20,500 - presidio-analyzer - INFO - Loaded recognizer: SpacyRecognizer
+Loaded recognizer: SpacyRecognizer
+Loaded recognizer: SpacyRecognizer
+2025-10-21 14:06:20,582 - src.core.preprocessing_service - INFO - Successfully loaded custom medical dictionary from: src/resources/medical_dictionary.txt
+Successfully loaded custom medical dictionary from: src/resources/medical_dictionary.txt
+Successfully loaded custom medical dictionary from: src/resources/medical_dictionary.txt
+2025-10-21 14:06:20,582 - src.core.unified_explanation_engine - INFO - Unified explanation engine initialized with caching=True
+Unified explanation engine initialized with caching=True
+Unified explanation engine initialized with caching=True
+2025-10-21 14:06:20,582 - src.core.advanced_ensemble_optimizer - INFO - Advanced ensemble optimizer initialized with learning=True
+Advanced ensemble optimizer initialized with learning=True
+Advanced ensemble optimizer initialized with learning=True
+2025-10-21 14:06:20,582 - src.core.human_feedback_system - INFO - Human feedback system initialized with learning=True
+Human feedback system initialized with learning=True
+Human feedback system initialized with learning=True
+2025-10-21 14:06:20,582 - src.core.multi_tier_cache - INFO - Multi-tier cache system initialized: L1=200MB, L2=False, L3=True, Policy=lru
+Multi-tier cache system initialized: L1=200MB, L2=False, L3=True, Policy=lru
+Multi-tier cache system initialized: L1=200MB, L2=False, L3=True, Policy=lru
+2025-10-21 14:06:20,582 - src.core.clinical_education_engine - INFO - Clinical education engine initialized with 5 learning objectives and 5 content items
+Clinical education engine initialized with 5 learning objectives and 5 content items
+Clinical education engine initialized with 5 learning objectives and 5 content items
+2025-10-21 14:06:20,582 - src.core.analysis_service - INFO - 7 Habits Framework initialized successfully
+7 Habits Framework initialized successfully
+7 Habits Framework initialized successfully
+2025-10-21 14:06:20,582 - src.core.rag_database_integration - INFO - RAG database initialized successfully
+RAG database initialized successfully
+RAG database initialized successfully
+2025-10-21 14:06:20,582 - src.core.analysis_service - INFO - RAG system initialized successfully
+RAG system initialized successfully
+RAG system initialized successfully
+2025-10-21 14:06:20,582 - src.core.model_selection_utils - INFO - Selected generator profile cpu_tinyllama_clinical (system memory {mem_gb} GB)
+Selected generator profile cpu_tinyllama_clinical (system memory {mem_gb} GB)
+Selected generator profile cpu_tinyllama_clinical (system memory {mem_gb} GB)
+2025-10-21 14:06:20,582 - src.core.model_selection_utils - WARNING - Configured generator_local_path does not exist: C:\Users\kevin\Desktop\ElectroAnalyzer\models\tinyllama-clinical
+Configured generator_local_path does not exist: C:\Users\kevin\Desktop\ElectroAnalyzer\models\tinyllama-clinical
+Configured generator_local_path does not exist: C:\Users\kevin\Desktop\ElectroAnalyzer\models\tinyllama-clinical
+2025-10-21 14:06:20,582 - src.core.ner - INFO - Loading clinical NER model: OpenMed/OpenMed-NER-PathologyDetect-PubMed-v2-109M
+Loading clinical NER model: OpenMed/OpenMed-NER-PathologyDetect-PubMed-v2-109M
+Loading clinical NER model: OpenMed/OpenMed-NER-PathologyDetect-PubMed-v2-109M
+2025-10-21 14:06:21,104 - src.core.performance_metrics_collector - WARNING - High memory usage detected: 2633.29MB
+High memory usage detected: 2633.29MB
+High memory usage detected: 2633.29MB
+2025-10-21 14:06:21,751 - src.core.ner - ERROR - Failed to load NER model OpenMed/OpenMed-NER-PathologyDetect-PubMed-v2-109M: {e}
+Traceback (most recent call last):
+  File "C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\ner.py", line 83, in _initialize_pipelines
+    model = AutoModelForTokenClassification.from_pretrained(model_name)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\transformers\models\auto\auto_factory.py", line 526, in from_pretrained
+    config, kwargs = AutoConfig.from_pretrained(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\transformers\models\auto\configuration_auto.py", line 1104, in from_pretrained
+    return config_class.from_dict(config_dict, **unused_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\unittest\mock.py", line 688, in __getattr__
+    raise AttributeError("Mock object has no attribute %r" % name)
+AttributeError: Mock object has no attribute 'from_dict'
+Failed to load NER model OpenMed/OpenMed-NER-PathologyDetect-PubMed-v2-109M: {e}
+Traceback (most recent call last):
+  File "C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\ner.py", line 83, in _initialize_pipelines
+    model = AutoModelForTokenClassification.from_pretrained(model_name)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\transformers\models\auto\auto_factory.py", line 526, in from_pretrained
+    config, kwargs = AutoConfig.from_pretrained(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\transformers\models\auto\configuration_auto.py", line 1104, in from_pretrained
+    return config_class.from_dict(config_dict, **unused_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\unittest\mock.py", line 688, in __getattr__
+    raise AttributeError("Mock object has no attribute %r" % name)
+AttributeError: Mock object has no attribute 'from_dict'
+Failed to load NER model OpenMed/OpenMed-NER-PathologyDetect-PubMed-v2-109M: {e}
+Traceback (most recent call last):
+  File "C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\ner.py", line 83, in _initialize_pipelines
+    model = AutoModelForTokenClassification.from_pretrained(model_name)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\transformers\models\auto\auto_factory.py", line 526, in from_pretrained
+    config, kwargs = AutoConfig.from_pretrained(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\transformers\models\auto\configuration_auto.py", line 1104, in from_pretrained
+    return config_class.from_dict(config_dict, **unused_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\unittest\mock.py", line 688, in __getattr__
+    raise AttributeError("Mock object has no attribute %r" % name)
+AttributeError: Mock object has no attribute 'from_dict'
+2025-10-21 14:06:21,751 - src.core.ner - INFO - Loading clinical NER model: d4data/biomedical-ner-all
+Loading clinical NER model: d4data/biomedical-ner-all
+Loading clinical NER model: d4data/biomedical-ner-all
+2025-10-21 14:06:22,014 - src.core.ner - ERROR - Failed to load NER model d4data/biomedical-ner-all: {e}
+Traceback (most recent call last):
+  File "C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\ner.py", line 83, in _initialize_pipelines
+    model = AutoModelForTokenClassification.from_pretrained(model_name)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\transformers\models\auto\auto_factory.py", line 526, in from_pretrained
+    config, kwargs = AutoConfig.from_pretrained(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\transformers\models\auto\configuration_auto.py", line 1104, in from_pretrained
+    return config_class.from_dict(config_dict, **unused_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\unittest\mock.py", line 688, in __getattr__
+    raise AttributeError("Mock object has no attribute %r" % name)
+AttributeError: Mock object has no attribute 'from_dict'
+Failed to load NER model d4data/biomedical-ner-all: {e}
+Traceback (most recent call last):
+  File "C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\ner.py", line 83, in _initialize_pipelines
+    model = AutoModelForTokenClassification.from_pretrained(model_name)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\transformers\models\auto\auto_factory.py", line 526, in from_pretrained
+    config, kwargs = AutoConfig.from_pretrained(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\transformers\models\auto\configuration_auto.py", line 1104, in from_pretrained
+    return config_class.from_dict(config_dict, **unused_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\unittest\mock.py", line 688, in __getattr__
+    raise AttributeError("Mock object has no attribute %r" % name)
+AttributeError: Mock object has no attribute 'from_dict'
+Failed to load NER model d4data/biomedical-ner-all: {e}
+Traceback (most recent call last):
+  File "C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\ner.py", line 83, in _initialize_pipelines
+    model = AutoModelForTokenClassification.from_pretrained(model_name)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\transformers\models\auto\auto_factory.py", line 526, in from_pretrained
+    config, kwargs = AutoConfig.from_pretrained(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\transformers\models\auto\configuration_auto.py", line 1104, in from_pretrained
+    return config_class.from_dict(config_dict, **unused_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\unittest\mock.py", line 688, in __getattr__
+    raise AttributeError("Mock object has no attribute %r" % name)
+AttributeError: Mock object has no attribute 'from_dict'
+2025-10-21 14:06:22,014 - presidio-analyzer - INFO - nlp_engine not provided, creating default.
+nlp_engine not provided, creating default.
+nlp_engine not provided, creating default.
+2025-10-21 14:06:22,906 - presidio-analyzer - INFO - Created NLP engine: spacy. Loaded models: ['en']
+Created NLP engine: spacy. Loaded models: ['en']
+Created NLP engine: spacy. Loaded models: ['en']
+2025-10-21 14:06:22,906 - presidio-analyzer - INFO - registry not provided, creating default.
+registry not provided, creating default.
+registry not provided, creating default.
+2025-10-21 14:06:22,912 - presidio-analyzer - INFO - Loaded recognizer: CreditCardRecognizer
+Loaded recognizer: CreditCardRecognizer
+Loaded recognizer: CreditCardRecognizer
+2025-10-21 14:06:22,912 - presidio-analyzer - INFO - Loaded recognizer: CreditCardRecognizer
+Loaded recognizer: CreditCardRecognizer
+Loaded recognizer: CreditCardRecognizer
+2025-10-21 14:06:22,912 - presidio-analyzer - INFO - Loaded recognizer: CreditCardRecognizer
+Loaded recognizer: CreditCardRecognizer
+Loaded recognizer: CreditCardRecognizer
+2025-10-21 14:06:22,912 - presidio-analyzer - INFO - Loaded recognizer: CreditCardRecognizer
+Loaded recognizer: CreditCardRecognizer
+Loaded recognizer: CreditCardRecognizer
+2025-10-21 14:06:22,912 - presidio-analyzer - INFO - Loaded recognizer: UsBankRecognizer
+Loaded recognizer: UsBankRecognizer
+Loaded recognizer: UsBankRecognizer
+2025-10-21 14:06:22,912 - presidio-analyzer - INFO - Loaded recognizer: UsLicenseRecognizer
+Loaded recognizer: UsLicenseRecognizer
+Loaded recognizer: UsLicenseRecognizer
+2025-10-21 14:06:22,912 - presidio-analyzer - INFO - Loaded recognizer: UsItinRecognizer
+Loaded recognizer: UsItinRecognizer
+Loaded recognizer: UsItinRecognizer
+2025-10-21 14:06:22,912 - presidio-analyzer - INFO - Loaded recognizer: UsPassportRecognizer
+Loaded recognizer: UsPassportRecognizer
+Loaded recognizer: UsPassportRecognizer
+2025-10-21 14:06:22,912 - presidio-analyzer - INFO - Loaded recognizer: UsSsnRecognizer
+Loaded recognizer: UsSsnRecognizer
+Loaded recognizer: UsSsnRecognizer
+2025-10-21 14:06:22,912 - presidio-analyzer - INFO - Loaded recognizer: NhsRecognizer
+Loaded recognizer: NhsRecognizer
+Loaded recognizer: NhsRecognizer
+2025-10-21 14:06:22,912 - presidio-analyzer - INFO - Loaded recognizer: SgFinRecognizer
+Loaded recognizer: SgFinRecognizer
+Loaded recognizer: SgFinRecognizer
+2025-10-21 14:06:22,912 - presidio-analyzer - INFO - Loaded recognizer: AuAbnRecognizer
+Loaded recognizer: AuAbnRecognizer
+Loaded recognizer: AuAbnRecognizer
+2025-10-21 14:06:22,912 - presidio-analyzer - INFO - Loaded recognizer: AuAcnRecognizer
+Loaded recognizer: AuAcnRecognizer
+Loaded recognizer: AuAcnRecognizer
+2025-10-21 14:06:22,912 - presidio-analyzer - INFO - Loaded recognizer: AuTfnRecognizer
+Loaded recognizer: AuTfnRecognizer
+Loaded recognizer: AuTfnRecognizer
+2025-10-21 14:06:22,912 - presidio-analyzer - INFO - Loaded recognizer: AuMedicareRecognizer
+Loaded recognizer: AuMedicareRecognizer
+Loaded recognizer: AuMedicareRecognizer
+2025-10-21 14:06:22,912 - presidio-analyzer - INFO - Loaded recognizer: InPanRecognizer
+Loaded recognizer: InPanRecognizer
+Loaded recognizer: InPanRecognizer
+2025-10-21 14:06:22,912 - presidio-analyzer - INFO - Loaded recognizer: InAadhaarRecognizer
+Loaded recognizer: InAadhaarRecognizer
+Loaded recognizer: InAadhaarRecognizer
+2025-10-21 14:06:22,912 - presidio-analyzer - INFO - Loaded recognizer: InVehicleRegistrationRecognizer
+Loaded recognizer: InVehicleRegistrationRecognizer
+Loaded recognizer: InVehicleRegistrationRecognizer
+2025-10-21 14:06:22,912 - presidio-analyzer - INFO - Loaded recognizer: InPassportRecognizer
+Loaded recognizer: InPassportRecognizer
+Loaded recognizer: InPassportRecognizer
+2025-10-21 14:06:22,912 - presidio-analyzer - INFO - Loaded recognizer: EsNifRecognizer
+Loaded recognizer: EsNifRecognizer
+Loaded recognizer: EsNifRecognizer
+2025-10-21 14:06:22,912 - presidio-analyzer - INFO - Loaded recognizer: EsNieRecognizer
+Loaded recognizer: EsNieRecognizer
+Loaded recognizer: EsNieRecognizer
+2025-10-21 14:06:22,912 - presidio-analyzer - INFO - Loaded recognizer: ItDriverLicenseRecognizer
+Loaded recognizer: ItDriverLicenseRecognizer
+Loaded recognizer: ItDriverLicenseRecognizer
+2025-10-21 14:06:22,916 - presidio-analyzer - INFO - Loaded recognizer: ItFiscalCodeRecognizer
+Loaded recognizer: ItFiscalCodeRecognizer
+Loaded recognizer: ItFiscalCodeRecognizer
+2025-10-21 14:06:22,916 - presidio-analyzer - INFO - Loaded recognizer: ItVatCodeRecognizer
+Loaded recognizer: ItVatCodeRecognizer
+Loaded recognizer: ItVatCodeRecognizer
+2025-10-21 14:06:22,916 - presidio-analyzer - INFO - Loaded recognizer: ItIdentityCardRecognizer
+Loaded recognizer: ItIdentityCardRecognizer
+Loaded recognizer: ItIdentityCardRecognizer
+2025-10-21 14:06:22,916 - presidio-analyzer - INFO - Loaded recognizer: ItPassportRecognizer
+Loaded recognizer: ItPassportRecognizer
+Loaded recognizer: ItPassportRecognizer
+2025-10-21 14:06:22,916 - presidio-analyzer - INFO - Loaded recognizer: PlPeselRecognizer
+Loaded recognizer: PlPeselRecognizer
+Loaded recognizer: PlPeselRecognizer
+2025-10-21 14:06:22,916 - presidio-analyzer - INFO - Loaded recognizer: CryptoRecognizer
+Loaded recognizer: CryptoRecognizer
+Loaded recognizer: CryptoRecognizer
+2025-10-21 14:06:22,916 - presidio-analyzer - INFO - Loaded recognizer: DateRecognizer
+Loaded recognizer: DateRecognizer
+Loaded recognizer: DateRecognizer
+2025-10-21 14:06:22,916 - presidio-analyzer - INFO - Loaded recognizer: EmailRecognizer
+Loaded recognizer: EmailRecognizer
+Loaded recognizer: EmailRecognizer
+2025-10-21 14:06:22,916 - presidio-analyzer - INFO - Loaded recognizer: IbanRecognizer
+Loaded recognizer: IbanRecognizer
+Loaded recognizer: IbanRecognizer
+2025-10-21 14:06:22,916 - presidio-analyzer - INFO - Loaded recognizer: IpRecognizer
+Loaded recognizer: IpRecognizer
+Loaded recognizer: IpRecognizer
+2025-10-21 14:06:22,916 - presidio-analyzer - INFO - Loaded recognizer: MedicalLicenseRecognizer
+Loaded recognizer: MedicalLicenseRecognizer
+Loaded recognizer: MedicalLicenseRecognizer
+2025-10-21 14:06:22,916 - presidio-analyzer - INFO - Loaded recognizer: PhoneRecognizer
+Loaded recognizer: PhoneRecognizer
+Loaded recognizer: PhoneRecognizer
+2025-10-21 14:06:22,916 - presidio-analyzer - INFO - Loaded recognizer: UrlRecognizer
+Loaded recognizer: UrlRecognizer
+Loaded recognizer: UrlRecognizer
+2025-10-21 14:06:22,916 - presidio-analyzer - INFO - Loaded recognizer: InVoterRecognizer
+Loaded recognizer: InVoterRecognizer
+Loaded recognizer: InVoterRecognizer
+2025-10-21 14:06:22,916 - presidio-analyzer - WARNING - Recognizer not added to registry because language is not supported by registry - CreditCardRecognizer supported languages: es, registry supported languages: en
+Recognizer not added to registry because language is not supported by registry - CreditCardRecognizer supported languages: es, registry supported languages: en
+Recognizer not added to registry because language is not supported by registry - CreditCardRecognizer supported languages: es, registry supported languages: en
+2025-10-21 14:06:22,916 - presidio-analyzer - WARNING - Recognizer not added to registry because language is not supported by registry - CreditCardRecognizer supported languages: it, registry supported languages: en
+Recognizer not added to registry because language is not supported by registry - CreditCardRecognizer supported languages: it, registry supported languages: en
+Recognizer not added to registry because language is not supported by registry - CreditCardRecognizer supported languages: it, registry supported languages: en
+2025-10-21 14:06:22,916 - presidio-analyzer - WARNING - Recognizer not added to registry because language is not supported by registry - CreditCardRecognizer supported languages: pl, registry supported languages: en
+Recognizer not added to registry because language is not supported by registry - CreditCardRecognizer supported languages: pl, registry supported languages: en
+Recognizer not added to registry because language is not supported by registry - CreditCardRecognizer supported languages: pl, registry supported languages: en
+2025-10-21 14:06:22,916 - presidio-analyzer - WARNING - Recognizer not added to registry because language is not supported by registry - EsNifRecognizer supported languages: es, registry supported languages: en
+Recognizer not added to registry because language is not supported by registry - EsNifRecognizer supported languages: es, registry supported languages: en
+Recognizer not added to registry because language is not supported by registry - EsNifRecognizer supported languages: es, registry supported languages: en
+2025-10-21 14:06:22,919 - presidio-analyzer - WARNING - Recognizer not added to registry because language is not supported by registry - EsNieRecognizer supported languages: es, registry supported languages: en
+Recognizer not added to registry because language is not supported by registry - EsNieRecognizer supported languages: es, registry supported languages: en
+Recognizer not added to registry because language is not supported by registry - EsNieRecognizer supported languages: es, registry supported languages: en
+2025-10-21 14:06:22,919 - presidio-analyzer - WARNING - Recognizer not added to registry because language is not supported by registry - ItDriverLicenseRecognizer supported languages: it, registry supported languages: en
+Recognizer not added to registry because language is not supported by registry - ItDriverLicenseRecognizer supported languages: it, registry supported languages: en
+Recognizer not added to registry because language is not supported by registry - ItDriverLicenseRecognizer supported languages: it, registry supported languages: en
+2025-10-21 14:06:22,919 - presidio-analyzer - WARNING - Recognizer not added to registry because language is not supported by registry - ItFiscalCodeRecognizer supported languages: it, registry supported languages: en
+Recognizer not added to registry because language is not supported by registry - ItFiscalCodeRecognizer supported languages: it, registry supported languages: en
+Recognizer not added to registry because language is not supported by registry - ItFiscalCodeRecognizer supported languages: it, registry supported languages: en
+2025-10-21 14:06:22,919 - presidio-analyzer - WARNING - Recognizer not added to registry because language is not supported by registry - ItVatCodeRecognizer supported languages: it, registry supported languages: en
+Recognizer not added to registry because language is not supported by registry - ItVatCodeRecognizer supported languages: it, registry supported languages: en
+Recognizer not added to registry because language is not supported by registry - ItVatCodeRecognizer supported languages: it, registry supported languages: en
+2025-10-21 14:06:22,919 - presidio-analyzer - WARNING - Recognizer not added to registry because language is not supported by registry - ItIdentityCardRecognizer supported languages: it, registry supported languages: en
+Recognizer not added to registry because language is not supported by registry - ItIdentityCardRecognizer supported languages: it, registry supported languages: en
+Recognizer not added to registry because language is not supported by registry - ItIdentityCardRecognizer supported languages: it, registry supported languages: en
+2025-10-21 14:06:22,919 - presidio-analyzer - WARNING - Recognizer not added to registry because language is not supported by registry - ItPassportRecognizer supported languages: it, registry supported languages: en
+Recognizer not added to registry because language is not supported by registry - ItPassportRecognizer supported languages: it, registry supported languages: en
+Recognizer not added to registry because language is not supported by registry - ItPassportRecognizer supported languages: it, registry supported languages: en
+2025-10-21 14:06:22,919 - presidio-analyzer - WARNING - Recognizer not added to registry because language is not supported by registry - PlPeselRecognizer supported languages: pl, registry supported languages: en
+Recognizer not added to registry because language is not supported by registry - PlPeselRecognizer supported languages: pl, registry supported languages: en
+Recognizer not added to registry because language is not supported by registry - PlPeselRecognizer supported languages: pl, registry supported languages: en
+2025-10-21 14:06:22,919 - presidio-analyzer - INFO - Loaded recognizer: SpacyRecognizer
+Loaded recognizer: SpacyRecognizer
+Loaded recognizer: SpacyRecognizer
+2025-10-21 14:06:22,919 - src.core.unified_explanation_engine - INFO - Unified explanation engine initialized with caching=True
+Unified explanation engine initialized with caching=True
+Unified explanation engine initialized with caching=True
+2025-10-21 14:06:22,919 - src.core.compliance_analyzer - INFO - Loaded existing confidence calibrator
+Loaded existing confidence calibrator
+Loaded existing confidence calibrator
+2025-10-21 14:06:22,921 - src.core.compliance_analyzer - INFO - ComplianceAnalyzer initialized with all services.
+ComplianceAnalyzer initialized with all services.
+ComplianceAnalyzer initialized with all services.
+2025-10-21 14:06:22,923 - src.api.dependencies - INFO - Application startup complete. Services are initialized.
+Application startup complete. Services are initialized.
+Application startup complete. Services are initialized.
+2025-10-21 14:06:22,923 - src.api.main - INFO - {"event": "Vector store initialization started in background", "logger": "src.api.main", "level": "info", "timestamp": "2025-10-21T21:06:22.923062Z"}
+{"event": "Vector store initialization started in background", "logger": "src.api.main", "level": "info", "timestamp": "2025-10-21T21:06:22.923062Z"}
+{"event": "Vector store initialization started in background", "logger": "src.api.main", "level": "info", "timestamp": "2025-10-21T21:06:22.923062Z"}
+2025-10-21 14:06:22,923 - apscheduler.scheduler - INFO - Added job "run_maintenance_jobs" to job store "default"
+Added job "run_maintenance_jobs" to job store "default"
+Added job "run_maintenance_jobs" to job store "default"
+2025-10-21 14:06:23,029 - src.core.performance_metrics_collector - WARNING - High memory usage detected: 3223.25MB
+High memory usage detected: 3223.25MB
+High memory usage detected: 3223.25MB
+----------------------------- Captured log setup ------------------------------
+INFO     logging_setup:logging_config.py:83 {"event": "Structured logging configured successfully.", "logger": "logging_setup", "level": "info", "timestamp": "2025-10-21T21:06:19.606819Z"}
+INFO     src.database.database:database.py:162 Initializing database schema
+INFO     src.database.database:database.py:180 Applying SQLite performance optimizations
+INFO     src.database.database:database.py:201 Database initialization complete
+INFO     src.api.dependencies:dependencies.py:58 Application starting up...
+INFO     src.api.dependencies:dependencies.py:74 Initializing real AnalysisService.
+INFO     src.core.analysis_service:analysis_service.py:134 AnalysisService initialized with use_mocks=False
+INFO     presidio-analyzer:analyzer_engine.py:62 nlp_engine not provided, creating default.
+INFO     presidio-analyzer:nlp_engine_provider.py:101 Created NLP engine: spacy. Loaded models: ['en']
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: CreditCardRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: CreditCardRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: CreditCardRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: CreditCardRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: UsBankRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: UsLicenseRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: UsItinRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: UsPassportRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: UsSsnRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: NhsRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: SgFinRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: AuAbnRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: AuAcnRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: AuTfnRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: AuMedicareRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: InPanRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: InAadhaarRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: InVehicleRegistrationRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: InPassportRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: EsNifRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: EsNieRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: ItDriverLicenseRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: ItFiscalCodeRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: ItVatCodeRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: ItIdentityCardRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: ItPassportRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: PlPeselRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: CryptoRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: DateRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: EmailRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: IbanRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: IpRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: MedicalLicenseRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: PhoneRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: UrlRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: InVoterRecognizer
+WARNING  presidio-analyzer:recognizers_loader_utils.py:119 Recognizer not added to registry because language is not supported by registry - CreditCardRecognizer supported languages: es, registry supported languages: en
+WARNING  presidio-analyzer:recognizers_loader_utils.py:119 Recognizer not added to registry because language is not supported by registry - CreditCardRecognizer supported languages: it, registry supported languages: en
+WARNING  presidio-analyzer:recognizers_loader_utils.py:119 Recognizer not added to registry because language is not supported by registry - CreditCardRecognizer supported languages: pl, registry supported languages: en
+WARNING  presidio-analyzer:recognizers_loader_utils.py:119 Recognizer not added to registry because language is not supported by registry - EsNifRecognizer supported languages: es, registry supported languages: en
+WARNING  presidio-analyzer:recognizers_loader_utils.py:119 Recognizer not added to registry because language is not supported by registry - EsNieRecognizer supported languages: es, registry supported languages: en
+WARNING  presidio-analyzer:recognizers_loader_utils.py:119 Recognizer not added to registry because language is not supported by registry - ItDriverLicenseRecognizer supported languages: it, registry supported languages: en
+WARNING  presidio-analyzer:recognizers_loader_utils.py:119 Recognizer not added to registry because language is not supported by registry - ItFiscalCodeRecognizer supported languages: it, registry supported languages: en
+WARNING  presidio-analyzer:recognizers_loader_utils.py:119 Recognizer not added to registry because language is not supported by registry - ItVatCodeRecognizer supported languages: it, registry supported languages: en
+WARNING  presidio-analyzer:recognizers_loader_utils.py:119 Recognizer not added to registry because language is not supported by registry - ItIdentityCardRecognizer supported languages: it, registry supported languages: en
+WARNING  presidio-analyzer:recognizers_loader_utils.py:119 Recognizer not added to registry because language is not supported by registry - ItPassportRecognizer supported languages: it, registry supported languages: en
+WARNING  presidio-analyzer:recognizers_loader_utils.py:119 Recognizer not added to registry because language is not supported by registry - PlPeselRecognizer supported languages: pl, registry supported languages: en
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: SpacyRecognizer
+INFO     src.core.preprocessing_service:preprocessing_service.py:35 Successfully loaded custom medical dictionary from: src/resources/medical_dictionary.txt
+INFO     src.core.unified_explanation_engine:unified_explanation_engine.py:214 Unified explanation engine initialized with caching=True
+INFO     src.core.advanced_ensemble_optimizer:advanced_ensemble_optimizer.py:140 Advanced ensemble optimizer initialized with learning=True
+INFO     src.core.human_feedback_system:human_feedback_system.py:143 Human feedback system initialized with learning=True
+INFO     src.core.multi_tier_cache:multi_tier_cache.py:149 Multi-tier cache system initialized: L1=200MB, L2=False, L3=True, Policy=lru
+INFO     src.core.clinical_education_engine:clinical_education_engine.py:169 Clinical education engine initialized with 5 learning objectives and 5 content items
+INFO     src.core.analysis_service:analysis_service.py:178 7 Habits Framework initialized successfully
+INFO     src.core.rag_database_integration:rag_database_integration.py:116 RAG database initialized successfully
+INFO     src.core.analysis_service:analysis_service.py:193 RAG system initialized successfully
+INFO     src.core.model_selection_utils:model_selection_utils.py:44 Selected generator profile cpu_tinyllama_clinical (system memory {mem_gb} GB)
+WARNING  src.core.model_selection_utils:model_selection_utils.py:69 Configured generator_local_path does not exist: C:\Users\kevin\Desktop\ElectroAnalyzer\models\tinyllama-clinical
+INFO     src.core.ner:ner.py:81 Loading clinical NER model: OpenMed/OpenMed-NER-PathologyDetect-PubMed-v2-109M
+WARNING  src.core.performance_metrics_collector:performance_metrics_collector.py:174 High memory usage detected: 2633.29MB
+ERROR    src.core.ner:ner.py:94 Failed to load NER model OpenMed/OpenMed-NER-PathologyDetect-PubMed-v2-109M: {e}
+Traceback (most recent call last):
+  File "C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\ner.py", line 83, in _initialize_pipelines
+    model = AutoModelForTokenClassification.from_pretrained(model_name)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\transformers\models\auto\auto_factory.py", line 526, in from_pretrained
+    config, kwargs = AutoConfig.from_pretrained(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\transformers\models\auto\configuration_auto.py", line 1104, in from_pretrained
+    return config_class.from_dict(config_dict, **unused_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\unittest\mock.py", line 688, in __getattr__
+    raise AttributeError("Mock object has no attribute %r" % name)
+AttributeError: Mock object has no attribute 'from_dict'
+INFO     src.core.ner:ner.py:81 Loading clinical NER model: d4data/biomedical-ner-all
+ERROR    src.core.ner:ner.py:94 Failed to load NER model d4data/biomedical-ner-all: {e}
+Traceback (most recent call last):
+  File "C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\ner.py", line 83, in _initialize_pipelines
+    model = AutoModelForTokenClassification.from_pretrained(model_name)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\transformers\models\auto\auto_factory.py", line 526, in from_pretrained
+    config, kwargs = AutoConfig.from_pretrained(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\transformers\models\auto\configuration_auto.py", line 1104, in from_pretrained
+    return config_class.from_dict(config_dict, **unused_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\unittest\mock.py", line 688, in __getattr__
+    raise AttributeError("Mock object has no attribute %r" % name)
+AttributeError: Mock object has no attribute 'from_dict'
+INFO     presidio-analyzer:analyzer_engine.py:62 nlp_engine not provided, creating default.
+INFO     presidio-analyzer:nlp_engine_provider.py:101 Created NLP engine: spacy. Loaded models: ['en']
+INFO     presidio-analyzer:analyzer_engine.py:77 registry not provided, creating default.
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: CreditCardRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: CreditCardRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: CreditCardRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: CreditCardRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: UsBankRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: UsLicenseRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: UsItinRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: UsPassportRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: UsSsnRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: NhsRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: SgFinRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: AuAbnRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: AuAcnRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: AuTfnRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: AuMedicareRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: InPanRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: InAadhaarRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: InVehicleRegistrationRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: InPassportRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: EsNifRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: EsNieRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: ItDriverLicenseRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: ItFiscalCodeRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: ItVatCodeRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: ItIdentityCardRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: ItPassportRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: PlPeselRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: CryptoRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: DateRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: EmailRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: IbanRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: IpRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: MedicalLicenseRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: PhoneRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: UrlRecognizer
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: InVoterRecognizer
+WARNING  presidio-analyzer:recognizers_loader_utils.py:119 Recognizer not added to registry because language is not supported by registry - CreditCardRecognizer supported languages: es, registry supported languages: en
+WARNING  presidio-analyzer:recognizers_loader_utils.py:119 Recognizer not added to registry because language is not supported by registry - CreditCardRecognizer supported languages: it, registry supported languages: en
+WARNING  presidio-analyzer:recognizers_loader_utils.py:119 Recognizer not added to registry because language is not supported by registry - CreditCardRecognizer supported languages: pl, registry supported languages: en
+WARNING  presidio-analyzer:recognizers_loader_utils.py:119 Recognizer not added to registry because language is not supported by registry - EsNifRecognizer supported languages: es, registry supported languages: en
+WARNING  presidio-analyzer:recognizers_loader_utils.py:119 Recognizer not added to registry because language is not supported by registry - EsNieRecognizer supported languages: es, registry supported languages: en
+WARNING  presidio-analyzer:recognizers_loader_utils.py:119 Recognizer not added to registry because language is not supported by registry - ItDriverLicenseRecognizer supported languages: it, registry supported languages: en
+WARNING  presidio-analyzer:recognizers_loader_utils.py:119 Recognizer not added to registry because language is not supported by registry - ItFiscalCodeRecognizer supported languages: it, registry supported languages: en
+WARNING  presidio-analyzer:recognizers_loader_utils.py:119 Recognizer not added to registry because language is not supported by registry - ItVatCodeRecognizer supported languages: it, registry supported languages: en
+WARNING  presidio-analyzer:recognizers_loader_utils.py:119 Recognizer not added to registry because language is not supported by registry - ItIdentityCardRecognizer supported languages: it, registry supported languages: en
+WARNING  presidio-analyzer:recognizers_loader_utils.py:119 Recognizer not added to registry because language is not supported by registry - ItPassportRecognizer supported languages: it, registry supported languages: en
+WARNING  presidio-analyzer:recognizers_loader_utils.py:119 Recognizer not added to registry because language is not supported by registry - PlPeselRecognizer supported languages: pl, registry supported languages: en
+INFO     presidio-analyzer:entity_recognizer.py:58 Loaded recognizer: SpacyRecognizer
+INFO     src.core.unified_explanation_engine:unified_explanation_engine.py:214 Unified explanation engine initialized with caching=True
+INFO     src.core.compliance_analyzer:compliance_analyzer.py:119 Loaded existing confidence calibrator
+INFO     src.core.compliance_analyzer:compliance_analyzer.py:103 ComplianceAnalyzer initialized with all services.
+INFO     src.api.dependencies:dependencies.py:80 Application startup complete. Services are initialized.
+INFO     src.api.main:main.py:339 {"event": "Vector store initialization started in background", "logger": "src.api.main", "level": "info", "timestamp": "2025-10-21T21:06:22.923062Z"}
+INFO     apscheduler.scheduler:base.py:1090 Added job "run_maintenance_jobs" to job store "default"
+WARNING  src.core.performance_metrics_collector:performance_metrics_collector.py:174 High memory usage detected: 3223.25MB
+_____ ERROR at setup of test_analyze_document_rejects_invalid_strictness ______
+E   apscheduler.schedulers.SchedulerAlreadyRunningError: Scheduler is already running
+_______ ERROR at setup of test_analyze_document_rejects_oversized_file ________
+E   apscheduler.schedulers.SchedulerAlreadyRunningError: Scheduler is already running
+____ ERROR at setup of TestSecurityMiddleware.test_sql_injection_detection ____
+E   TypeError: SecurityMiddleware.__init__() got an unexpected keyword argument 'enable_rate_limiting'
+_________ ERROR at setup of TestSecurityMiddleware.test_xss_detection _________
+E   TypeError: SecurityMiddleware.__init__() got an unexpected keyword argument 'enable_rate_limiting'
+_________ ERROR at setup of TestSecurityMiddleware.test_rate_limiting _________
+E   TypeError: SecurityMiddleware.__init__() got an unexpected keyword argument 'enable_rate_limiting'
+================================== FAILURES ===================================
+C:\Users\kevin\Desktop\ElectroAnalyzer\tests\e2e\test_document_analysis_workflow.py:59: AssertionError: assert 'content' in {'file_size': 874, 'filename': 'test_progress_note.txt', 'id': '4959590f-f381-4f3a-800e-2d95c33404fd', 'metadata': {'content_type': 'text/plain', 'original_filename': 'test_progress_note.txt', 'upload_type': 'legacy'}, ...}
+C:\Users\kevin\Desktop\ElectroAnalyzer\tests\e2e\test_document_analysis_workflow.py:196: TypeError: '>=' not supported between instances of 'NoneType' and 'int'
+C:\Users\kevin\Desktop\ElectroAnalyzer\tests\e2e\test_document_analysis_workflow.py:256: TypeError: '>=' not supported between instances of 'NoneType' and 'int'
+C:\Users\kevin\Desktop\ElectroAnalyzer\tests\e2e\test_plugin_system_workflow.py:53: AssertionError: assert 'plugins' in {}
+C:\Users\kevin\Desktop\ElectroAnalyzer\tests\e2e\test_plugin_system_workflow.py:84: KeyError: 'plugins'
+C:\Users\kevin\Desktop\ElectroAnalyzer\tests\e2e\test_plugin_system_workflow.py:292: KeyError: 'plugins'
+C:\Users\kevin\Desktop\ElectroAnalyzer\tests\integration\test_enhanced_features_integration.py:115: assert 404 == 426
+C:\Users\kevin\Desktop\ElectroAnalyzer\tests\integration\test_enhanced_features_integration.py:162: assert 404 in [200, 401]
+C:\Users\kevin\Desktop\ElectroAnalyzer\tests\integration\test_enhanced_features_integration.py:193: assert 0 >= 3
+C:\Users\kevin\Desktop\ElectroAnalyzer\tests\integration\test_enhanced_features_integration.py:208: assert 0 >= 1
+C:\Users\kevin\Desktop\ElectroAnalyzer\tests\performance\test_load_performance.py:29: assert 2.016310214996338 < 1.0
+C:\Users\kevin\Desktop\ElectroAnalyzer\tests\performance\test_load_performance.py:84: assert 9.228723526000977 < 2.0
+C:\Users\kevin\Desktop\ElectroAnalyzer\tests\performance\test_load_performance.py:120: assert 43745280 < ((10 * 1024) * 1024)
+C:\Users\kevin\Desktop\ElectroAnalyzer\tests\performance\test_load_performance.py:139: assert 404 == 426
+C:\Users\kevin\Desktop\ElectroAnalyzer\tests\performance\test_load_performance.py:173: assert 25.791176557540894 < 2.0
+C:\Users\kevin\Desktop\ElectroAnalyzer\tests\performance\test_load_performance.py:189: assert 38.41968774795532 < 3.0
+C:\Users\kevin\Desktop\ElectroAnalyzer\tests\performance\test_load_performance.py:240: assert 6 >= 50
+C:\Users\kevin\Desktop\ElectroAnalyzer\tests\test_new_components.py:202: assert 1 > 1
+C:\Users\kevin\Desktop\ElectroAnalyzer\tests\test_new_components.py:348: assert False
+C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\type_safety.py:352: NameError: name 're' is not defined
+C:\Users\kevin\Desktop\ElectroAnalyzer\tests\test_new_components.py:383: NameError: name 'ErrorSeverity' is not defined
+C:\Users\kevin\Desktop\ElectroAnalyzer\tests\test_new_components.py:417: assert 0.0 < 0.0
+C:\Users\kevin\Desktop\ElectroAnalyzer\tests\test_new_components.py:468: AssertionError: assert 0.0 > 0
+C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\analysis_service.py:357: AttributeError: 'AnalysisService' object has no attribute '_models_registered'
+C:\Users\kevin\Desktop\ElectroAnalyzer\tests\unit\test_database_crud.py:86: assert None is not None
+C:\Users\kevin\Desktop\ElectroAnalyzer\tests\unit\test_database_crud.py:112: AttributeError: 'NoneType' object has no attribute 'name'
+C:\Users\kevin\Desktop\ElectroAnalyzer\tests\unit\test_database_crud.py:130: assert False is True
+C:\Users\kevin\Desktop\ElectroAnalyzer\tests\unit\test_enhanced_error_context.py:209: Exception: Unexpected error
+C:\Users\kevin\Desktop\ElectroAnalyzer\tests\unit\test_enhanced_error_context.py:209: Exception: Unexpected error
+C:\Users\kevin\Desktop\ElectroAnalyzer\tests\unit\test_enhanced_error_context.py:209: Exception: Unexpected error
+C:\Users\kevin\Desktop\ElectroAnalyzer\tests\unit\test_llm_service_backend.py:57: AssertionError: assert 'An error occ...t generation.' == 'decoded'
+C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py:681: RuntimeError: There is no current event loop in thread 'MainThread'.
+C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py:681: RuntimeError: There is no current event loop in thread 'MainThread'.
+C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py:681: RuntimeError: There is no current event loop in thread 'MainThread'.
+C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py:681: RuntimeError: There is no current event loop in thread 'MainThread'.
+C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py:681: RuntimeError: There is no current event loop in thread 'MainThread'.
+C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py:681: RuntimeError: There is no current event loop in thread 'MainThread'.
+C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py:681: RuntimeError: There is no current event loop in thread 'MainThread'.
+C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py:681: RuntimeError: There is no current event loop in thread 'MainThread'.
+C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py:681: RuntimeError: There is no current event loop in thread 'MainThread'.
+C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py:681: RuntimeError: There is no current event loop in thread 'MainThread'.
+C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py:681: RuntimeError: There is no current event loop in thread 'MainThread'.
+C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py:681: RuntimeError: There is no current event loop in thread 'MainThread'.
+C:\Users\kevin\Desktop\ElectroAnalyzer\tests\unit\test_performance_metrics.py:130: AssertionError: Expected 'warning' to have been called once. Called 0 times.
+C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py:681: RuntimeError: There is no current event loop in thread 'MainThread'.
+C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py:681: RuntimeError: There is no current event loop in thread 'MainThread'.
+C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py:681: RuntimeError: There is no current event loop in thread 'MainThread'.
+C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py:681: RuntimeError: There is no current event loop in thread 'MainThread'.
+C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py:681: RuntimeError: There is no current event loop in thread 'MainThread'.
+C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py:681: RuntimeError: There is no current event loop in thread 'MainThread'.
+C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py:681: RuntimeError: There is no current event loop in thread 'MainThread'.
+C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py:681: RuntimeError: There is no current event loop in thread 'MainThread'.
+C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py:681: RuntimeError: There is no current event loop in thread 'MainThread'.
+C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py:681: RuntimeError: There is no current event loop in thread 'MainThread'.
+C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py:681: RuntimeError: There is no current event loop in thread 'MainThread'.
+C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py:681: RuntimeError: There is no current event loop in thread 'MainThread'.
+C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py:681: RuntimeError: There is no current event loop in thread 'MainThread'.
+C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py:681: RuntimeError: There is no current event loop in thread 'MainThread'.
+C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py:681: RuntimeError: There is no current event loop in thread 'MainThread'.
+C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py:681: RuntimeError: There is no current event loop in thread 'MainThread'.
+C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py:681: RuntimeError: There is no current event loop in thread 'MainThread'.
+C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py:681: RuntimeError: There is no current event loop in thread 'MainThread'.
+C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py:681: RuntimeError: There is no current event loop in thread 'MainThread'.
+C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py:681: RuntimeError: There is no current event loop in thread 'MainThread'.
+C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py:681: RuntimeError: There is no current event loop in thread 'MainThread'.
+C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py:681: RuntimeError: There is no current event loop in thread 'MainThread'.
+C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py:681: RuntimeError: There is no current event loop in thread 'MainThread'.
+============================== warnings summary ===============================
+tests/unit/test_metrics_collector.py::TestSystemMetricsSource::test_system_metrics_error_handling
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\_pytest\_code\code.py:369: RuntimeWarning: coroutine 'TestSystemMetricsSource.test_system_metrics_collection' was never awaited
+    yield TracebackEntry(cur_)
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_metrics_collector.py::TestMetricsCollector::test_collector_initialization
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\structlog\_frames.py:59: RuntimeWarning: coroutine 'TestApplicationMetricsSource.test_application_metrics_collection' was never awaited
+    if f.f_back is None:
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_metrics_collector.py::TestMetricsCollector::test_collector_initialization
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\structlog\_frames.py:59: RuntimeWarning: coroutine 'TestAIModelMetricsSource.test_ai_metrics_collection' was never awaited
+    if f.f_back is None:
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_metrics_collector.py::TestGlobalFunctions::test_convenience_functions_error_handling
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\structlog\_frames.py:56: RuntimeWarning: coroutine 'TestMetricsCollector.test_metrics_collection' was never awaited
+    f = _ASYNC_CALLING_STACK.get(_getframe())
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_ml_trainer.py::TestMLTrainingPipeline::test_should_retrain_time_based
+  C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\inspect.py:3064: RuntimeWarning: coroutine 'TestMLTrainingPipeline.test_insufficient_training_data' was never awaited
+    parameters = iter(self.parameters.values())
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_ml_trainer.py::TestMLTrainingPipeline::test_should_retrain_time_based
+  C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\inspect.py:3064: RuntimeWarning: coroutine 'TestMLTrainingPipeline.test_successful_training_and_deployment' was never awaited
+    parameters = iter(self.parameters.values())
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_ml_trainer.py::test_legacy_function_compatibility
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\_pytest\nodes.py:344: RuntimeWarning: coroutine 'TestMLTrainingPipeline.test_training_error_handling' was never awaited
+    return (x[1] for x in self.iter_markers_with_node(name=name))
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_ml_trainer.py::test_legacy_function_compatibility
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\_pytest\nodes.py:344: RuntimeWarning: coroutine 'TestMLTrainingPipeline.test_skipped_training_due_to_time' was never awaited
+    return (x[1] for x in self.iter_markers_with_node(name=name))
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_ner.py::TestNERPipeline::test_initialization_with_empty_models
+  C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\configparser.py:1267: RuntimeWarning: coroutine 'TestSystemMetricsSource.test_system_metrics_error_handling' was never awaited
+    getter = functools.partial(self.get, _impl=getattr(parser, key))
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_ner.py::TestNERPipeline::test_initialization_with_empty_models
+  C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\configparser.py:1267: RuntimeWarning: coroutine 'TestMLTrainingPipeline.test_training_with_insufficient_improvement' was never awaited
+    getter = functools.partial(self.get, _impl=getattr(parser, key))
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_ner.py::TestNERPipeline::test_initialization_with_empty_models
+  C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\configparser.py:1267: RuntimeWarning: coroutine 'test_legacy_function_compatibility' was never awaited
+    getter = functools.partial(self.get, _impl=getattr(parser, key))
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_ner.py::TestNERPipeline::test_initialization_with_empty_models
+  C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\configparser.py:1267: RuntimeWarning: coroutine 'TestMLTrainingIntegration.test_end_to_end_training_pipeline' was never awaited
+    getter = functools.partial(self.get, _impl=getattr(parser, key))
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_performance_optimizer.py::TestCacheWarmingService::test_execute_warming
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\pytest_asyncio\plugin.py:533: RuntimeWarning: coroutine 'TestBatchCacheOperations.test_batch_get_embeddings' was never awaited
+    super().runtest()
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_performance_optimizer.py::TestCacheWarmingService::test_execute_warming
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\pytest_asyncio\plugin.py:533: RuntimeWarning: coroutine 'TestBatchCacheOperations.test_batch_set_embeddings' was never awaited
+    super().runtest()
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_performance_optimizer.py::TestCacheWarmingService::test_execute_warming
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\pytest_asyncio\plugin.py:533: RuntimeWarning: coroutine 'TestBatchCacheOperations.test_batch_get_ner_results' was never awaited
+    super().runtest()
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_performance_optimizer.py::TestPerformanceOptimizer::test_generate_optimization_recommendations
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\_pytest\_code\code.py:369: RuntimeWarning: coroutine 'TestPerformanceOptimizer.test_analyze_performance' was never awaited
+    yield TracebackEntry(cur_)
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_performance_optimizer.py::TestPerformanceOptimizer::test_generate_optimization_recommendations
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\_pytest\_code\code.py:369: RuntimeWarning: coroutine 'TestPerformanceOptimizer.test_optimize_performance' was never awaited
+    yield TracebackEntry(cur_)
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_performance_optimizer.py::TestPerformanceOptimizer::test_generate_optimization_recommendations
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\_pytest\_code\code.py:369: RuntimeWarning: coroutine 'TestPerformanceOptimizer.test_identify_bottlenecks' was never awaited
+    yield TracebackEntry(cur_)
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_performance_optimizer.py::TestPerformanceOptimizer::test_performance_analysis_with_real_cache
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\_pytest\runner.py:539: RuntimeWarning: coroutine 'TestPerformanceOptimizer.test_calculate_performance_improvements' was never awaited
+    if list(self.stack.keys()) == needed_collectors[: len(self.stack)]:
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_performance_optimizer.py::TestPerformanceOptimizer::test_performance_analysis_with_real_cache
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\_pytest\runner.py:539: RuntimeWarning: coroutine 'TestPerformanceOptimizer.test_memory_optimization' was never awaited
+    if list(self.stack.keys()) == needed_collectors[: len(self.stack)]:
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_performance_test_orchestrator.py::TestExecutionEngine::test_execute_test_no_runner
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\pluggy\_callers.py:135: RuntimeWarning: coroutine 'TestExecutionEngine.test_execute_test_success' was never awaited
+    for teardown in reversed(teardowns):
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_performance_test_orchestrator.py::TestExecutionEngine::test_execute_test_no_runner
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\pluggy\_callers.py:135: RuntimeWarning: coroutine 'TestExecutionEngine.test_execute_test_failure' was never awaited
+    for teardown in reversed(teardowns):
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_performance_test_orchestrator.py::TestExecutionEngine::test_execute_test_no_runner
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\pluggy\_callers.py:135: RuntimeWarning: coroutine 'TestExecutionEngine.test_execute_test_timeout' was never awaited
+    for teardown in reversed(teardowns):
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_performance_test_orchestrator.py::TestPerformanceTestOrchestrator::test_run_optimization_tests
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\_pytest\_code\code.py:369: RuntimeWarning: coroutine 'TestExecutionEngine.test_execute_tests_parallel' was never awaited
+    yield TracebackEntry(cur_)
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_performance_test_orchestrator.py::TestPerformanceTestOrchestrator::test_run_optimization_tests
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\_pytest\_code\code.py:369: RuntimeWarning: coroutine 'TestExecutionEngine.test_execute_tests_parallel_with_disabled' was never awaited
+    yield TracebackEntry(cur_)
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_performance_test_orchestrator.py::TestPerformanceTestOrchestrator::test_run_optimization_tests
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\_pytest\_code\code.py:369: RuntimeWarning: coroutine 'TestPerformanceTestOrchestrator.test_run_baseline_tests' was never awaited
+    yield TracebackEntry(cur_)
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_performance_test_orchestrator.py::test_integration_full_workflow
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\pluggy\_callers.py:53: RuntimeWarning: coroutine 'TestPerformanceTestOrchestrator.test_run_test_suite' was never awaited
+    return result.get_result()
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_performance_test_orchestrator.py::test_integration_full_workflow
+2025-10-21 14:06:58,539 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-13382' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-13382' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-13382' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2025-10-21 14:06:58,543 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-13350' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-13350' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-13350' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2025-10-21 14:06:58,543 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-13379' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-13379' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-13379' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2025-10-21 14:06:58,543 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-13362' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-13362' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-13362' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2025-10-21 14:06:58,543 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-13376' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-13376' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-13376' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2025-10-21 14:06:58,543 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-13366' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-13366' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-13366' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2025-10-21 14:06:58,543 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-13372' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-13372' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-13372' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2025-10-21 14:06:58,543 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-13356' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-13356' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-13356' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2025-10-21 14:06:58,543 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-13369' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-13369' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-13369' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2025-10-21 14:06:58,543 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-13346' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-13346' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-13346' coro=<MultiTierCacheSystem._metrics_reset_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:626> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2025-10-21 14:06:58,543 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-13368' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-13368' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-13368' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2025-10-21 14:06:58,543 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-13381' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-13381' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-13381' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2025-10-21 14:06:58,543 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-13378' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-13378' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-13378' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2025-10-21 14:06:58,543 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-13375' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-13375' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-13375' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2025-10-21 14:06:58,543 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-13371' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-13371' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-13371' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2025-10-21 14:06:58,543 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-13355' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-13355' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-13355' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2025-10-21 14:06:58,546 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-13365' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-13365' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-13365' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2025-10-21 14:06:58,546 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-13361' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-13361' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-13361' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2025-10-21 14:06:58,546 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-13345' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-13345' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-13345' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2025-10-21 14:06:58,547 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-13349' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-13349' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-13349' coro=<MultiTierCacheSystem._cleanup_task() running at C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\multi_tier_cache.py:608> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\pluggy\_callers.py:53: RuntimeWarning: coroutine 'TestPerformanceTestOrchestrator.test_run_full_performance_suite' was never awaited
+    return result.get_result()
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_performance_test_orchestrator.py::test_integration_full_workflow
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\pluggy\_callers.py:53: RuntimeWarning: coroutine 'TestPerformanceTestOrchestrator.test_run_nonexistent_suite' was never awaited
+    return result.get_result()
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_query_expander.py::TestMedicalVocabulary::test_save_and_load_vocabulary
+  C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\json\encoder.py:432: RuntimeWarning: coroutine 'TestCacheWarmingService.test_execute_warming' was never awaited
+    yield from _iterencode_dict(o, _current_indent_level)
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_query_expander.py::TestMedicalVocabulary::test_save_and_load_vocabulary
+  C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\json\encoder.py:432: RuntimeWarning: coroutine 'TestPerformanceOptimizer.test_generate_optimization_recommendations' was never awaited
+    yield from _iterencode_dict(o, _current_indent_level)
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_query_expander.py::TestMedicalVocabulary::test_save_and_load_vocabulary
+  C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\json\encoder.py:432: RuntimeWarning: coroutine 'TestPerformanceOptimizer.test_proactive_warming' was never awaited
+    yield from _iterencode_dict(o, _current_indent_level)
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_query_expander.py::TestMedicalVocabulary::test_save_and_load_vocabulary
+  C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\json\encoder.py:432: RuntimeWarning: coroutine 'TestExecutionEngine.test_execute_test_no_runner' was never awaited
+    yield from _iterencode_dict(o, _current_indent_level)
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_query_expander.py::TestMedicalVocabulary::test_save_and_load_vocabulary
+  C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\json\encoder.py:432: RuntimeWarning: coroutine 'TestPerformanceTestOrchestrator.test_run_optimization_tests' was never awaited
+    yield from _iterencode_dict(o, _current_indent_level)
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_query_expander.py::TestMedicalVocabulary::test_save_and_load_vocabulary
+  C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\json\encoder.py:432: RuntimeWarning: coroutine 'test_integration_full_workflow' was never awaited
+    yield from _iterencode_dict(o, _current_indent_level)
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_system_integration_service.py::TestSystemIntegrationService::test_get_system_metrics
+tests/unit/test_system_integration_service.py::TestSystemIntegrationService::test_system_optimization
+tests/unit/test_system_integration_service.py::TestSystemIntegrationService::test_system_optimization_aggressive_mode
+tests/unit/test_system_integration_service.py::TestSystemIntegrationService::test_callback_registration
+tests/unit/test_system_integration_service.py::TestSystemIntegrationService::test_system_status_report
+tests/unit/test_system_integration_service.py::TestIntegration::test_end_to_end_system_integration
+tests/unit/test_system_integration_service.py::TestIntegration::test_service_lifecycle
+tests/unit/test_system_integration_service.py::TestIntegration::test_auto_optimization_trigger
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\_pytest\stash.py:108: RuntimeWarning: coroutine 'PerformanceOptimizer.analyze_performance' was never awaited
+    del self._storage[key]
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_system_integration_service.py::TestIntegration::test_end_to_end_system_integration
+  C:\Users\kevin\Desktop\ElectroAnalyzer\venv_test\Lib\site-packages\_pytest\stash.py:108: RuntimeWarning: coroutine 'PerformanceOptimizer.optimize_performance' was never awaited
+    del self._storage[key]
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/e2e/test_document_analysis_workflow.py::TestDocumentAnalysisWorkflow::test_complete_analysis_workflow
+FAILED tests/e2e/test_document_analysis_workflow.py::TestDocumentAnalysisWorkflow::test_analysis_with_different_document_types
+FAILED tests/e2e/test_document_analysis_workflow.py::TestDocumentAnalysisWorkflow::test_concurrent_analysis
+FAILED tests/e2e/test_plugin_system_workflow.py::TestPluginSystemWorkflow::test_plugin_discovery_workflow
+FAILED tests/e2e/test_plugin_system_workflow.py::TestPluginSystemWorkflow::test_plugin_lifecycle_management
+FAILED tests/e2e/test_plugin_system_workflow.py::TestPluginSystemWorkflow::test_plugin_integration_with_analysis
+FAILED tests/integration/test_enhanced_features_integration.py::TestEnhancedFeaturesIntegration::test_websocket_integration
+FAILED tests/integration/test_enhanced_features_integration.py::TestEnhancedFeaturesIntegration::test_database_integration
+FAILED tests/integration/test_enhanced_features_integration.py::TestPerformanceIntegration::test_metrics_collection_integration
+FAILED tests/integration/test_enhanced_features_integration.py::TestPerformanceIntegration::test_performance_monitoring_integration
+FAILED tests/performance/test_load_performance.py::TestPerformanceLoad::test_single_request_performance
+FAILED tests/performance/test_load_performance.py::TestPerformanceLoad::test_metrics_collection_performance
+FAILED tests/performance/test_load_performance.py::TestPerformanceLoad::test_memory_usage_under_load
+FAILED tests/performance/test_load_performance.py::TestPerformanceLoad::test_websocket_performance
+FAILED tests/performance/test_load_performance.py::TestPerformanceLoad::test_security_headers_performance
+FAILED tests/performance/test_load_performance.py::TestPerformanceLoad::test_rate_limiting_performance
+FAILED tests/performance/test_load_performance.py::TestStressTesting::test_sustained_load_stress
+FAILED tests/test_new_components.py::TestUnifiedMLSystem::test_performance_monitoring
+FAILED tests/test_new_components.py::TestTypeSafety::test_string_validator - ...
+FAILED tests/test_new_components.py::TestTypeSafety::test_email_validator - N...
+FAILED tests/test_new_components.py::TestTypeSafety::test_error_handler - Nam...
+FAILED tests/test_new_components.py::TestPerformance::test_ml_system_performance
+FAILED tests/test_new_components.py::TestIntegration::test_full_pipeline_integration
+FAILED tests/unit/test_analysis_service_pipeline.py::test_analysis_service_uses_analysis_utils
+FAILED tests/unit/test_database_crud.py::test_get_rubric - assert None is not...
+FAILED tests/unit/test_database_crud.py::test_update_rubric - AttributeError:...
+FAILED tests/unit/test_database_crud.py::test_delete_rubric - assert False is...
+FAILED tests/unit/test_enhanced_error_context.py::TestEnhancedExceptionHandler::test_generic_exception_handling
+FAILED tests/unit/test_enhanced_error_context.py::TestEnhancedExceptionHandler::test_debug_mode_response
+FAILED tests/unit/test_enhanced_error_context.py::TestEnhancedExceptionHandler::test_error_handler_exception_safety
+FAILED tests/unit/test_llm_service_backend.py::test_transformers_generate_applies_stop_sequences
+FAILED tests/unit/test_metrics_collector.py::TestSystemMetricsSource::test_system_metrics_collection
+FAILED tests/unit/test_metrics_collector.py::TestSystemMetricsSource::test_system_metrics_error_handling
+FAILED tests/unit/test_metrics_collector.py::TestApplicationMetricsSource::test_application_metrics_collection
+FAILED tests/unit/test_metrics_collector.py::TestAIModelMetricsSource::test_ai_metrics_collection
+FAILED tests/unit/test_metrics_collector.py::TestMetricsCollector::test_metrics_collection
+FAILED tests/unit/test_ml_trainer.py::TestMLTrainingPipeline::test_insufficient_training_data
+FAILED tests/unit/test_ml_trainer.py::TestMLTrainingPipeline::test_successful_training_and_deployment
+FAILED tests/unit/test_ml_trainer.py::TestMLTrainingPipeline::test_training_with_insufficient_improvement
+FAILED tests/unit/test_ml_trainer.py::TestMLTrainingPipeline::test_training_error_handling
+FAILED tests/unit/test_ml_trainer.py::TestMLTrainingPipeline::test_skipped_training_due_to_time
+FAILED tests/unit/test_ml_trainer.py::test_legacy_function_compatibility - Ru...
+FAILED tests/unit/test_ml_trainer.py::TestMLTrainingIntegration::test_end_to_end_training_pipeline
+FAILED tests/unit/test_performance_metrics.py::TestMetricsCollector::test_high_memory_warning
+FAILED tests/unit/test_performance_optimizer.py::TestBatchCacheOperations::test_batch_get_embeddings
+FAILED tests/unit/test_performance_optimizer.py::TestBatchCacheOperations::test_batch_set_embeddings
+FAILED tests/unit/test_performance_optimizer.py::TestBatchCacheOperations::test_batch_get_ner_results
+FAILED tests/unit/test_performance_optimizer.py::TestCacheWarmingService::test_execute_warming
+FAILED tests/unit/test_performance_optimizer.py::TestPerformanceOptimizer::test_analyze_performance
+FAILED tests/unit/test_performance_optimizer.py::TestPerformanceOptimizer::test_optimize_performance
+FAILED tests/unit/test_performance_optimizer.py::TestPerformanceOptimizer::test_identify_bottlenecks
+FAILED tests/unit/test_performance_optimizer.py::TestPerformanceOptimizer::test_generate_optimization_recommendations
+FAILED tests/unit/test_performance_optimizer.py::TestPerformanceOptimizer::test_calculate_performance_improvements
+FAILED tests/unit/test_performance_optimizer.py::TestPerformanceOptimizer::test_memory_optimization
+FAILED tests/unit/test_performance_optimizer.py::TestPerformanceOptimizer::test_proactive_warming
+FAILED tests/unit/test_performance_test_orchestrator.py::TestExecutionEngine::test_execute_test_success
+FAILED tests/unit/test_performance_test_orchestrator.py::TestExecutionEngine::test_execute_test_failure
+FAILED tests/unit/test_performance_test_orchestrator.py::TestExecutionEngine::test_execute_test_timeout
+FAILED tests/unit/test_performance_test_orchestrator.py::TestExecutionEngine::test_execute_test_no_runner
+FAILED tests/unit/test_performance_test_orchestrator.py::TestExecutionEngine::test_execute_tests_parallel
+FAILED tests/unit/test_performance_test_orchestrator.py::TestExecutionEngine::test_execute_tests_parallel_with_disabled
+FAILED tests/unit/test_performance_test_orchestrator.py::TestPerformanceTestOrchestrator::test_run_baseline_tests
+FAILED tests/unit/test_performance_test_orchestrator.py::TestPerformanceTestOrchestrator::test_run_optimization_tests
+FAILED tests/unit/test_performance_test_orchestrator.py::TestPerformanceTestOrchestrator::test_run_test_suite
+FAILED tests/unit/test_performance_test_orchestrator.py::TestPerformanceTestOrchestrator::test_run_full_performance_suite
+FAILED tests/unit/test_performance_test_orchestrator.py::TestPerformanceTestOrchestrator::test_run_nonexistent_suite
+FAILED tests/unit/test_performance_test_orchestrator.py::test_integration_full_workflow
+ERROR tests/test_api_analysis.py::test_analyze_document_api_route - apschedul...
+ERROR tests/test_api_analysis.py::test_analyze_document_rejects_invalid_strictness
+ERROR tests/test_api_analysis.py::test_analyze_document_rejects_oversized_file
+ERROR tests/test_new_components.py::TestSecurityMiddleware::test_sql_injection_detection
+ERROR tests/test_new_components.py::TestSecurityMiddleware::test_xss_detection
+ERROR tests/test_new_components.py::TestSecurityMiddleware::test_rate_limiting
+67 failed, 684 passed, 28 skipped, 44 warnings, 6 errors in 561.56s (0:09:21)
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\logging\__init__.py", line 1113, in emit
+    stream.write(msg + self.terminator)
+ValueError: I/O operation on closed file.
+Call stack:
+  File "C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\memory_manager.py", line 449, in stop
+    logger.info("Memory manager stopped")
+Message: 'Memory manager stopped'
+Arguments: ()
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\logging\__init__.py", line 1113, in emit
+    stream.write(msg + self.terminator)
+ValueError: I/O operation on closed file.
+Call stack:
+  File "C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\memory_manager.py", line 449, in stop
+    logger.info("Memory manager stopped")
+Message: 'Memory manager stopped'
+Arguments: ()
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Users\kevin\AppData\Local\Programs\Python\Python311\Lib\logging\__init__.py", line 1113, in emit
+    stream.write(msg + self.terminator)
+ValueError: I/O operation on closed file.
+Call stack:
+  File "C:\Users\kevin\Desktop\ElectroAnalyzer\src\core\memory_manager.py", line 449, in stop
+    logger.info("Memory manager stopped")
+Message: 'Memory manager stopped'
+Arguments: ()

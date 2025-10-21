@@ -1,0 +1,133 @@
+Scanning for problematic logger calls...
+
+
+src\api\main.py (2 issues):
+  Line 674: info(..., username=...)
+    logger.info("Log stream client disconnected", username=username)
+  Line 676: exception(..., error=...)
+    logger.exception("Log stream error", error=str(exc))
+
+src\api\routers\analysis.py (4 issues):
+  Line 244: exception(..., task_id=...)
+    logger.exception("Analysis task failed", task_id=task_id, error=str(exc))
+  Line 276: exception(..., task_id=...)
+    logger.exception("Analysis runner failed", task_id=task_id, error=str(exc))
+  Line 884: exception(..., task_id=...)
+    logger.exception("PDF export failed", task_id=task_id, error=str(e))
+  Line 904: exception(..., error=...)
+    logger.exception("Failed to save feedback", error=str(e))
+
+src\api\routers\dashboard.py (3 issues):
+  Line 49: info(..., statuses=...)
+    logger.info("Completed AI component health check", statuses=health_statuses)
+  Line 258: info(..., duration_s=...)
+    logger.info("LLM coaching focus generation complete", duration_s=duration)
+  Line 273: exception(..., error=...)
+    logger.exception("Failed to generate coaching focus", error=str(e))
+
+src\api\routers\health_check.py (3 issues):
+  Line 203: exception(..., error=...)
+    logger.exception("Failed to get system metrics", error=str(e))
+  Line 253: exception(..., error=...)
+    logger.exception("Failed to get dependencies info", error=str(e))
+  Line 357: exception(..., error=...)
+    logger.exception("Readiness check failed", error=str(e))
+
+src\core\accuracy_hallucination_tracker.py (1 issues):
+  Line 222: info(..., hallucination_rate=...)
+    logger.info("Validation completed: accuracy=%.2f, hallucination_rate=%.2f, status=%s",
+
+src\core\analysis_service.py (3 issues):
+  Line 832: info(..., confidence=...)
+    logger.info("Accuracy validation completed: status=%s, confidence=%.2f, hallucination_rate=%.2f",
+  Line 851: info(..., linguistic=...)
+    logger.info("Bias metrics: demographic=%.2f, linguistic=%.2f, clinical=%.2f",
+  Line 856: info(..., confidence=...)
+    logger.info("Accuracy validation: status=%s, confidence=%.2f",
+
+src\core\centralized_logging.py (1 issues):
+  Line 403: info(..., format=...)
+    logger.info("Logging system initialized with level=%s, format=%s", log_level, log_format)
+
+src\core\dynamic_prompt_system.py (1 issues):
+  Line 577: debug(..., entities=...)
+    logger.debug("Document analysis completed: complexity=%s, entities=%d, topics=%d",
+
+src\core\enhanced_worker_manager.py (3 issues):
+  Line 175: info(..., task_id=...)
+    logger.info("Task cancelled", task_id=task_id)
+  Line 213: info(..., count=...)
+    logger.info("Cleaned up completed tasks", count=len(tasks_to_remove))
+  Line 267: error(..., error=...)
+    logger.error("Error in worker loop", error=str(e))
+
+src\core\multi_tier_cache.py (1 issues):
+  Line 149: info(..., L2=...)
+    logger.info("Multi-tier cache system initialized: L1=%dMB, L2=%s, L3=%s, Policy=%s",
+
+src\core\persistent_task_registry.py (12 issues):
+  Line 102: info(..., db_path=...)
+    logger.info("Task database initialized", db_path=self.db_path)
+  Line 105: error(..., error=...)
+    logger.error("Failed to initialize task database", error=str(e))
+  Line 140: info(..., task_id=...)
+    logger.info("Task created", task_id=task_id, status=task.status.value)
+  Line 144: error(..., task_id=...)
+    logger.error("Failed to create task", task_id=task_id, error=str(e))
+  Line 188: warning(..., task_id=...)
+    logger.warning("Task not found for update", task_id=task_id)
+  Line 192: error(..., task_id=...)
+    logger.error("Failed to update task", task_id=task_id, error=str(e))
+  Line 210: error(..., task_id=...)
+    logger.error("Failed to get task", task_id=task_id, error=str(e))
+  Line 264: info(..., task_id=...)
+    logger.info("Task deleted", task_id=task_id)
+  Line 269: error(..., task_id=...)
+    logger.error("Failed to delete task", task_id=task_id, error=str(e))
+  Line 298: error(..., error=...)
+    logger.error("Failed to cleanup old tasks", error=str(e))
+  Line 341: error(..., error=...)
+    logger.error("Failed to get task statistics", error=str(e))
+  Line 392: error(..., error=...)
+    logger.error("Failed to convert row to task", error=str(e))
+
+src\core\service_manager.py (6 issues):
+  Line 192: info(..., service=...)
+    logger.info("Registered service", service=config.name, port=config.port)
+  Line 197: error(..., service=...)
+    logger.error("Service not registered", service=service_name)
+  Line 221: error(..., service=...)
+    logger.error("No available ports found", service=service_name)
+  Line 277: warning(..., service=...)
+    logger.warning("Service not running", service=service_name)
+  Line 293: warning(..., service=...)
+    logger.warning("Force killing service", service=service_name)
+  Line 299: info(..., service=...)
+    logger.info("Service stopped", service=service_name)
+
+src\core\worker_manager.py (5 issues):
+  Line 138: info(..., task_id=...)
+    logger.info("Task submitted", task_id=task_id, function=func.__name__)
+  Line 161: info(..., task_id=...)
+    logger.info("Task started", task_id=task_id)
+  Line 190: exception(..., task_id=...)
+    logger.exception("Task failed", task_id=task_id, error=str(e))
+  Line 302: info(..., task_id=...)
+    logger.info("Task cancelled", task_id=task_id)
+  Line 378: exception(..., error=...)
+    logger.exception("Error in cleanup thread", error=str(e))
+
+src\utils\file_utils.py (3 issues):
+  Line 28: error(..., path=...)
+    logger.error("Path is not a directory. Aborting cleanup.", path=temp_dir)
+  Line 31: info(..., path=...)
+    logger.info("Clearing temporary upload directory", path=temp_dir)
+  Line 39: info(..., path=...)
+    logger.info("Successfully removed temporary file/directory", path=file_path)
+
+src\utils\prompt_manager.py (1 issues):
+  Line 28: error(..., path=...)
+    logger.error("Prompt template not found", path=self.template_path)
+
+
+Total problematic logger calls found: 49

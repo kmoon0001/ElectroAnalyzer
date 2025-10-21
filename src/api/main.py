@@ -671,9 +671,16 @@ async def websocket_endpoint(websocket: WebSocket):
         while True:
             await websocket.receive_text()
     except WebSocketDisconnect:
-        logger.info("Log stream client disconnected", username=username)
+        logger.info(
+            "Log stream client disconnected",
+            extra={"username": username}
+        )
     except Exception as exc:
-        logger.exception("Log stream error", error=str(exc))
+        logger.exception(
+            "Log stream error",
+            extra={"error": str(exc)},
+            exc_info=True
+        )
     finally:
         websocket_routes.manager.disconnect(websocket, "log_stream")
 

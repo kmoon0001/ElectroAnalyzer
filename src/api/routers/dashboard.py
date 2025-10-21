@@ -46,7 +46,10 @@ class AIHealthService:
             "transformer_models": await self._check_transformer_models(),
             "vector_database": await self._check_vector_database(),
         }
-        logger.info("Completed AI component health check", statuses=health_statuses)
+        logger.info(
+            "Completed AI component health check",
+            extra={"statuses": health_statuses}
+        )
         return health_statuses
 
     async def _check_llm_service(self) -> dict[str, str]:
@@ -255,7 +258,10 @@ async def generate_coaching_focus(
         start = perf_counter()
         raw_response = llm_service.generate(prompt)
         duration = perf_counter() - start
-        logger.info("LLM coaching focus generation complete", duration_s=duration)
+        logger.info(
+            "LLM coaching focus generation complete",
+            extra={"duration_s": duration}
+        )
         # Parse JSON from the response
         try:
             coaching_data = json.loads(raw_response)
@@ -270,7 +276,11 @@ async def generate_coaching_focus(
                 raise ValueError("No valid JSON found in response") from None
         return CoachingFocus(**coaching_data)
     except (json.JSONDecodeError, ValueError, KeyError) as e:
-        logger.exception("Failed to generate coaching focus", error=str(e))
+        logger.exception(
+            "Failed to generate coaching focus",
+            extra={"error": str(e)},
+            exc_info=True
+        )
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Failed to generate coaching focus: {e}",
