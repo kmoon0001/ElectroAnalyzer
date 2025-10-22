@@ -205,6 +205,14 @@ class ConnectionManager:
 manager = ConnectionManager()
 
 
+@router.get("/analysis/{task_id}")
+async def websocket_analysis_upgrade_hint(task_id: str):
+    """Hint clients that the analysis channel requires a WebSocket upgrade."""
+    from fastapi import Response
+
+    return Response(status_code=status.HTTP_426_UPGRADE_REQUIRED, headers={"Upgrade": "websocket"})
+
+
 @router.websocket("/analysis/{task_id}")
 async def websocket_analysis_progress(
     websocket: WebSocket,

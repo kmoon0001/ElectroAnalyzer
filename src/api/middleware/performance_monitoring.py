@@ -18,6 +18,7 @@ from starlette.responses import Response
 from starlette.types import ASGIApp
 
 from ...core.enhanced_logging import get_performance_logger, get_request_logger
+from ...core.performance_metrics_collector import metrics_collector
 
 logger = logging.getLogger(__name__)
 
@@ -84,6 +85,9 @@ class PerformanceMonitoringMiddleware(BaseHTTPMiddleware):
                 memory_delta_mb=round(memory_delta, 2),
             )
 
+            metrics_collector.record_request(duration_ms, response.status_code, path)
+            metrics_collector.update_system_metrics()
+
             # Log response
             if self.enable_detailed_logging:
                 self.request_logger.log_response(
@@ -103,6 +107,7 @@ class PerformanceMonitoringMiddleware(BaseHTTPMiddleware):
         except Exception as e:
             # Log error with performance context
             duration_ms = (time.time() - start_time) * 1000
+            metrics_collector.record_request(duration_ms, 500, path)
             logger.error(
                 f"Request failed: {method} {path}",
                 extra={

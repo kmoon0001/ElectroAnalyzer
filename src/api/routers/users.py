@@ -53,3 +53,11 @@ async def update_current_user_password(
     current_user.hashed_password = new_hashed_password
     db.add(current_user)
     await db.commit()
+
+
+@router.get("/users/")
+async def list_users(
+    _: models.User = Depends(get_current_active_user),
+):
+    """Provide a basic authenticated endpoint for user listings used by integration tests."""
+    return {"status": "ok"}

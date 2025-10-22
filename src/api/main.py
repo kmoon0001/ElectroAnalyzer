@@ -570,6 +570,7 @@ app.include_router(individual_habits.router)
 app.include_router(unified_ml_api.router, tags=["Unified ML API"])
 app.include_router(performance_monitoring.router, tags=["Performance Monitoring"])
 app.include_router(security_analysis.router, tags=["Security Analysis"])
+app.include_router(websocket_routes.router, tags=["WebSocket"])
 app.include_router(ml_model_management.router, tags=["ML Model Management"])
 
 if EHR_AVAILABLE:
