@@ -48,6 +48,45 @@ async def cleanup_tasks():
 
 
 @pytest.fixture(autouse=True)
+def cleanup_scheduler():
+    """Cleanup APScheduler between tests to prevent state pollution."""
+    yield
+    try:
+        from apscheduler.schedulers.background import BackgroundScheduler
+        from src.api.main import scheduler
+
+        # Properly shutdown the scheduler if it's running
+        if scheduler.running:
+            scheduler.shutdown(wait=False)
+
+        # Recreate scheduler for next test
+        import src.api.main as main_module
+        main_module.scheduler = BackgroundScheduler(daemon=True)
+    except Exception:
+        # Ignore if scheduler doesn't exist or can't be cleaned up
+        pass
+
+
+@pytest.fixture(autouse=True)
+def cleanup_global_state():
+    """Cleanup global state and singletons between tests."""
+    yield
+    try:
+        # Clear any in-memory task storage
+        from src.api.routers.analysis import tasks
+        tasks.clear()
+    except Exception:
+        pass
+
+    try:
+        # Reset vector store singleton
+        from src.core.vector_store import VectorStore
+        VectorStore._instance = None
+    except Exception:
+        pass
+
+
+@pytest.fixture(autouse=True)
 def cleanup_logging():
     """Cleanup logging handlers between tests."""
     yield
@@ -56,8 +95,16 @@ def cleanup_logging():
     for handler in logging.root.handlers[:]:
         try:
             handler.flush()
+            # Remove the handler to prevent future writes to closed files
+            if hasattr(handler, 'stream') and hasattr(handler.stream, 'closed'):
+                if handler.stream.closed:
+                    logging.root.removeHandler(handler)
         except (ValueError, AttributeError):
-            pass
+            # Handler might have been closed or stream doesn't exist
+            try:
+                logging.root.removeHandler(handler)
+            except:
+                pass
 
 
 async def _truncate_all(session: AsyncSession) -> None:

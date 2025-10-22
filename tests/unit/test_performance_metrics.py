@@ -120,7 +120,7 @@ class TestMetricsCollector:
         """Test high memory usage triggers warnings."""
         with patch('src.core.performance_metrics_collector.psutil') as mock_psutil:
             mock_process = Mock()
-            mock_process.memory_info.return_value = Mock(rss=2000 * 1024 * 1024)  # 2GB
+            mock_process.memory_info.return_value = Mock(rss=2001 * 1024 * 1024)  # 2001MB (above 2000MB threshold)
             mock_psutil.Process.return_value = mock_process
             mock_psutil.cpu_percent.return_value = 50.0
 

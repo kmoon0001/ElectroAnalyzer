@@ -235,9 +235,12 @@ class AnalysisService:
         self.prompt_manager = kwargs.get("prompt_manager") or PromptManager(
             template_name=template_path.name
         )
+        # Use UnifiedExplanationEngine for analysis service enhancements
         self.explanation_engine = (
-            kwargs.get("explanation_engine") or ExplanationEngine()
+            kwargs.get("explanation_engine") or UnifiedExplanationEngine()
         )
+        # Create separate ExplanationEngine for ComplianceAnalyzer
+        compliance_explanation_engine = kwargs.get("compliance_explanation_engine") or ExplanationEngine()
         # Fact checker can use either a small pipeline model or reuse the main LLM
         fc_backend = (
             getattr(settings.models, "fact_checker_backend", "pipeline")
@@ -265,7 +268,7 @@ class AnalysisService:
             retriever=self.retriever,
             ner_service=self.clinical_ner_service,
             llm_service=self.llm_service,
-            explanation_engine=self.explanation_engine,
+            explanation_engine=compliance_explanation_engine,
             prompt_manager=self.prompt_manager,
             fact_checker_service=self.fact_checker_service,
             nlg_service=self.nlg_service,
@@ -380,13 +383,21 @@ class AnalysisService:
                     "Either file_content or document_text must be provided"
                 )
 
+            # Define discipline_clean early for use in caching and tagging
+            discipline_clean = sanitize_human_text(discipline or "Unknown")
+
+            # Generate cache key based on normalized inputs
             cache_key = self._get_analysis_cache_key(
-                content_hash, discipline, analysis_mode, normalized_strictness
+                content_hash, discipline_clean, analysis_mode, normalized_strictness
             )
-            # Check multi-tier cache first
-            cached_result = await self.multi_tier_cache.get(cache_key)
+
+            _update_progress(25, "Checking cache for previous analysis...")
+
+            # Check multi-tier cache first for fastest lookups
+            if not self.use_mocks:
+                cached_result = await self.multi_tier_cache.get(cache_key)
             if cached_result is not None:
-                logger.info("Full analysis cache hit from multi-tier cache for key: %s", cache_key)
+                logger.info("Full analysis cache hit for key: %s", cache_key)
                 _update_progress(50, "Reusing cached analysis results...")
                 _update_progress(100, "Analysis completed from cache.")
                 return AnalysisOutput(cached_result)
@@ -398,9 +409,6 @@ class AnalysisService:
                 logger.info("Full analysis cache hit from disk cache for key: %s", cache_key)
                 # Promote to multi-tier cache
                 await self.multi_tier_cache.set(cache_key, cached_result, tags=['analysis', discipline_clean])
-                _update_progress(50, "Reusing cached analysis results...")
-                _update_progress(100, "Analysis completed from cache.")
-                return AnalysisOutput(cached_result)
 
             logger.info(
                 "Full analysis cache miss for key: %s. Running analysis.", cache_key
@@ -543,7 +551,6 @@ class AnalysisService:
 
             # Stage 2: Clinical Analysis on Anonymized Text (optimized)
             _update_progress(45, "Classifying document type...")
-            discipline_clean = sanitize_human_text(discipline or "Unknown")
 
             # Fast-track for shorter documents (skip heavy classification)
             if len(scrubbed_text) < 2000:
