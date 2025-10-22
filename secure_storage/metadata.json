@@ -658,5 +658,221 @@
       "original_filename": "test_progress_note.txt",
       "content_type": "text/plain"
     }
+  },
+  "76b1eca5-1b7e-421e-ae53-cb997ba4221d": {
+    "filename": "test_progress_note.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-22T01:31:04.750499",
+    "file_size": 874,
+    "encrypted_size": 1252,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "test_progress_note.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "190f31ed-8c58-4857-9aed-4ea8d12d4077": {
+    "filename": "test_progress_note.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-22T01:31:05.385473",
+    "file_size": 331,
+    "encrypted_size": 524,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "test_progress_note.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "a289ccd7-e392-4f65-baf7-fe5ecdd403e9": {
+    "filename": "concurrent_test_1.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-22T01:31:10.331578",
+    "file_size": 329,
+    "encrypted_size": 524,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "concurrent_test_1.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "3de31218-9411-4fb0-bf0e-a782f45fdcdb": {
+    "filename": "concurrent_test_2.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-22T01:31:10.600411",
+    "file_size": 329,
+    "encrypted_size": 524,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "concurrent_test_2.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "1261a882-7750-46be-ace7-73024ebb8215": {
+    "filename": "concurrent_test_3.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-22T01:31:10.791090",
+    "file_size": 329,
+    "encrypted_size": 524,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "concurrent_test_3.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "d1981b3b-7bc0-4ba8-a460-1400026fad2f": {
+    "filename": "test_progress_note.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-22T01:31:18.122238",
+    "file_size": 874,
+    "encrypted_size": 1252,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "test_progress_note.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "3f634891-eef5-4b31-ac0c-926b97253aec": {
+    "filename": "test_progress_note.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-22T03:05:16.849704",
+    "file_size": 874,
+    "encrypted_size": 1252,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "test_progress_note.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "6edb5b9e-e685-4297-b5f5-80b9e31a590a": {
+    "filename": "test_progress_note.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-22T03:05:17.303054",
+    "file_size": 331,
+    "encrypted_size": 524,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "test_progress_note.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "ac163014-d8b7-4ed6-b0ba-4d3844716914": {
+    "filename": "concurrent_test_1.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-22T03:05:22.031164",
+    "file_size": 329,
+    "encrypted_size": 524,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "concurrent_test_1.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "b43a1894-5ac0-4921-8abd-f3228f0ebdde": {
+    "filename": "concurrent_test_2.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-22T03:05:22.184241",
+    "file_size": 329,
+    "encrypted_size": 524,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "concurrent_test_2.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "6f7a3851-4e57-4109-acff-143f5df54617": {
+    "filename": "concurrent_test_3.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-22T03:05:22.331646",
+    "file_size": 329,
+    "encrypted_size": 524,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "concurrent_test_3.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "18ebf161-fb66-4eb1-84cb-634c9cb77936": {
+    "filename": "test_progress_note.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-22T03:05:29.323758",
+    "file_size": 874,
+    "encrypted_size": 1252,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "test_progress_note.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "cd616f52-15d1-45af-8e26-6b118b9b831a": {
+    "filename": "test_progress_note.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-22T03:21:35.615364",
+    "file_size": 874,
+    "encrypted_size": 1252,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "test_progress_note.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "e7841463-5c18-42b9-ac59-b874ed66cdae": {
+    "filename": "test_progress_note.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-22T03:21:37.198190",
+    "file_size": 331,
+    "encrypted_size": 524,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "test_progress_note.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "859c0123-5f4f-4177-b7aa-9102f1aeddff": {
+    "filename": "concurrent_test_1.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-22T03:21:43.761638",
+    "file_size": 329,
+    "encrypted_size": 524,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "concurrent_test_1.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "9126bed3-8102-4b9d-b76d-db8437702f5b": {
+    "filename": "concurrent_test_2.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-22T03:21:44.271522",
+    "file_size": 329,
+    "encrypted_size": 524,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "concurrent_test_2.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "45656653-d0a1-49cb-abb1-dc3320dd0313": {
+    "filename": "concurrent_test_3.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-22T03:21:44.739846",
+    "file_size": 329,
+    "encrypted_size": 524,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "concurrent_test_3.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "0a71d6c9-7711-4b29-a555-c2e62c9ce500": {
+    "filename": "test_progress_note.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-22T03:21:54.284539",
+    "file_size": 874,
+    "encrypted_size": 1252,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "test_progress_note.txt",
+      "content_type": "text/plain"
+    }
   }
 }

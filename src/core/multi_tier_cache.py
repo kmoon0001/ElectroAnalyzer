@@ -146,6 +146,9 @@ class MultiTierCacheSystem:
         # Background tasks will be started when needed
         self._background_tasks_started = False
 
+        # Store background tasks for cleanup
+        self._background_tasks: List[asyncio.Task] = []
+
         logger.info("Multi-tier cache system initialized: L1=%dMB, L2=%s, L3=%s, Policy=%s",
                    l1_size_mb, l2_enabled, l3_enabled, eviction_policy.value)
 
@@ -595,11 +598,23 @@ class MultiTierCacheSystem:
 
     def _start_background_tasks(self):
         """Start background maintenance tasks."""
-        # Start cleanup task
-        asyncio.create_task(self._cleanup_task())
+        try:
+            loop = asyncio.get_running_loop()
+        except RuntimeError:
+            # No event loop running - tasks will be created on first async operation
+            return
 
-        # Start metrics reset task
-        asyncio.create_task(self._metrics_reset_task())
+        try:
+            # Start cleanup task
+            task1 = asyncio.create_task(self._cleanup_task())
+            self._background_tasks.append(task1)
+
+            # Start metrics reset task
+            task2 = asyncio.create_task(self._metrics_reset_task())
+            self._background_tasks.append(task2)
+        except RuntimeError:
+            # No event loop running - tasks will be created on first async operation
+            pass
 
     async def _cleanup_task(self):
         """Background cleanup task."""
@@ -678,6 +693,23 @@ class MultiTierCacheSystem:
         except Exception as e:
             logger.exception("Clear all cache error: %s", e)
             return cleared_count
+
+    async def _cancel_background_tasks(self):
+        """Cancel all background tasks gracefully."""
+        for task in self._background_tasks:
+            if not task.done():
+                task.cancel()
+                try:
+                    await task
+                except asyncio.CancelledError:
+                    pass
+        self._background_tasks.clear()
+
+    async def shutdown(self):
+        """Shutdown the cache system gracefully."""
+        await self._cancel_background_tasks()
+        await self.clear_all()
+        logger.info("Multi-tier cache system shut down")
 
 
 # Global instance for backward compatibility

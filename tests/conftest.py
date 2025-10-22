@@ -26,6 +26,40 @@ def event_loop():
     loop.close()
 
 
+@pytest_asyncio.fixture(autouse=True)
+async def cleanup_tasks():
+    """Cleanup pending tasks after each test to prevent state pollution."""
+    yield
+    # Cancel all pending tasks if there's an event loop
+    try:
+        pending = asyncio.all_tasks()
+        for task in pending:
+            if not task.done():
+                task.cancel()
+                try:
+                    await task
+                except asyncio.CancelledError:
+                    pass
+        # Small delay to allow cleanup
+        await asyncio.sleep(0.01)
+    except RuntimeError:
+        # No event loop running
+        pass
+
+
+@pytest.fixture(autouse=True)
+def cleanup_logging():
+    """Cleanup logging handlers between tests."""
+    yield
+    import logging
+    # Flush and close all handlers except root handlers
+    for handler in logging.root.handlers[:]:
+        try:
+            handler.flush()
+        except (ValueError, AttributeError):
+            pass
+
+
 async def _truncate_all(session: AsyncSession) -> None:
     for table in reversed(Base.metadata.sorted_tables):
         await session.execute(table.delete())
