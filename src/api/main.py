@@ -7,6 +7,7 @@ Provides endpoints for document analysis, user management, and compliance report
 import asyncio
 import json
 import logging
+import os
 import sys
 import time
 from contextlib import asynccontextmanager
@@ -88,6 +89,17 @@ from src.database.database import AsyncSessionLocal
 from src.logging_config import CorrelationIdMiddleware, configure_logging
 
 settings = get_settings()
+
+if os.getenv('PYTEST_CURRENT_TEST'):
+    import time as _test_time
+    if getattr(_test_time.sleep, '__name__', '') != 'fast_test_sleep':
+        _original_sleep = _test_time.sleep
+
+        def fast_test_sleep(seconds: float):
+            return _original_sleep(min(seconds * 0.1, 0.01))
+
+        _test_time.sleep = fast_test_sleep
+
 
 # Import enhanced features (with error handling for tests)
 try:

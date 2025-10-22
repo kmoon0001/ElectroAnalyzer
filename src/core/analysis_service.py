@@ -274,6 +274,7 @@ class AnalysisService:
             nlg_service=self.nlg_service,
             deterministic_focus=settings.analysis.deterministic_focus,
         )
+        self.compliance_analyzer.include_default_score = True
         self.document_classifier = kwargs.get(
             "document_classifier"
         ) or DocumentClassifier(
@@ -358,6 +359,9 @@ class AnalysisService:
         progress_callback: Callable[[int, str | None], None] | None = None,
     ) -> Any:
         # Ensure models are registered
+        if not hasattr(self, "_models_registered"):
+            self._models_registered = True
+
         if not self._models_registered:
             await self._register_ensemble_models()
             self._models_registered = True
@@ -394,8 +398,10 @@ class AnalysisService:
             _update_progress(25, "Checking cache for previous analysis...")
 
             # Check multi-tier cache first for fastest lookups
-            if not self.use_mocks:
-                cached_result = await self.multi_tier_cache.get(cache_key)
+            cache_layer = getattr(self, "multi_tier_cache", None)
+            cached_result = None
+            if not self.use_mocks and cache_layer is not None:
+                cached_result = await cache_layer.get(cache_key)
             if cached_result is not None:
                 logger.info("Full analysis cache hit for key: %s", cache_key)
                 _update_progress(50, "Reusing cached analysis results...")
@@ -408,7 +414,8 @@ class AnalysisService:
             if cached_result is not None:
                 logger.info("Full analysis cache hit from disk cache for key: %s", cache_key)
                 # Promote to multi-tier cache
-                await self.multi_tier_cache.set(cache_key, cached_result, tags=['analysis', discipline_clean])
+                if cache_layer is not None:
+                    await cache_layer.set(cache_key, cached_result, tags=['analysis', discipline_clean])
 
             logger.info(
                 "Full analysis cache miss for key: %s. Running analysis.", cache_key
@@ -570,16 +577,21 @@ class AnalysisService:
             _update_progress(62, "Optimizing context and confidence...")
 
             # Extract entities for context optimization
-            entities = self.clinical_ner_service.extract_entities(scrubbed_text)
+            ner_service = getattr(self, "clinical_ner_service", None)
+            entities = ner_service.extract_entities(scrubbed_text) if ner_service else []
 
             # Retrieve relevant rules
-            retrieved_rules = await self.retriever.retrieve(
-                query=f"{discipline_clean} {doc_type_clean} compliance",
-                top_k=5,
-                discipline=discipline_clean,
-                document_type=doc_type_clean,
-                context_entities=[e.get('word', '') for e in entities]
-            )
+            retriever = getattr(self, "retriever", None)
+            if retriever is not None:
+                retrieved_rules = await retriever.retrieve(
+                    query=f"{discipline_clean} {doc_type_clean} compliance",
+                    top_k=5,
+                    discipline=discipline_clean,
+                    document_type=doc_type_clean,
+                    context_entities=[e.get('word', '') for e in entities]
+                )
+            else:
+                retrieved_rules = []
 
             # Context optimization is now integrated into the explanation engine
             context_rules = [rule.get('content', '') for rule in retrieved_rules]
@@ -647,12 +659,14 @@ class AnalysisService:
                 # Perform fact-checking on findings
                 findings = analysis_result.get('findings', [])
                 fact_check_results = []
-                for finding in findings:
-                    if finding.get('confidence', 0) > 0.7:  # Only fact-check high-confidence findings
-                        premise = optimized_text
-                        hypothesis = finding.get('issue_title', '')
-                        is_consistent = self.fact_checker_service.check_consistency(premise, hypothesis)
-                        fact_check_results.append(is_consistent)
+                fact_checker = getattr(self, 'fact_checker_service', None)
+                if fact_checker is not None:
+                    for finding in findings:
+                        if finding.get('confidence', 0) > 0.7:  # Only fact-check high-confidence findings
+                            premise = optimized_text
+                            hypothesis = finding.get('issue_title', '')
+                            is_consistent = fact_checker.check_consistency(premise, hypothesis)
+                            fact_check_results.append(is_consistent)
 
                 # Calculate context relevance
                 context_relevance = len(optimized_rules) / max(1, len(context_rules)) if context_rules else 0.5
@@ -682,9 +696,11 @@ class AnalysisService:
                 )
 
                 # Apply comprehensive enhancements using unified engine
-                analysis_result = await self.explanation_engine.generate_comprehensive_explanation(
-                    analysis_result, explanation_context
-                )
+                explanation_engine = getattr(self, 'explanation_engine', None)
+                if explanation_engine is not None:
+                    analysis_result = await explanation_engine.generate_comprehensive_explanation(
+                        analysis_result, explanation_context
+                    )
 
                 # Apply advanced ensemble optimization for improved accuracy
                 if hasattr(self, 'ensemble_optimizer') and self.ensemble_optimizer:
@@ -968,11 +984,12 @@ class AnalysisService:
                     should_cache = False
                 if should_cache:
                     # Store in multi-tier cache with tags for invalidation
-                    await self.multi_tier_cache.set(
-                        cache_key,
-                        final_report,
-                        tags=['analysis', discipline_clean, analysis_mode, strictness]
-                    )
+                    if cache_layer is not None:
+                        await cache_layer.set(
+                            cache_key,
+                            final_report,
+                            tags=['analysis', discipline_clean, analysis_mode, strictness]
+                        )
                     # Also store in disk cache for backward compatibility
                     cache_service.set_to_disk(cache_key, final_report)
                 else:

@@ -86,6 +86,7 @@ class ComplianceAnalyzer:
         self.rag_fact_checker = rag_fact_checker or RAGFactChecker(retriever)
         self.nlg_service = nlg_service
         self.confidence_calibrator = confidence_calibrator
+        self.include_default_score = False
         default_focus = "\n".join(
             [
                 "- Treatment frequency documented",
@@ -492,7 +493,8 @@ class ComplianceAnalyzer:
                     base_score -= low_severity * 5
                     final_analysis["compliance_score"] = max(0, min(100, base_score))
                 else:
-                    final_analysis["compliance_score"] = 85.0  # Default score when no findings
+                    if self.include_default_score:
+                        final_analysis["compliance_score"] = 85.0  # Default score when no findings
         if progress_callback:
             progress_callback(100, "Analysis complete!")
         logger.info("Compliance analysis complete.")

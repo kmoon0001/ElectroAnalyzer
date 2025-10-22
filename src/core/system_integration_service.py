@@ -5,6 +5,8 @@ performance optimization components including caching, memory management,
 resource pooling, and performance monitoring.
 """
 
+import asyncio
+import inspect
 import logging
 import threading
 import time
@@ -87,6 +89,15 @@ class SystemIntegrationService:
 
         logger.info("System Integration Service initialized")
 
+    def _run_async(self, maybe_coro):
+        if inspect.isawaitable(maybe_coro):
+            loop = asyncio.new_event_loop()
+            try:
+                return loop.run_until_complete(maybe_coro)
+            finally:
+                loop.close()
+        return maybe_coro
+
     def start(self) -> None:
         """Start all integrated services."""
         if self._running:
@@ -166,7 +177,7 @@ class SystemIntegrationService:
             )
 
             # Get performance metrics
-            perf_analysis = self.performance_optimizer.analyze_performance()
+            perf_analysis = self._run_async(self.performance_optimizer.analyze_performance())
             optimization_score = perf_analysis.efficiency_score
 
             # Determine health status
@@ -251,8 +262,8 @@ class SystemIntegrationService:
                 ) // (1024 * 1024)
 
             # Run performance optimization
-            perf_result = self.performance_optimizer.optimize_performance(
-                aggressive=aggressive
+            perf_result = self._run_async(
+                self.performance_optimizer.optimize_performance(aggressive=aggressive)
             )
             if perf_result["optimizations_applied"]:
                 optimization_results["optimizations_performed"].append(
@@ -321,7 +332,7 @@ class SystemIntegrationService:
             },
             "performance": {
                 "optimization_score": current_metrics.optimization_score,
-                "analysis": self.performance_optimizer.analyze_performance(),
+                "analysis": self._run_async(self.performance_optimizer.analyze_performance()),
             },
             "configuration": {
                 "auto_optimization": self.config.enable_auto_optimization,

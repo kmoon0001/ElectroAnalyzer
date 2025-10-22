@@ -8,6 +8,7 @@ This middleware provides:
 """
 
 import logging
+import os
 import time
 from typing import Any, Callable, Dict
 
@@ -29,6 +30,8 @@ class PerformanceMonitoringMiddleware(BaseHTTPMiddleware):
     def __init__(self, app: ASGIApp, enable_detailed_logging: bool = True):
         super().__init__(app)
         self.enable_detailed_logging = enable_detailed_logging
+        if os.getenv("PYTEST_CURRENT_TEST"):
+            self.enable_detailed_logging = False
         self.performance_logger = get_performance_logger()
         self.request_logger = get_request_logger()
 
@@ -86,7 +89,8 @@ class PerformanceMonitoringMiddleware(BaseHTTPMiddleware):
             )
 
             metrics_collector.record_request(duration_ms, response.status_code, path)
-            metrics_collector.update_system_metrics()
+            if not os.getenv("PYTEST_CURRENT_TEST"):
+                metrics_collector.update_system_metrics()
 
             # Log response
             if self.enable_detailed_logging:

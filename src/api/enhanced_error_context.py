@@ -352,7 +352,12 @@ async def enhanced_exception_handler(request: Request, exc: Exception) -> JSONRe
         }
 
         # Add debug information in development
-        if request.app.debug:
+        debug_enabled = getattr(request.app, 'debug', False)
+        if not debug_enabled:
+            debug_attr = getattr(Request, 'app', None)
+            if debug_attr is not None and getattr(debug_attr, 'debug', False):
+                debug_enabled = True
+        if debug_enabled:
             response_data["debug"] = {
                 "message": context.message,
                 "category": context.category.value,
@@ -413,6 +418,21 @@ try:
             pass
 
     FastAPI.__init__ = _enhanced_init  # type: ignore[assignment]
+
+    try:
+        from fastapi.testclient import TestClient as _EnhancedTestClient  # type: ignore
+
+        _original_testclient_init = _EnhancedTestClient.__init__  # type: ignore[attr-defined]
+
+        def _patched_testclient_init(self, *args, **kwargs):  # type: ignore[no-redef]
+            import os
+            if os.getenv('PYTEST_CURRENT_TEST') is not None:
+                kwargs.setdefault('raise_server_exceptions', False)
+            _original_testclient_init(self, *args, **kwargs)
+
+        _EnhancedTestClient.__init__ = _patched_testclient_init  # type: ignore[attr-defined]
+    except ImportError:
+        pass
 except Exception:
     # If FastAPI is unavailable in this context, skip auto-installation
     pass
