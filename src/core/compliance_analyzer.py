@@ -478,6 +478,21 @@ class ComplianceAnalyzer:
                         0.0, min(100.0, float(score) + adjustments[strictness_level])
                     )
                     final_analysis["compliance_score"] = adjusted_score
+            else:
+                # Calculate compliance_score from findings if not present
+                findings = final_analysis.get("findings", [])
+                if findings:
+                    high_severity = len([f for f in findings if f.get("severity") == "high"])
+                    medium_severity = len([f for f in findings if f.get("severity") == "medium"])
+                    low_severity = len([f for f in findings if f.get("severity") == "low"])
+
+                    base_score = 100
+                    base_score -= high_severity * 20
+                    base_score -= medium_severity * 10
+                    base_score -= low_severity * 5
+                    final_analysis["compliance_score"] = max(0, min(100, base_score))
+                else:
+                    final_analysis["compliance_score"] = 85.0  # Default score when no findings
         if progress_callback:
             progress_callback(100, "Analysis complete!")
         logger.info("Compliance analysis complete.")

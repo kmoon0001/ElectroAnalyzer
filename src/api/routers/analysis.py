@@ -308,7 +308,7 @@ async def legacy_upload_document(
 async def legacy_get_document(
     document_id: str, current_user: models.User = Depends(get_current_active_user)
 ) -> dict[str, Any]:
-    """Retrieve document metadata (content not included for security)."""
+    """Retrieve document metadata and content."""
     # Get document metadata from secure storage
     user_docs = secure_storage.list_user_documents(current_user.id)
     document_metadata = None
@@ -323,12 +323,29 @@ async def legacy_get_document(
             status_code=status.HTTP_404_NOT_FOUND, detail="Document not found."
         )
 
+    # Retrieve document content
+    content_bytes = secure_storage.retrieve_document(document_id, current_user.id)
+    if content_bytes is None:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to retrieve document content.",
+        )
+
+    # Try to decode as text
+    try:
+        content = content_bytes.decode("utf-8")
+    except UnicodeDecodeError:
+        # If binary, encode as base64
+        import base64
+        content = base64.b64encode(content_bytes).decode("utf-8")
+
     return {
         "id": document_id,
         "filename": document_metadata["filename"],
         "file_size": document_metadata["file_size"],
         "uploaded_at": document_metadata["stored_at"],
         "metadata": document_metadata["metadata"],
+        "content": content,
     }
 
 
@@ -566,12 +583,12 @@ async def start_analysis(
     request_id: str = RequestId,
 ) -> dict[str, str]:
     """Start an analysis job - validates inputs and returns proper error codes for security testing."""
-    
+
     # Input validation for security testing
     if document_name:
         # Check for injection patterns
         injection_patterns = [
-            ";", "'", '"', "\\", "--", "/*", "*/", "xp_", "sp_", 
+            ";", "'", '"', "\\", "--", "/*", "*/", "xp_", "sp_",
             "DROP", "INSERT", "UPDATE", "DELETE", "UNION", "SELECT",
             "<script", "onerror", "onload", "</",
             "../", "..\\", "%2e%2e", "~",
@@ -583,21 +600,21 @@ async def start_analysis(
                     status_code=status.HTTP_400_BAD_REQUEST,
                     detail="Invalid request data: potentially malicious input detected"
                 )
-    
+
     # If no file but document_name provided, this is validation test
     if not file and document_name:
         return {
             "task_id": "test-task",
             "status": "blocked"
         }
-    
+
     # Normal flow requires file
     if not file:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Invalid request data: file is required"
         )
-    
+
     log_with_request_id(
         f"Analysis request started",
         level="info",

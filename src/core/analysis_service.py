@@ -16,6 +16,7 @@ from src.core.checklist_service import DeterministicChecklistService as Checklis
 from src.core.compliance_analyzer import ComplianceAnalyzer
 from src.core.document_chunker import get_document_chunker
 from src.core.document_classifier import DocumentClassifier
+from src.core.explanation import ExplanationEngine
 from src.core.unified_explanation_engine import UnifiedExplanationEngine, ExplanationContext
 from src.core.fact_checker_service import FactCheckerService
 from src.core.file_cleanup_service import get_cleanup_service
@@ -235,7 +236,7 @@ class AnalysisService:
             template_name=template_path.name
         )
         self.explanation_engine = (
-            kwargs.get("explanation_engine") or UnifiedExplanationEngine()
+            kwargs.get("explanation_engine") or ExplanationEngine()
         )
         # Fact checker can use either a small pipeline model or reuse the main LLM
         fc_backend = (
