@@ -53,13 +53,27 @@ try:
             return {"status": "optimized"}
 
         async def analyze_performance(self):
+            try:
+                # Try to get real cache stats
+                stats = await self.advanced_cache.get_comprehensive_stats()
+                cache_memory = stats.get("cache_stats", {}).get("memory_usage_mb", 500.0)
+                metrics = stats.get("performance_metrics", {})
+                overall_stats = metrics.get("overall_stats", {})
+                cache_hit_rate = overall_stats.get("overall_hit_rate", 0.75)
+                avg_response_time = overall_stats.get("avg_response_time_ms", 150.0)
+            except:
+                # Fallback to defaults
+                cache_memory = 500.0
+                cache_hit_rate = 0.75
+                avg_response_time = 150.0
+
             return PerformanceMetrics(
                 cpu_usage=25.0,
                 memory_usage=60.0,
-                memory_usage_mb=500.0,
-                cache_hit_rate=0.75,
-                response_time=150.0,
-                avg_response_time_ms=150.0,
+                memory_usage_mb=cache_memory,
+                cache_hit_rate=cache_hit_rate,
+                response_time=avg_response_time,
+                avg_response_time_ms=avg_response_time,
                 bottlenecks=["hit rate", "memory usage"],
             )
 
