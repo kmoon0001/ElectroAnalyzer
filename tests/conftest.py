@@ -91,20 +91,21 @@ def cleanup_logging():
     """Cleanup logging handlers between tests."""
     yield
     import logging
-    # Flush and close all handlers except root handlers
+
     for handler in logging.root.handlers[:]:
         try:
             handler.flush()
-            # Remove the handler to prevent future writes to closed files
-            if hasattr(handler, 'stream') and hasattr(handler.stream, 'closed'):
-                if handler.stream.closed:
-                    logging.root.removeHandler(handler)
-        except (ValueError, AttributeError):
-            # Handler might have been closed or stream doesn't exist
-            try:
-                logging.root.removeHandler(handler)
-            except:
-                pass
+        except Exception:
+            pass
+        try:
+            handler.close()
+        except Exception:
+            pass
+        logging.root.removeHandler(handler)
+
+    # Ensure a neutral handler exists to avoid "No handler found" warnings
+    if not any(isinstance(h, logging.NullHandler) for h in logging.root.handlers):
+        logging.root.addHandler(logging.NullHandler())
 
 
 async def _truncate_all(session: AsyncSession) -> None:

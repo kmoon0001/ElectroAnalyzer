@@ -23,14 +23,19 @@ class PerformanceMetrics:
     cache_hit_rate: float = 0.0
     response_time: float = 0.0
     avg_response_time_ms: float = 0.0
-    bottlenecks: list = None
-    timestamp: datetime = None
+    operations_per_minute: float = 0.0
+    efficiency_score: float = 0.0
+    bottlenecks: list | None = None
+    recommendations: list | None = None
+    timestamp: datetime | None = None
 
     def __post_init__(self):
         if self.timestamp is None:
             self.timestamp = datetime.now()
         if self.bottlenecks is None:
             self.bottlenecks = []
+        if self.recommendations is None:
+            self.recommendations = []
 
 
 # Initialize optional dependencies
@@ -77,26 +82,180 @@ try:
                 bottlenecks=["hit rate", "memory usage"],
             )
 
-        async def optimize_performance(self, aggressive=False, target_improvement=None):
+        async def optimize_performance(self, aggressive: bool = False, target_improvement: float | None = None):
+            """Run cache and memory optimizations and report improvements."""
             self.optimization_in_progress = True
             self.optimization_count += 1
-            return {
-                "status": "completed",
+            start_time = time.time()
+            result: dict[str, Any] = {
+                "status": "failed",
+                "baseline_metrics": None,
+                "final_metrics": None,
+                "optimizations_applied": [],
+                "performance_improvements": {},
                 "aggressive": aggressive,
                 "target_improvement": target_improvement,
             }
 
-        def _identify_bottlenecks(self, cache_stats):
-            # Return mock bottlenecks for testing
-            return ["hit rate", "memory usage"]
+            optimizations: list[str] = []
 
-        def _generate_optimization_recommendations(self, cache_stats, bottlenecks):
-            # Return mock recommendations for testing
-            return [
-                "Base recommendation",
-                "increase_cache_size",
-                "optimize_memory_allocation",
-            ]
+            try:
+                baseline = await self.analyze_performance()
+                result["baseline_metrics"] = baseline
+
+                optimize_cache = getattr(self.advanced_cache, "optimize_cache_performance", None)
+                if callable(optimize_cache):
+                    cache_result = await optimize_cache(aggressive=aggressive, target_improvement=target_improvement)
+                    if cache_result is not None:
+                        result["cache_optimization"] = cache_result
+                        optimizations.append("cache_optimization")
+
+                memory_result = await self._optimize_memory_usage(aggressive=aggressive)
+                if memory_result is not None:
+                    result["memory_optimization"] = memory_result
+                    optimizations.append("memory_optimization")
+
+                final_metrics = await self.analyze_performance()
+                result["final_metrics"] = final_metrics
+
+                improvements = self._calculate_performance_improvements(baseline, final_metrics)
+                result["performance_improvements"] = improvements
+
+                overall = improvements.get("overall_improvement_percent", 0.0)
+                if target_improvement is None or overall >= target_improvement:
+                    status = "completed"
+                elif overall > 0:
+                    status = "partial_success"
+                elif optimizations:
+                    status = "partial_success"
+                else:
+                    status = "no_change"
+
+                result["status"] = status
+                result["optimizations_applied"] = optimizations
+                result["duration_seconds"] = time.time() - start_time
+
+                self.optimization_history.append(
+                    {
+                        "timestamp": datetime.now().isoformat(),
+                        "status": status,
+                        "optimizations": optimizations,
+                        "performance_improvements": improvements,
+                        "duration_seconds": result["duration_seconds"],
+                    }
+                )
+
+                return result
+            except Exception as exc:
+                logging.getLogger(__name__).exception("Performance optimization failed: %s", exc)
+                result["error"] = str(exc)
+                result["status"] = "failed"
+                return result
+            finally:
+                self.optimization_in_progress = False
+
+        def _identify_bottlenecks(self, cache_stats: dict[str, Any] | None) -> list[str]:
+            """Inspect cache statistics and surface potential bottlenecks."""
+            bottlenecks: list[str] = []
+            stats = cache_stats or {}
+            try:
+                cache_details = stats.get("cache_stats", {})
+                perf_metrics = stats.get("performance_metrics", {})
+                overall = perf_metrics.get("overall_stats", {})
+
+                hit_rate = overall.get("overall_hit_rate")
+                if isinstance(hit_rate, (int, float)) and hit_rate < 0.75:
+                    bottlenecks.append(f"Low cache hit rate detected: {hit_rate * 100:.2f}%")
+
+                response_time = overall.get("avg_response_time_ms")
+                if isinstance(response_time, (int, float)) and response_time > 500:
+                    bottlenecks.append(f"High response time observed: {response_time:.0f}ms")
+
+                efficiency = overall.get("cache_efficiency_score")
+                if isinstance(efficiency, (int, float)) and efficiency < 70:
+                    bottlenecks.append(f"Cache efficiency degradation detected: {efficiency:.1f}")
+
+                memory_usage_mb = cache_details.get("memory_usage_mb")
+                if isinstance(memory_usage_mb, (int, float)) and memory_usage_mb > 1000:
+                    bottlenecks.append(f"High memory usage detected: {memory_usage_mb:.0f}MB")
+
+                system_memory = cache_details.get("system_memory_percent")
+                if isinstance(system_memory, (int, float)) and system_memory > 85:
+                    bottlenecks.append(f"System memory pressure at {system_memory:.1f}%")
+
+            except Exception as exc:
+                logging.getLogger(__name__).debug("Bottleneck identification failed: %s", exc)
+
+            return bottlenecks
+
+        def _generate_optimization_recommendations(self, cache_stats: dict[str, Any] | None, bottlenecks: list[str]) -> list[str]:
+            """Combine cached recommendations with context-aware suggestions."""
+            stats = cache_stats or {}
+            recommendations = list(
+                stats.get("performance_metrics", {}).get("optimization_recommendations", [])
+            )
+
+            for bottleneck in bottlenecks:
+                lower = bottleneck.lower()
+                if "hit rate" in lower:
+                    recommendations.append(
+                        "Tune cache TTL or increase cache size to boost hit rate stability."
+                    )
+                if "response time" in lower:
+                    recommendations.append(
+                        "Introduce batch processing or intelligent prefetching to lower response time."
+                    )
+                if "memory" in lower:
+                    recommendations.append(
+                        "Scale cache tiers or adjust eviction policies to reduce memory pressure."
+                    )
+                if "efficiency" in lower:
+                    recommendations.append(
+                        "Review cache efficiency settings and enable compression where possible."
+                    )
+
+            deduped: list[str] = []
+            for item in recommendations:
+                if item not in deduped:
+                    deduped.append(item)
+
+            if not deduped:
+                deduped.append("Monitor cache metrics for emerging bottlenecks.")
+
+            return deduped
+
+        def _calculate_performance_improvements(
+            self, baseline: PerformanceMetrics, final: PerformanceMetrics
+        ) -> dict[str, float]:
+            """Calculate improvement percentages between metric snapshots."""
+            improvements: dict[str, float] = {}
+
+            response_time_improvement = 0.0
+            if baseline.avg_response_time_ms:
+                response_time_improvement = (
+                    (baseline.avg_response_time_ms - final.avg_response_time_ms)
+                    / baseline.avg_response_time_ms
+                ) * 100
+            improvements["response_time_improvement_percent"] = response_time_improvement
+
+            hit_rate_improvement = 0.0
+            if baseline.cache_hit_rate is not None and final.cache_hit_rate is not None:
+                hit_rate_improvement = (final.cache_hit_rate - baseline.cache_hit_rate) * 100
+            improvements["hit_rate_improvement_percent"] = hit_rate_improvement
+
+            memory_improvement = 0.0
+            if baseline.memory_usage_mb:
+                memory_improvement = (
+                    (baseline.memory_usage_mb - final.memory_usage_mb)
+                    / baseline.memory_usage_mb
+                ) * 100
+            improvements["memory_usage_improvement_percent"] = memory_improvement
+
+            deltas = [response_time_improvement, hit_rate_improvement, memory_improvement]
+            active = [value for value in deltas if value is not None]
+            improvements["overall_improvement_percent"] = sum(active) / len(active) if active else 0.0
+
+            return improvements
 
         async def _optimize_memory_usage(self, aggressive=False):
             return {"status": "optimized", "aggressive": aggressive}
@@ -125,6 +284,10 @@ try:
                 "memory_usage_mb": 500.0,
                 "total_requests": 1000,
             }
+
+        async def optimize_cache_performance(self, **_kwargs):
+            """Simulate cache optimization for testing."""
+            return {"status": "completed"}
 
     class MockCacheWarming:
         """Mock cache warming for testing compatibility."""

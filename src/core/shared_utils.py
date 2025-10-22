@@ -28,8 +28,16 @@ from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional, Union, TypeVar, ParamSpec, Tuple
 import yaml
 from dataclasses import dataclass, field
-import aiofiles
-import aiohttp
+try:
+    import aiofiles
+except ImportError:  # optional dependency in tests
+    aiofiles = None
+
+try:
+    import aiohttp
+except ImportError:  # optional dependency in tests
+    aiohttp = None
+
 from contextlib import asynccontextmanager
 import base64
 import mimetypes
@@ -182,8 +190,17 @@ class FileUtils:
         """Get file hash asynchronously."""
         hash_obj = hashlib.new(algorithm)
 
+        if aiofiles is None:
+            loop = asyncio.get_running_loop()
+            return await loop.run_in_executor(
+                None, lambda: FileUtils.get_file_hash(file_path, algorithm)
+            )
+
         async with aiofiles.open(file_path, 'rb') as f:
-            while chunk := await f.read(4096):
+            while True:
+                chunk = await f.read(4096)
+                if not chunk:
+                    break
                 hash_obj.update(chunk)
 
         return hash_obj.hexdigest()
