@@ -63,10 +63,15 @@ async def cleanup_async_tasks():
     except RuntimeError:
         return
 
-    # Cancel all pending tasks
-    pending_tasks = asyncio.all_tasks(loop)
+    # Get current task to avoid cancelling ourselves
+    current_task = asyncio.current_task(loop)
+    
+    # Cancel all pending tasks EXCEPT current task
+    pending_tasks = [task for task in asyncio.all_tasks(loop) 
+                     if task != current_task and not task.done()]
+    
     for task in pending_tasks:
-        if task and not task.done():
+        if task:
             task.cancel()
 
     # Wait for all tasks to complete
@@ -74,7 +79,7 @@ async def cleanup_async_tasks():
         await asyncio.gather(*pending_tasks, return_exceptions=True)
 
     # Allow event loop to process cleanup
-    await asyncio.sleep(0.01)
+    await asyncio.sleep(0.001)
 
 
 # ============================================================================
@@ -644,48 +649,73 @@ pytestmark = [
 # ============================================================================
 
 @pytest_asyncio.fixture(autouse=True)
-async def cleanup_database_state(async_session_factory):
+async def cleanup_database_state(async_session_factory=None):
     """Cleanup and reset database state between tests."""
+    # Skip if no session factory available
+    if not async_session_factory:
+        yield
+        return
+    
     # Pre-test: Truncate all tables to ensure clean state
     try:
         async with async_session_factory() as session:
-            # Disable foreign key constraints temporarily
-            if 'sqlite' in str(async_session_factory.kw.get('bind', '')):
-                await session.execute(text('PRAGMA foreign_keys = OFF'))
-
-            # Delete all data from all tables in reverse order (for FK constraints)
-            for table in reversed(Base.metadata.sorted_tables):
-                await session.execute(table.delete())
-
-            await session.commit()
-
-            # Re-enable foreign key constraints
-            if 'sqlite' in str(async_session_factory.kw.get('bind', '')):
-                await session.execute(text('PRAGMA foreign_keys = ON'))
+            try:
+                # Disable foreign key constraints temporarily
+                if 'sqlite' in str(async_session_factory.kw.get('bind', '')):
+                    await asyncio.wait_for(session.execute(text('PRAGMA foreign_keys = OFF')), timeout=5.0)
+                
+                # Delete all data from all tables in reverse order (for FK constraints)
+                for table in reversed(Base.metadata.sorted_tables):
+                    try:
+                        await asyncio.wait_for(session.execute(table.delete()), timeout=5.0)
+                    except Exception:
+                        pass
+                
+                await asyncio.wait_for(session.commit(), timeout=5.0)
+                
+                # Re-enable foreign key constraints
+                if 'sqlite' in str(async_session_factory.kw.get('bind', '')):
+                    await asyncio.wait_for(session.execute(text('PRAGMA foreign_keys = ON')), timeout=5.0)
+            except Exception as e:
+                logging.debug(f"Error pre-cleaning database: {e}")
+                try:
+                    await session.rollback()
+                except Exception:
+                    pass
     except Exception as e:
         logging.warning(f"Error pre-cleaning database: {e}")
-
+    
     yield
-
+    
     # Post-test: Cleanup after test
+    if not async_session_factory:
+        return
+        
     try:
         async with async_session_factory() as session:
-            # Disable foreign keys
-            if 'sqlite' in str(async_session_factory.kw.get('bind', '')):
-                await session.execute(text('PRAGMA foreign_keys = OFF'))
-
-            # Truncate all tables
-            for table in reversed(Base.metadata.sorted_tables):
+            try:
+                # Disable foreign keys
+                if 'sqlite' in str(async_session_factory.kw.get('bind', '')):
+                    await asyncio.wait_for(session.execute(text('PRAGMA foreign_keys = OFF')), timeout=5.0)
+                
+                # Truncate all tables
+                for table in reversed(Base.metadata.sorted_tables):
+                    try:
+                        await asyncio.wait_for(session.execute(table.delete()), timeout=5.0)
+                    except Exception as e:
+                        logging.debug(f"Error deleting from {table.name}: {e}")
+                
+                await asyncio.wait_for(session.commit(), timeout=5.0)
+                
+                # Re-enable foreign keys
+                if 'sqlite' in str(async_session_factory.kw.get('bind', '')):
+                    await asyncio.wait_for(session.execute(text('PRAGMA foreign_keys = ON')), timeout=5.0)
+            except Exception as e:
+                logging.debug(f"Error post-cleaning database: {e}")
                 try:
-                    await session.execute(table.delete())
-                except Exception as e:
-                    logging.debug(f"Error deleting from {table.name}: {e}")
-
-            await session.commit()
-
-            # Re-enable foreign keys
-            if 'sqlite' in str(async_session_factory.kw.get('bind', '')):
-                await session.execute(text('PRAGMA foreign_keys = ON'))
+                    await session.rollback()
+                except Exception:
+                    pass
     except Exception as e:
         logging.warning(f"Error post-cleaning database: {e}")
 
@@ -973,40 +1003,46 @@ async def global_state_manager():
 @pytest.fixture(autouse=True)
 def mock_system_dependencies():
     """Mock system dependencies that may not be available on all platforms."""
-
-    # Mock WeasyPrint/Cairo/GTK if not available
+    
+    # Mock WeasyPrint/Cairo/GTK if not available or broken
     try:
         import weasyprint
-    except ImportError:
-        weasyprint_mock = AsyncMock()
+        logging.debug("WeasyPrint imported successfully")
+    except (ImportError, OSError) as e:
+        logging.debug(f"WeasyPrint import failed ({type(e).__name__}), creating mock")
+        weasyprint_mock = Mock()
         weasyprint_mock.HTML = Mock(return_value=Mock(write_pdf=Mock(return_value=b"PDF")))
         sys.modules['weasyprint'] = weasyprint_mock
-
+    
     # Mock cairo if not available
     try:
         import cairo
-    except ImportError:
+    except (ImportError, OSError):
+        logging.debug("Cairo not available, creating mock")
         cairo_mock = Mock()
         sys.modules['cairo'] = cairo_mock
-
+    
     # Mock gi (GTK) if not available
     try:
         import gi
-    except ImportError:
+    except (ImportError, OSError):
+        logging.debug("gi (GTK) not available, creating mock")
         gi_mock = Mock()
         gi_mock.require_version = Mock()
         gi_mock.Repository = Mock()
         sys.modules['gi'] = gi_mock
         sys.modules['gi.repository'] = Mock()
         sys.modules['gi.repository.Gtk'] = Mock()
-
+    
     yield
-
+    
     # Cleanup mocks
     for module_name in ['weasyprint', 'cairo', 'gi', 'gi.repository', 'gi.repository.Gtk']:
         if module_name in sys.modules:
             try:
-                if hasattr(sys.modules[module_name], '_mock'):
+                # Only remove if it's a mock we added
+                mod = sys.modules[module_name]
+                if isinstance(mod, Mock):
                     del sys.modules[module_name]
             except Exception:
                 pass
