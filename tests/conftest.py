@@ -1,10 +1,14 @@
-"""Comprehensive test utilities and fixtures."""
+"""Comprehensive test utilities and fixtures with proper async cleanup and global state management."""
 
 import asyncio
 import datetime
+import logging
 import os
+import sys
 import tempfile
-from unittest.mock import Mock, patch
+from contextlib import asynccontextmanager
+from typing import AsyncGenerator, Generator
+from unittest.mock import AsyncMock, Mock, patch
 
 import numpy as np
 import pytest
@@ -18,34 +22,88 @@ from src.core.vector_store import VectorStore, get_vector_store
 from src.database import Base, get_async_db, models
 
 
+# ============================================================================
+# EVENT LOOP MANAGEMENT
+# ============================================================================
+
 @pytest.fixture(scope="session")
-def event_loop():
-    """Create event loop for async tests."""
-    loop = asyncio.get_event_loop_policy().new_event_loop()
+def event_loop_policy():
+    """Set up event loop policy for the entire test session."""
+    if sys.platform == "win32":
+        asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+    return asyncio.get_event_loop_policy()
+
+
+@pytest.fixture(scope="session")
+def event_loop(event_loop_policy):
+    """Create event loop for async tests with proper cleanup."""
+    loop = event_loop_policy.new_event_loop()
+    asyncio.set_event_loop(loop)
     yield loop
+    # Properly shutdown the loop
+    pending = asyncio.all_tasks(loop)
+    for task in pending:
+        task.cancel()
+    loop.run_until_complete(asyncio.gather(*pending, return_exceptions=True))
     loop.close()
 
 
-@pytest_asyncio.fixture(autouse=True)
-async def cleanup_tasks():
-    """Cleanup pending tasks after each test to prevent state pollution."""
-    yield
-    # Cancel all pending tasks if there's an event loop
-    try:
-        pending = asyncio.all_tasks()
-        for task in pending:
-            if not task.done():
-                task.cancel()
-                try:
-                    await task
-                except asyncio.CancelledError:
-                    pass
-        # Small delay to allow cleanup
-        await asyncio.sleep(0.01)
-    except RuntimeError:
-        # No event loop running
-        pass
+# ============================================================================
+# ASYNC FIXTURE CLEANUP (HIGHEST PRIORITY)
+# ============================================================================
 
+@pytest_asyncio.fixture(autouse=True)
+async def cleanup_async_tasks():
+    """Comprehensive async task cleanup with proper error handling."""
+    yield
+
+    # Get the current running loop
+    try:
+        loop = asyncio.get_running_loop()
+    except RuntimeError:
+        return
+
+    # Cancel all pending tasks
+    pending_tasks = asyncio.all_tasks(loop)
+    for task in pending_tasks:
+        if task and not task.done():
+            task.cancel()
+
+    # Wait for all tasks to complete
+    if pending_tasks:
+        await asyncio.gather(*pending_tasks, return_exceptions=True)
+
+    # Allow event loop to process cleanup
+    await asyncio.sleep(0.01)
+
+
+# ============================================================================
+# MULTI-TIER CACHE CLEANUP (CRITICAL)
+# ============================================================================
+
+@pytest_asyncio.fixture(autouse=True)
+async def cleanup_multi_tier_cache():
+    """Cleanup MultiTierCacheSystem global state between tests."""
+    yield
+
+    try:
+        from src.core.multi_tier_cache import multi_tier_cache
+
+        # Shutdown cache system if it exists
+        if multi_tier_cache is not None:
+            await multi_tier_cache.shutdown()
+
+        # Reset global instance
+        import src.core.multi_tier_cache as cache_module
+        cache_module.multi_tier_cache = None
+
+    except Exception as e:
+        logging.warning(f"Error cleaning up multi_tier_cache: {e}")
+
+
+# ============================================================================
+# SCHEDULER CLEANUP
+# ============================================================================
 
 @pytest.fixture(autouse=True)
 def cleanup_scheduler():
@@ -53,68 +111,130 @@ def cleanup_scheduler():
     yield
     try:
         from apscheduler.schedulers.background import BackgroundScheduler
-        from src.api.main import scheduler
 
-        # Properly shutdown the scheduler if it's running
-        if scheduler.running:
-            scheduler.shutdown(wait=False)
+        # Try to get the scheduler from main module
+        try:
+            from src.api.main import scheduler
+            if scheduler and scheduler.running:
+                scheduler.shutdown(wait=False)
+        except (ImportError, AttributeError):
+            pass
 
-        # Recreate scheduler for next test
-        import src.api.main as main_module
-        main_module.scheduler = BackgroundScheduler(daemon=True)
-    except Exception:
-        # Ignore if scheduler doesn't exist or can't be cleaned up
-        pass
+        # Reset scheduler in main module
+        try:
+            import src.api.main as main_module
+            if hasattr(main_module, 'scheduler'):
+                main_module.scheduler = BackgroundScheduler(daemon=True)
+        except Exception:
+            pass
 
+    except Exception as e:
+        logging.warning(f"Error cleaning up scheduler: {e}")
+
+
+# ============================================================================
+# GLOBAL STATE CLEANUP
+# ============================================================================
 
 @pytest.fixture(autouse=True)
 def cleanup_global_state():
     """Cleanup global state and singletons between tests."""
     yield
+
+    # Clear task registry
     try:
-        # Clear any in-memory task storage
         from src.api.routers.analysis import tasks
         tasks.clear()
     except Exception:
         pass
 
+    # Clear persistent task registry
     try:
-        # Reset vector store singleton
+        from src.core.persistent_task_registry import persistent_task_registry
+        persistent_task_registry.tasks.clear()
+    except Exception:
+        pass
+
+    # Reset vector store singleton
+    try:
         from src.core.vector_store import VectorStore
         VectorStore._instance = None
     except Exception:
         pass
 
+    # Reset hybrid retriever singleton
+    try:
+        from src.core.hybrid_retriever import HybridRetriever
+        if hasattr(HybridRetriever, '_instance'):
+            HybridRetriever._instance = None
+    except Exception:
+        pass
+
+    # Reset retrieval service singleton
+    try:
+        from src.core.retrieval_service import RetriovalService
+        if hasattr(RetriovalService, '_instance'):
+            RetriovalService._instance = None
+    except Exception:
+        pass
+
+
+# ============================================================================
+# LOGGING CLEANUP (PROPER STREAM HANDLING)
+# ============================================================================
 
 @pytest.fixture(autouse=True)
 def cleanup_logging():
-    """Cleanup logging handlers between tests."""
+    """Cleanup logging handlers and streams between tests with proper flush."""
     yield
-    import logging
 
-    for handler in logging.root.handlers[:]:
+    root_logger = logging.getLogger()
+
+    # Properly close all handlers
+    handlers_to_remove = []
+    for handler in root_logger.handlers[:]:
         try:
-            handler.flush()
-        except Exception:
-            pass
-        try:
+            # Flush any buffered content
+            if hasattr(handler, 'flush'):
+                handler.flush()
+            # Close the handler
             handler.close()
-        except Exception:
-            pass
-        logging.root.removeHandler(handler)
+            handlers_to_remove.append(handler)
+        except Exception as e:
+            logging.warning(f"Error closing handler {handler}: {e}")
+        finally:
+            try:
+                root_logger.removeHandler(handler)
+            except Exception:
+                pass
 
-    # Ensure a neutral handler exists to avoid "No handler found" warnings
-    if not any(isinstance(h, logging.NullHandler) for h in logging.root.handlers):
-        logging.root.addHandler(logging.NullHandler())
+    # Ensure we don't have duplicate handlers
+    for handler in handlers_to_remove:
+        if handler in root_logger.handlers:
+            root_logger.removeHandler(handler)
 
+    # Add a NullHandler to prevent "No handler found" warnings
+    if not any(isinstance(h, logging.NullHandler) for h in root_logger.handlers):
+        null_handler = logging.NullHandler()
+        root_logger.addHandler(null_handler)
+
+    # Reset logger level to default
+    root_logger.setLevel(logging.WARNING)
+
+
+# ============================================================================
+# DATABASE FIXTURES
+# ============================================================================
 
 async def _truncate_all(session: AsyncSession) -> None:
+    """Truncate all tables to reset database state."""
     for table in reversed(Base.metadata.sorted_tables):
         await session.execute(table.delete())
     await session.commit()
 
 
 def _reset_vector_store() -> VectorStore:
+    """Reset vector store singleton and reinitialize."""
     VectorStore._instance = None  # type: ignore[attr-defined]
     store = VectorStore()
     store.initialize_index()
@@ -123,6 +243,7 @@ def _reset_vector_store() -> VectorStore:
 
 @pytest_asyncio.fixture(scope="session")
 async def async_engine(tmp_path_factory: pytest.TempPathFactory):
+    """Create async database engine for tests."""
     db_path = tmp_path_factory.mktemp("test_dbs") / "pytest.db"
     engine = create_async_engine(f"sqlite+aiosqlite:///{db_path}", future=True)
     async with engine.begin() as conn:
@@ -135,129 +256,92 @@ async def async_engine(tmp_path_factory: pytest.TempPathFactory):
 
 @pytest.fixture(scope="session")
 def async_session_factory(async_engine):
+    """Create async session factory for tests."""
     return async_sessionmaker(bind=async_engine, expire_on_commit=False, autoflush=False)
 
 
-@pytest_asyncio.fixture(scope="session")
-async def test_db(async_session_factory):
-    async def override_get_db():
-        async with async_session_factory() as session:
-            try:
-                yield session
-                await session.commit()
-            except Exception:
-                await session.rollback()
-                raise
+# ============================================================================
+# HYBRID RETRIEVER FIXTURES (ASYNC MOCK)
+# ============================================================================
 
-    app.dependency_overrides[get_async_db] = override_get_db
+@pytest_asyncio.fixture
+async def mock_hybrid_retriever():
+    """Create properly async-mocked HybridRetriever."""
+    mock_retriever = AsyncMock()
 
-    async with async_session_factory() as session:
-        await _truncate_all(session)
+    # Configure async method mocks
+    mock_retriever.retrieve = AsyncMock(return_value=[
+        {
+            'id': '1',
+            'content': 'Therapy documentation rule 1',
+            'score': 0.95,
+            'metadata': {'source': 'medicare_rules'}
+        }
+    ])
 
-    try:
-        yield async_session_factory
-    finally:
-        app.dependency_overrides.pop(get_async_db, None)
+    mock_retriever.retrieve_by_tags = AsyncMock(return_value=[
+        {
+            'id': '1',
+            'content': 'Tagged rule',
+            'tags': ['compliance', 'documentation'],
+            'score': 0.90
+        }
+    ])
+
+    mock_retriever.batch_retrieve = AsyncMock(return_value={
+        'query1': [{'id': '1', 'content': 'Result 1', 'score': 0.95}],
+        'query2': [{'id': '2', 'content': 'Result 2', 'score': 0.87}]
+    })
+
+    return mock_retriever
 
 
 @pytest_asyncio.fixture
-async def db_session(async_session_factory):
-    async with async_session_factory() as session:
-        await _truncate_all(session)
-        yield session
-        await session.rollback()
+async def patched_hybrid_retriever(mock_hybrid_retriever):
+    """Patch HybridRetriever with async mock for all tests."""
+    with patch('src.core.hybrid_retriever.HybridRetriever', return_value=mock_hybrid_retriever):
+        with patch('src.core.analysis_service.HybridRetriever', return_value=mock_hybrid_retriever):
+            yield mock_hybrid_retriever
 
 
-@pytest_asyncio.fixture
-async def populated_db(db_session: AsyncSession, monkeypatch: pytest.MonkeyPatch):
-    await _truncate_all(db_session)
-
-    now = datetime.datetime.now(datetime.UTC)
-    report_specs = [
-        {"name": "Report 1", "score": 95.0, "doc_type": "Progress Note", "discipline": "PT", "days_ago": 5},
-        {"name": "Report 2", "score": 85.0, "doc_type": "Evaluation", "discipline": "PT", "days_ago": 10},
-        {"name": "Report 3", "score": 75.0, "doc_type": "Progress Note", "discipline": "OT", "days_ago": 15},
-        {"name": "Report 4", "score": 90.0, "doc_type": "Plan of Care", "discipline": "SLP", "days_ago": 20},
-    ]
-
-    reports = []
-    for spec in report_specs:
-        embedding = np.zeros(16, dtype=np.float32)
-        embedding[:4] = np.array([
-            spec["score"] / 100.0,
-            spec["days_ago"] / 30.0,
-            0.5,
-            0.1,
-        ], dtype=np.float32)
-        report = models.AnalysisReport(
-            document_name=spec["name"],
-            compliance_score=spec["score"],
-            document_type=spec["doc_type"],
-            discipline=spec["discipline"],
-            analysis_date=now - datetime.timedelta(days=spec["days_ago"]),
-            analysis_result={
-                "discipline": spec["discipline"],
-                "document_type": spec["doc_type"],
-                "summary": f"Summary for {spec['name']}",
-            },
-            document_embedding=embedding.tobytes(),
-        )
-        db_session.add(report)
-        reports.append(report)
-
-    await db_session.flush()
-    ids = [report.id for report in reports]
-    await db_session.commit()
-
-    class _StubVectorStore:
-        def __init__(self):
-            self.is_initialized = True
-            self._ids = ids
-
-        def initialize_index(self):
-            self.is_initialized = True
-
-        def add_vectors(self, *_, **__):
-            return None
-
-        def search(self, _query_vector, k: int, threshold: float = 0.85):
-            return [(rid, 0.99) for rid in self._ids if rid != 2][:k]
-
-    stub_store = _StubVectorStore()
-    monkeypatch.setattr('src.database.crud.get_vector_store', lambda: stub_store)
-
-    try:
-        yield db_session
-    finally:
-        await _truncate_all(db_session)
-
+# ============================================================================
+# MULTI-TIER CACHE FIXTURES
+# ============================================================================
 
 @pytest_asyncio.fixture
-async def client(test_db, monkeypatch: pytest.MonkeyPatch):
-    async_session_factory = test_db
+async def multi_tier_cache_system():
+    """Create isolated MultiTierCacheSystem instance for testing."""
+    from src.core.multi_tier_cache import MultiTierCacheSystem
 
-    async def _passthrough(self, request, call_next):
-        return await call_next(request)
-
-    monkeypatch.setattr(
-        "src.api.middleware.csrf_protection.CSRFProtectionMiddleware.dispatch",
-        _passthrough,
-        raising=True,
+    cache = MultiTierCacheSystem(
+        l1_size_mb=50,  # Smaller size for testing
+        l2_enabled=False,
+        l3_enabled=False,  # Disable file-based cache for tests
+        default_ttl=300  # 5 minutes
     )
 
-    async with async_session_factory() as session:
-        await _truncate_all(session)
+    yield cache
 
-    app.user_middleware = [
-        m
-        for m in app.user_middleware
-        if not (callable(m.cls) and getattr(m.cls, '__name__', '') == '<lambda>')
-    ]
-    app.middleware_stack = app.build_middleware_stack()
+    # Proper shutdown
+    try:
+        await cache.shutdown()
+    except Exception as e:
+        logging.warning(f"Error shutting down cache: {e}")
 
-    transport = ASGITransport(app=app)
-    async with AsyncClient(transport=transport, base_url="http://test") as async_client:
-        yield async_client
+
+# ============================================================================
+# API CLIENT FIXTURES
+# ============================================================================
+
+@pytest_asyncio.fixture
+async def async_client():
+    """Create async HTTP client for API testing."""
+    async with AsyncClient(
+        app=app,
+        base_url="http://test",
+        transport=ASGITransport(app=app)
+    ) as client:
+        yield client
 
 
 @pytest.fixture
@@ -553,3 +637,766 @@ def test_report_data():
 pytestmark = [
     pytest.mark.asyncio,
 ]
+
+
+# ============================================================================
+# DATABASE STATE MANAGEMENT (CRITICAL FOR TEST ISOLATION)
+# ============================================================================
+
+@pytest_asyncio.fixture(autouse=True)
+async def cleanup_database_state(async_session_factory):
+    """Cleanup and reset database state between tests."""
+    # Pre-test: Truncate all tables to ensure clean state
+    try:
+        async with async_session_factory() as session:
+            # Disable foreign key constraints temporarily
+            if 'sqlite' in str(async_session_factory.kw.get('bind', '')):
+                await session.execute(text('PRAGMA foreign_keys = OFF'))
+
+            # Delete all data from all tables in reverse order (for FK constraints)
+            for table in reversed(Base.metadata.sorted_tables):
+                await session.execute(table.delete())
+
+            await session.commit()
+
+            # Re-enable foreign key constraints
+            if 'sqlite' in str(async_session_factory.kw.get('bind', '')):
+                await session.execute(text('PRAGMA foreign_keys = ON'))
+    except Exception as e:
+        logging.warning(f"Error pre-cleaning database: {e}")
+
+    yield
+
+    # Post-test: Cleanup after test
+    try:
+        async with async_session_factory() as session:
+            # Disable foreign keys
+            if 'sqlite' in str(async_session_factory.kw.get('bind', '')):
+                await session.execute(text('PRAGMA foreign_keys = OFF'))
+
+            # Truncate all tables
+            for table in reversed(Base.metadata.sorted_tables):
+                try:
+                    await session.execute(table.delete())
+                except Exception as e:
+                    logging.debug(f"Error deleting from {table.name}: {e}")
+
+            await session.commit()
+
+            # Re-enable foreign keys
+            if 'sqlite' in str(async_session_factory.kw.get('bind', '')):
+                await session.execute(text('PRAGMA foreign_keys = ON'))
+    except Exception as e:
+        logging.warning(f"Error post-cleaning database: {e}")
+
+
+@pytest_asyncio.fixture
+async def db_session(async_session_factory):
+    """Provide a clean database session for each test."""
+    async with async_session_factory() as session:
+        try:
+            yield session
+            await session.commit()
+        except Exception:
+            await session.rollback()
+            raise
+        finally:
+            await session.close()
+
+
+@pytest_asyncio.fixture
+async def populated_test_db(db_session: AsyncSession):
+    """Create a populated test database with sample data."""
+    # Create test users
+    test_user = models.User(
+        username="testuser",
+        email="test@example.com",
+        hashed_password="$2b$12$test_hash",
+        is_active=True
+    )
+    db_session.add(test_user)
+
+    # Flush to get IDs
+    await db_session.flush()
+
+    # Create test analysis reports
+    now = datetime.datetime.now(datetime.timezone.utc)
+    test_report = models.AnalysisReport(
+        document_name="test_document.pdf",
+        compliance_score=85.5,
+        document_type="Progress Note",
+        discipline="PT",
+        analysis_date=now,
+        analysis_result={
+            "discipline": "PT",
+            "document_type": "Progress Note",
+            "summary": "Test analysis summary"
+        }
+    )
+    db_session.add(test_report)
+
+    await db_session.commit()
+
+    return db_session
+
+
+# ============================================================================
+# MOCK STATE MANAGEMENT (PREVENT MOCK POLLUTION)
+# ============================================================================
+
+@pytest.fixture(autouse=True)
+def reset_mock_state():
+    """Reset all mock patches and state between tests."""
+    yield
+
+    # Clear all patch objects
+    from unittest.mock import patch
+    patch.stopall()
+
+    # Reset common mock singletons
+    mock_singletons = [
+        'src.core.analysis_service._instance',
+        'src.core.compliance_analyzer._instance',
+        'src.core.llm_service._instance',
+    ]
+
+    for singleton_path in mock_singletons:
+        try:
+            module_path, attr = singleton_path.rsplit('.', 1)
+            module = __import__(module_path, fromlist=[attr.split('_')[0]])
+            if hasattr(module, attr.split('_')[0]):
+                cls = getattr(module, attr.split('_')[0])
+                if hasattr(cls, attr):
+                    setattr(cls, attr, None)
+        except Exception as e:
+            logging.debug(f"Error resetting mock singleton {singleton_path}: {e}")
+
+
+@pytest.fixture
+def mock_cleanup_context():
+    """Provide a context manager for managing mocks in tests."""
+    active_patches = []
+    active_mocks = {}
+
+    def patch_obj(target, **kwargs):
+        """Patch an object and track it for cleanup."""
+        patcher = patch(target, **kwargs)
+        mock_obj = patcher.start()
+        active_patches.append(patcher)
+        active_mocks[target] = mock_obj
+        return mock_obj
+
+    def reset():
+        """Reset all active patches."""
+        for patcher in active_patches:
+            try:
+                patcher.stop()
+            except Exception:
+                pass
+        active_patches.clear()
+        active_mocks.clear()
+
+    yield {
+        'patch': patch_obj,
+        'mocks': active_mocks,
+        'reset': reset
+    }
+
+    # Cleanup
+    reset()
+
+
+# ============================================================================
+# GLOBAL REGISTRY STATE MANAGEMENT
+# ============================================================================
+
+@pytest.fixture(autouse=True)
+def cleanup_registries():
+    """Cleanup all global registries and state holders between tests."""
+    yield
+
+    # Reset task registries
+    registries_to_clear = [
+        ('src.api.routers.analysis', 'tasks'),
+        ('src.core.persistent_task_registry', 'persistent_task_registry', 'tasks'),
+        ('src.core.service_manager', 'service_manager', '_services'),
+        ('src.core.plugin_system', 'plugin_registry', '_plugins'),
+    ]
+
+    for registry_info in registries_to_clear:
+        try:
+            if len(registry_info) == 2:
+                module_name, attr_name = registry_info
+                module = __import__(module_name, fromlist=[attr_name])
+                obj = getattr(module, attr_name, None)
+                if isinstance(obj, dict):
+                    obj.clear()
+            else:
+                module_name, obj_name, attr_name = registry_info
+                module = __import__(module_name, fromlist=[obj_name])
+                obj = getattr(module, obj_name, None)
+                if hasattr(obj, attr_name):
+                    attr = getattr(obj, attr_name)
+                    if isinstance(attr, dict):
+                        attr.clear()
+        except Exception as e:
+            logging.debug(f"Error clearing registry {registry_info}: {e}")
+
+
+@pytest.fixture(autouse=True)
+def cleanup_model_state():
+    """Cleanup model-level state and class variables between tests."""
+    yield
+
+    # Reset model class state variables
+    model_classes_with_state = [
+        ('src.database.models', 'User', '_cache'),
+        ('src.database.models', 'AnalysisReport', '_cache'),
+        ('src.core.compliance_analyzer', 'ComplianceAnalyzer', '_rule_cache'),
+    ]
+
+    for module_name, class_name, state_attr in model_classes_with_state:
+        try:
+            module = __import__(module_name, fromlist=[class_name])
+            cls = getattr(module, class_name, None)
+            if cls and hasattr(cls, state_attr):
+                state = getattr(cls, state_attr)
+                if isinstance(state, dict):
+                    state.clear()
+                elif isinstance(state, list):
+                    state.clear()
+        except Exception as e:
+            logging.debug(f"Error resetting model state {class_name}.{state_attr}: {e}")
+
+
+# ============================================================================
+# COMPREHENSIVE STATE RESET UTILITY
+# ============================================================================
+
+class GlobalStateManager:
+    """Manage and reset all global state in the application."""
+
+    @staticmethod
+    async def reset_all():
+        """Reset all global state comprehensively."""
+        await GlobalStateManager.reset_async_state()
+        await GlobalStateManager.reset_cache_state()
+        GlobalStateManager.reset_singletons()
+        GlobalStateManager.reset_registries()
+        GlobalStateManager.reset_model_state()
+
+    @staticmethod
+    async def reset_async_state():
+        """Reset async task state."""
+        try:
+            loop = asyncio.get_running_loop()
+            pending = asyncio.all_tasks(loop)
+            for task in pending:
+                if not task.done():
+                    task.cancel()
+            if pending:
+                await asyncio.gather(*pending, return_exceptions=True)
+        except RuntimeError:
+            pass
+
+    @staticmethod
+    async def reset_cache_state():
+        """Reset cache systems."""
+        try:
+            from src.core.multi_tier_cache import multi_tier_cache
+            if multi_tier_cache:
+                await multi_tier_cache.shutdown()
+                import src.core.multi_tier_cache as cache_module
+                cache_module.multi_tier_cache = None
+        except Exception as e:
+            logging.debug(f"Cache reset error: {e}")
+
+    @staticmethod
+    def reset_singletons():
+        """Reset all singleton instances."""
+        singletons = [
+            ('src.core.vector_store', 'VectorStore'),
+            ('src.core.hybrid_retriever', 'HybridRetriever'),
+            ('src.core.analysis_service', 'AnalysisService'),
+            ('src.core.compliance_analyzer', 'ComplianceAnalyzer'),
+        ]
+
+        for module_name, class_name in singletons:
+            try:
+                module = __import__(module_name, fromlist=[class_name])
+                cls = getattr(module, class_name)
+                if hasattr(cls, '_instance'):
+                    cls._instance = None
+            except Exception as e:
+                logging.debug(f"Singleton reset error for {class_name}: {e}")
+
+    @staticmethod
+    def reset_registries():
+        """Reset all global registries."""
+        registries = [
+            ('src.api.routers.analysis', 'tasks'),
+            ('src.core.persistent_task_registry', 'persistent_task_registry'),
+        ]
+
+        for module_name, obj_name in registries:
+            try:
+                module = __import__(module_name, fromlist=[obj_name])
+                obj = getattr(module, obj_name)
+                if hasattr(obj, 'clear'):
+                    obj.clear()
+                elif isinstance(obj, dict):
+                    obj.clear()
+                elif hasattr(obj, 'tasks') and isinstance(obj.tasks, dict):
+                    obj.tasks.clear()
+            except Exception as e:
+                logging.debug(f"Registry reset error for {obj_name}: {e}")
+
+    @staticmethod
+    def reset_model_state():
+        """Reset model-level state."""
+        # This is handled by cleanup_model_state fixture
+        pass
+
+
+@pytest_asyncio.fixture
+async def global_state_manager():
+    """Provide access to global state manager."""
+    yield GlobalStateManager
+    # Comprehensive cleanup at end
+    await GlobalStateManager.reset_all()
+
+
+# ============================================================================
+# SYSTEM DEPENDENCY MOCKING (HANDLE MISSING SYSTEM LIBRARIES)
+# ============================================================================
+
+@pytest.fixture(autouse=True)
+def mock_system_dependencies():
+    """Mock system dependencies that may not be available on all platforms."""
+
+    # Mock WeasyPrint/Cairo/GTK if not available
+    try:
+        import weasyprint
+    except ImportError:
+        weasyprint_mock = AsyncMock()
+        weasyprint_mock.HTML = Mock(return_value=Mock(write_pdf=Mock(return_value=b"PDF")))
+        sys.modules['weasyprint'] = weasyprint_mock
+
+    # Mock cairo if not available
+    try:
+        import cairo
+    except ImportError:
+        cairo_mock = Mock()
+        sys.modules['cairo'] = cairo_mock
+
+    # Mock gi (GTK) if not available
+    try:
+        import gi
+    except ImportError:
+        gi_mock = Mock()
+        gi_mock.require_version = Mock()
+        gi_mock.Repository = Mock()
+        sys.modules['gi'] = gi_mock
+        sys.modules['gi.repository'] = Mock()
+        sys.modules['gi.repository.Gtk'] = Mock()
+
+    yield
+
+    # Cleanup mocks
+    for module_name in ['weasyprint', 'cairo', 'gi', 'gi.repository', 'gi.repository.Gtk']:
+        if module_name in sys.modules:
+            try:
+                if hasattr(sys.modules[module_name], '_mock'):
+                    del sys.modules[module_name]
+            except Exception:
+                pass
+
+
+# ============================================================================
+# RESOURCE CONSTRAINT HANDLING
+# ============================================================================
+
+@pytest.fixture
+def mock_system_memory():
+    """Mock system memory pressure for testing cache behavior."""
+
+    class MemoryMocker:
+        """Mock and control memory availability in tests."""
+
+        def __init__(self):
+            self.original_virtual_memory = None
+            self.memory_available = None
+
+        def set_low_memory(self, available_mb: int = 100):
+            """Simulate low memory condition."""
+            import psutil
+
+            self.original_virtual_memory = psutil.virtual_memory
+
+            def mock_virtual_memory():
+                from unittest.mock import Mock
+                vm = Mock()
+                vm.available = available_mb * 1024 * 1024  # Convert to bytes
+                vm.total = 1024 * 1024 * 1024  # 1GB total
+                vm.used = vm.total - vm.available
+                vm.percent = (vm.used / vm.total) * 100
+                return vm
+
+            psutil.virtual_memory = mock_virtual_memory
+
+        def set_normal_memory(self, available_gb: int = 8):
+            """Reset to normal memory condition."""
+            import psutil
+
+            if self.original_virtual_memory:
+                psutil.virtual_memory = self.original_virtual_memory
+            else:
+                # Create realistic memory mock
+                def mock_virtual_memory():
+                    from unittest.mock import Mock
+                    vm = Mock()
+                    vm.available = available_gb * 1024 * 1024 * 1024
+                    vm.total = available_gb * 1024 * 1024 * 1024
+                    vm.used = 0
+                    vm.percent = 0
+                    return vm
+
+                psutil.virtual_memory = mock_virtual_memory
+
+        def restore(self):
+            """Restore original memory function."""
+            if self.original_virtual_memory:
+                import psutil
+                psutil.virtual_memory = self.original_virtual_memory
+
+    mocker = MemoryMocker()
+    mocker.set_normal_memory()
+
+    yield mocker
+
+    mocker.restore()
+
+
+@pytest.fixture
+def mock_disk_space():
+    """Mock disk space availability for testing cache disk tier."""
+
+    class DiskSpaceMocker:
+        """Mock and control disk space availability in tests."""
+
+        def __init__(self):
+            self.original_disk_usage = None
+
+        def set_low_disk(self, free_mb: int = 50):
+            """Simulate low disk space condition."""
+            import psutil
+            from unittest.mock import Mock
+
+            self.original_disk_usage = psutil.disk_usage
+
+            def mock_disk_usage(path):
+                usage = Mock()
+                usage.total = 1024 * 1024 * 1024  # 1GB
+                usage.used = usage.total - (free_mb * 1024 * 1024)
+                usage.free = free_mb * 1024 * 1024
+                usage.percent = (usage.used / usage.total) * 100
+                return usage
+
+            psutil.disk_usage = mock_disk_usage
+
+        def set_high_disk(self, free_gb: int = 100):
+            """Reset to high disk space condition."""
+            import psutil
+            from unittest.mock import Mock
+
+            if self.original_disk_usage:
+                psutil.disk_usage = self.original_disk_usage
+            else:
+                def mock_disk_usage(path):
+                    usage = Mock()
+                    usage.total = free_gb * 1024 * 1024 * 1024
+                    usage.used = 0
+                    usage.free = free_gb * 1024 * 1024 * 1024
+                    usage.percent = 0
+                    return usage
+
+                psutil.disk_usage = mock_disk_usage
+
+        def restore(self):
+            """Restore original disk usage function."""
+            if self.original_disk_usage:
+                import psutil
+                psutil.disk_usage = self.original_disk_usage
+
+    mocker = DiskSpaceMocker()
+    mocker.set_high_disk()
+
+    yield mocker
+
+    mocker.restore()
+
+
+@pytest.fixture
+def mock_cpu_load():
+    """Mock CPU load for testing performance under pressure."""
+
+    class CPULoadMocker:
+        """Mock and control CPU load in tests."""
+
+        def __init__(self):
+            self.original_cpu_percent = None
+            self.original_cpu_count = None
+
+        def set_high_load(self, cpu_percent: float = 90.0):
+            """Simulate high CPU load."""
+            import psutil
+
+            self.original_cpu_percent = psutil.cpu_percent
+            self.original_cpu_count = psutil.cpu_count
+
+            psutil.cpu_percent = Mock(return_value=cpu_percent)
+            psutil.cpu_count = Mock(return_value=4)
+
+        def set_normal_load(self, cpu_percent: float = 25.0):
+            """Reset to normal CPU load."""
+            import psutil
+
+            if self.original_cpu_percent:
+                psutil.cpu_percent = self.original_cpu_percent
+            else:
+                psutil.cpu_percent = Mock(return_value=cpu_percent)
+
+            if self.original_cpu_count:
+                psutil.cpu_count = self.original_cpu_count
+
+        def restore(self):
+            """Restore original CPU functions."""
+            if self.original_cpu_percent:
+                import psutil
+                psutil.cpu_percent = self.original_cpu_percent
+            if self.original_cpu_count:
+                import psutil
+                psutil.cpu_count = self.original_cpu_count
+
+    mocker = CPULoadMocker()
+    mocker.set_normal_load()
+
+    yield mocker
+
+    mocker.restore()
+
+
+# ============================================================================
+# PDF EXPORT TEST HELPERS
+# ============================================================================
+
+@pytest.fixture
+def mock_weasyprint_pdf_export():
+    """Mock WeasyPrint PDF export for testing without system dependencies."""
+
+    class WeasyPrintMocker:
+        """Mock WeasyPrint PDF export."""
+
+        def __init__(self):
+            self.export_called = False
+            self.last_html_content = None
+
+        def generate_pdf(self, html_content: str) -> bytes:
+            """Generate mock PDF from HTML content."""
+            self.export_called = True
+            self.last_html_content = html_content
+
+            # Return realistic PDF header
+            return b"%PDF-1.4\n%Mock PDF generated by test\n" + b"test_content"
+
+        def verify_export_called(self):
+            """Verify that export was called."""
+            return self.export_called
+
+        def reset(self):
+            """Reset state for next test."""
+            self.export_called = False
+            self.last_html_content = None
+
+    mocker = WeasyPrintMocker()
+
+    # Patch PDF export
+    with patch('src.core.pdf_export_service.PDFExportService.generate_pdf',
+               side_effect=mocker.generate_pdf):
+        yield mocker
+
+
+@pytest.fixture
+def mock_pdf_export_service():
+    """Mock the entire PDF export service."""
+    from unittest.mock import AsyncMock, Mock
+
+    mock_service = AsyncMock()
+    mock_service.generate_pdf = AsyncMock(return_value=b"%PDF-1.4\nMock PDF")
+    mock_service.export_to_file = AsyncMock()
+    mock_service.export_to_buffer = AsyncMock(return_value=b"%PDF-1.4\nMock PDF")
+
+    with patch('src.core.pdf_export_service.PDFExportService', return_value=mock_service):
+        yield mock_service
+
+
+# ============================================================================
+# RESOURCE-DEPENDENT TEST HELPERS
+# ============================================================================
+
+@pytest.fixture
+def skip_if_resource_unavailable():
+    """Skip test if required system resources are not available."""
+
+    def check_resource(resource_name: str, min_available: int = None) -> bool:
+        """Check if a resource is available."""
+        import psutil
+
+        if resource_name == "memory":
+            available_mb = psutil.virtual_memory().available / (1024 * 1024)
+            required_mb = min_available or 500
+            if available_mb < required_mb:
+                pytest.skip(f"Insufficient memory: {available_mb}MB < {required_mb}MB required")
+            return True
+
+        elif resource_name == "disk":
+            free_mb = psutil.disk_usage('/').free / (1024 * 1024)
+            required_mb = min_available or 1000
+            if free_mb < required_mb:
+                pytest.skip(f"Insufficient disk space: {free_mb}MB < {required_mb}MB required")
+            return True
+
+        elif resource_name == "cpu":
+            cpu_percent = psutil.cpu_percent(interval=0.1)
+            max_percent = min_available or 80
+            if cpu_percent > max_percent:
+                pytest.skip(f"High CPU load: {cpu_percent}% > {max_percent}% threshold")
+            return True
+
+        return True
+
+    return check_resource
+
+
+@pytest.fixture
+def resource_aware_test_context():
+    """Provide context-aware resource testing."""
+
+    class ResourceContext:
+        """Manage resource-dependent test execution."""
+
+        def __init__(self):
+            import psutil
+            self.psutil = psutil
+            self.initial_memory = None
+            self.initial_disk = None
+            self.initial_cpu = None
+
+        def capture_initial_state(self):
+            """Capture initial resource state."""
+            self.initial_memory = self.psutil.virtual_memory()
+            self.initial_disk = self.psutil.disk_usage('/')
+            self.initial_cpu = self.psutil.cpu_percent(interval=0.1)
+
+            return {
+                'memory_available_mb': self.initial_memory.available / (1024 * 1024),
+                'disk_free_mb': self.initial_disk.free / (1024 * 1024),
+                'cpu_percent': self.initial_cpu
+            }
+
+        def assert_resources_stable(self, max_memory_delta_mb: float = 100,
+                                    max_cpu_delta: float = 10):
+            """Assert that resources remained stable during test."""
+            current_memory = self.psutil.virtual_memory()
+            current_cpu = self.psutil.cpu_percent(interval=0.1)
+
+            memory_delta_mb = (self.initial_memory.available - current_memory.available) / (1024 * 1024)
+            cpu_delta = abs(current_cpu - self.initial_cpu)
+
+            assert memory_delta_mb < max_memory_delta_mb, \
+                f"Memory usage increased by {memory_delta_mb}MB (max {max_memory_delta_mb}MB)"
+            assert cpu_delta < max_cpu_delta, \
+                f"CPU usage changed by {cpu_delta}% (max {max_cpu_delta}%)"
+
+        def get_available_memory_mb(self) -> float:
+            """Get current available memory in MB."""
+            return self.psutil.virtual_memory().available / (1024 * 1024)
+
+        def get_available_disk_mb(self) -> float:
+            """Get current available disk space in MB."""
+            return self.psutil.disk_usage('/').free / (1024 * 1024)
+
+        def get_cpu_percent(self) -> float:
+            """Get current CPU percentage."""
+            return self.psutil.cpu_percent(interval=0.1)
+
+    context = ResourceContext()
+    context.capture_initial_state()
+
+    yield context
+
+
+# ============================================================================
+# CACHE MEMORY PRESSURE TESTING
+# ============================================================================
+
+@pytest.fixture
+async def cache_under_memory_pressure(mock_system_memory, multi_tier_cache_system):
+    """Provide cache system under simulated memory pressure."""
+
+    # Simulate memory pressure
+    mock_system_memory.set_low_memory(available_mb=100)
+
+    yield multi_tier_cache_system
+
+    # Restore normal memory
+    mock_system_memory.set_normal_memory()
+
+
+@pytest.fixture
+async def cache_with_full_disk(mock_disk_space, multi_tier_cache_system):
+    """Provide cache system with low disk space."""
+
+    # Simulate disk pressure
+    mock_disk_space.set_low_disk(free_mb=50)
+
+    yield multi_tier_cache_system
+
+    # Restore normal disk
+    mock_disk_space.set_high_disk()
+
+
+# ============================================================================
+# SKIP DECORATORS FOR SYSTEM DEPENDENCIES
+# ============================================================================
+
+def skip_without_weasyprint(func):
+    """Skip test if WeasyPrint is not available."""
+    try:
+        import weasyprint
+        return func
+    except ImportError:
+        return pytest.mark.skip(reason="WeasyPrint not available")(func)
+
+
+def skip_without_system_resource(resource_name: str, min_required: int = None):
+    """Skip test if required system resource is not available."""
+    def decorator(func):
+        def wrapper(*args, **kwargs):
+            import psutil
+
+            if resource_name == "memory":
+                available_mb = psutil.virtual_memory().available / (1024 * 1024)
+                required_mb = min_required or 500
+                if available_mb < required_mb:
+                    pytest.skip(f"Insufficient {resource_name}: {available_mb}MB < {required_mb}MB")
+
+            elif resource_name == "disk":
+                free_mb = psutil.disk_usage('/').free / (1024 * 1024)
+                required_mb = min_required or 1000
+                if free_mb < required_mb:
+                    pytest.skip(f"Insufficient {resource_name}: {free_mb}MB < {required_mb}MB")
+
+            return func(*args, **kwargs)
+        return wrapper
+    return decorator
