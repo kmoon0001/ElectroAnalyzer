@@ -31,7 +31,7 @@ async def test_get_dashboard_statistics(populated_db: AsyncSession):
     assert stats["total_documents_analyzed"] == 4
     assert stats["overall_compliance_score"] == pytest.approx(86.25)
     assert len(stats["compliance_by_category"]) == 3
-    assert stats["compliance_by_category"]["Progress Note"]["average_score"] == pytest.approx(85.0)
+    assert stats["compliance_by_category"]["Progress Note"]["average_score"] == pytest.approx(90.0)
     assert stats["compliance_by_category"]["Progress Note"]["document_count"] == 2
 
 

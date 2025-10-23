@@ -16,6 +16,7 @@ import pytest_asyncio
 from httpx import ASGITransport, AsyncClient
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
+from pathlib import Path
 
 from src.api.main import app
 from src.core.vector_store import VectorStore, get_vector_store
@@ -65,11 +66,11 @@ async def cleanup_async_tasks():
 
     # Get current task to avoid cancelling ourselves
     current_task = asyncio.current_task(loop)
-    
+
     # Cancel all pending tasks EXCEPT current task
-    pending_tasks = [task for task in asyncio.all_tasks(loop) 
+    pending_tasks = [task for task in asyncio.all_tasks(loop)
                      if task != current_task and not task.done()]
-    
+
     for task in pending_tasks:
         if task:
             task.cancel()
@@ -246,11 +247,19 @@ def _reset_vector_store() -> VectorStore:
     return store
 
 
-@pytest_asyncio.fixture(scope="session")
-async def async_engine(tmp_path_factory: pytest.TempPathFactory):
-    """Create async database engine for tests."""
-    db_path = tmp_path_factory.mktemp("test_dbs") / "pytest.db"
-    engine = create_async_engine(f"sqlite+aiosqlite:///{db_path}", future=True)
+@pytest_asyncio.fixture(scope="function")
+async def async_engine(tmp_path: Path):
+    """Create async database engine for tests with NullPool (function-scoped for isolation)."""
+    from sqlalchemy.pool import NullPool
+    
+    # Use function-scoped temp directory for complete isolation
+    db_path = tmp_path / "pytest.db"
+    engine = create_async_engine(
+        f"sqlite+aiosqlite:///{db_path}", 
+        future=True,
+        poolclass=NullPool,  # Required for async tests
+        echo=False
+    )
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
     try:
@@ -259,9 +268,9 @@ async def async_engine(tmp_path_factory: pytest.TempPathFactory):
         await engine.dispose()
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def async_session_factory(async_engine):
-    """Create async session factory for tests."""
+    """Create async session factory for tests (function-scoped for isolation)."""
     return async_sessionmaker(bind=async_engine, expire_on_commit=False, autoflush=False)
 
 
@@ -645,80 +654,35 @@ pytestmark = [
 
 
 # ============================================================================
+# FASTAPI DEPENDENCY OVERRIDE (CRITICAL FOR TEST ISOLATION)
+# ============================================================================
+
+@pytest.fixture(autouse=True)
+def override_db_dependency(async_session_factory):
+    """Override FastAPI database dependency for tests."""
+    from src.database.database import get_async_db
+    from src.api.main import app
+
+    def override_get_db():
+        session = async_session_factory()
+        try:
+            yield session
+        finally:
+            pass  # Don't close the session here, let the fixture handle it
+
+    app.dependency_overrides[get_async_db] = override_get_db
+    yield
+    # Only delete if it exists
+    if get_async_db in app.dependency_overrides:
+        del app.dependency_overrides[get_async_db]
+
+
+# ============================================================================
 # DATABASE STATE MANAGEMENT (CRITICAL FOR TEST ISOLATION)
 # ============================================================================
 
-@pytest_asyncio.fixture(autouse=True)
-async def cleanup_database_state(async_session_factory=None):
-    """Cleanup and reset database state between tests."""
-    # Skip if no session factory available
-    if not async_session_factory:
-        yield
-        return
-    
-    # Pre-test: Truncate all tables to ensure clean state
-    try:
-        async with async_session_factory() as session:
-            try:
-                # Disable foreign key constraints temporarily
-                if 'sqlite' in str(async_session_factory.kw.get('bind', '')):
-                    await asyncio.wait_for(session.execute(text('PRAGMA foreign_keys = OFF')), timeout=5.0)
-                
-                # Delete all data from all tables in reverse order (for FK constraints)
-                for table in reversed(Base.metadata.sorted_tables):
-                    try:
-                        await asyncio.wait_for(session.execute(table.delete()), timeout=5.0)
-                    except Exception:
-                        pass
-                
-                await asyncio.wait_for(session.commit(), timeout=5.0)
-                
-                # Re-enable foreign key constraints
-                if 'sqlite' in str(async_session_factory.kw.get('bind', '')):
-                    await asyncio.wait_for(session.execute(text('PRAGMA foreign_keys = ON')), timeout=5.0)
-            except Exception as e:
-                logging.debug(f"Error pre-cleaning database: {e}")
-                try:
-                    await session.rollback()
-                except Exception:
-                    pass
-    except Exception as e:
-        logging.warning(f"Error pre-cleaning database: {e}")
-    
-    yield
-    
-    # Post-test: Cleanup after test
-    if not async_session_factory:
-        return
-        
-    try:
-        async with async_session_factory() as session:
-            try:
-                # Disable foreign keys
-                if 'sqlite' in str(async_session_factory.kw.get('bind', '')):
-                    await asyncio.wait_for(session.execute(text('PRAGMA foreign_keys = OFF')), timeout=5.0)
-                
-                # Truncate all tables
-                for table in reversed(Base.metadata.sorted_tables):
-                    try:
-                        await asyncio.wait_for(session.execute(table.delete()), timeout=5.0)
-                    except Exception as e:
-                        logging.debug(f"Error deleting from {table.name}: {e}")
-                
-                await asyncio.wait_for(session.commit(), timeout=5.0)
-                
-                # Re-enable foreign keys
-                if 'sqlite' in str(async_session_factory.kw.get('bind', '')):
-                    await asyncio.wait_for(session.execute(text('PRAGMA foreign_keys = ON')), timeout=5.0)
-            except Exception as e:
-                logging.debug(f"Error post-cleaning database: {e}")
-                try:
-                    await session.rollback()
-                except Exception:
-                    pass
-    except Exception as e:
-        logging.warning(f"Error post-cleaning database: {e}")
-
+# Note: Database cleanup is now handled automatically by function-scoped fixtures
+# Each test gets its own fresh database, ensuring complete isolation
 
 @pytest_asyncio.fixture
 async def db_session(async_session_factory):
@@ -727,7 +691,7 @@ async def db_session(async_session_factory):
         try:
             yield session
             await session.commit()
-        except Exception:
+        except Exception as e:
             await session.rollback()
             raise
         finally:
@@ -736,11 +700,27 @@ async def db_session(async_session_factory):
 
 @pytest_asyncio.fixture
 async def populated_test_db(db_session: AsyncSession):
-    """Create a populated test database with sample data."""
-    # Create test users
+    """Create a populated test database with sample data.
+    
+    Test data expectations (from test_get_team_performance_trends comments):
+    - report_1: 5 days ago, score 95.0 (PT) - Progress Note
+    - report_2: 10 days ago, score 85.0 (PT) - Progress Note
+    - report_3: 15 days ago, score 75.0 (OT) - Evaluation
+    - report_4: 20 days ago, score 90.0 (ST) - Assessment
+    
+    Overall average: (95 + 85 + 75 + 90) / 4 = 86.25 ✓
+    Progress Note average: (95 + 85) / 2 = 90.0
+    Week 1 avg: 95.0 (report_1 only)
+    Week 2 avg: 85.0 (report_2 only)
+    Week 3 avg: (75 + 90) / 2 = 82.5
+    """
+    import uuid
+    from datetime import timedelta
+
+    # Create unique test users to avoid conflicts
+    unique_id = str(uuid.uuid4())[:8]
     test_user = models.User(
-        username="testuser",
-        email="test@example.com",
+        username=f"testuser_{unique_id}",
         hashed_password="$2b$12$test_hash",
         is_active=True
     )
@@ -749,25 +729,79 @@ async def populated_test_db(db_session: AsyncSession):
     # Flush to get IDs
     await db_session.flush()
 
-    # Create test analysis reports
+    # Create test analysis reports with specific dates and scores
     now = datetime.datetime.now(datetime.timezone.utc)
-    test_report = models.AnalysisReport(
-        document_name="test_document.pdf",
-        compliance_score=85.5,
+
+    # report_1: 5 days ago, score 95.0 (PT) - Progress Note
+    report1 = models.AnalysisReport(
+        document_name=f"report_1_{unique_id}.pdf",
+        compliance_score=95.0,
         document_type="Progress Note",
         discipline="PT",
-        analysis_date=now,
+        analysis_date=now - timedelta(days=5),
         analysis_result={
             "discipline": "PT",
             "document_type": "Progress Note",
-            "summary": "Test analysis summary"
+            "summary": f"Report 1 {unique_id}"
         }
     )
-    db_session.add(test_report)
+    db_session.add(report1)
+
+    # report_2: 10 days ago, score 85.0 (PT) - Progress Note
+    report2 = models.AnalysisReport(
+        document_name=f"report_2_{unique_id}.pdf",
+        compliance_score=85.0,
+        document_type="Progress Note",
+        discipline="PT",
+        analysis_date=now - timedelta(days=10),
+        analysis_result={
+            "discipline": "PT",
+            "document_type": "Progress Note",
+            "summary": f"Report 2 {unique_id}"
+        }
+    )
+    db_session.add(report2)
+
+    # report_3: 15 days ago, score 75.0 (OT) - Evaluation
+    report3 = models.AnalysisReport(
+        document_name=f"report_3_{unique_id}.pdf",
+        compliance_score=75.0,
+        document_type="Evaluation",
+        discipline="OT",
+        analysis_date=now - timedelta(days=15),
+        analysis_result={
+            "discipline": "OT",
+            "document_type": "Evaluation",
+            "summary": f"Report 3 {unique_id}"
+        }
+    )
+    db_session.add(report3)
+
+    # report_4: 20 days ago, score 90.0 (ST) - Assessment
+    report4 = models.AnalysisReport(
+        document_name=f"report_4_{unique_id}.pdf",
+        compliance_score=90.0,
+        document_type="Assessment",
+        discipline="ST",
+        analysis_date=now - timedelta(days=20),
+        analysis_result={
+            "discipline": "ST",
+            "document_type": "Assessment",
+            "summary": f"Report 4 {unique_id}"
+        }
+    )
+    db_session.add(report4)
 
     await db_session.commit()
 
     return db_session
+
+
+# Alias for backward compatibility
+@pytest_asyncio.fixture
+async def populated_db(populated_test_db):
+    """Alias for populated_test_db for backward compatibility."""
+    return populated_test_db
 
 
 # ============================================================================
@@ -1003,7 +1037,7 @@ async def global_state_manager():
 @pytest.fixture(autouse=True)
 def mock_system_dependencies():
     """Mock system dependencies that may not be available on all platforms."""
-    
+
     # Mock WeasyPrint/Cairo/GTK if not available or broken
     try:
         import weasyprint
@@ -1013,7 +1047,7 @@ def mock_system_dependencies():
         weasyprint_mock = Mock()
         weasyprint_mock.HTML = Mock(return_value=Mock(write_pdf=Mock(return_value=b"PDF")))
         sys.modules['weasyprint'] = weasyprint_mock
-    
+
     # Mock cairo if not available
     try:
         import cairo
@@ -1021,7 +1055,7 @@ def mock_system_dependencies():
         logging.debug("Cairo not available, creating mock")
         cairo_mock = Mock()
         sys.modules['cairo'] = cairo_mock
-    
+
     # Mock gi (GTK) if not available
     try:
         import gi
@@ -1033,9 +1067,9 @@ def mock_system_dependencies():
         sys.modules['gi'] = gi_mock
         sys.modules['gi.repository'] = Mock()
         sys.modules['gi.repository.Gtk'] = Mock()
-    
+
     yield
-    
+
     # Cleanup mocks
     for module_name in ['weasyprint', 'cairo', 'gi', 'gi.repository', 'gi.repository.Gtk']:
         if module_name in sys.modules:

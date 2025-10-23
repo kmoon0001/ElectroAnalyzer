@@ -8,7 +8,8 @@ import sqlalchemy
 import sqlalchemy.exc
 from fastapi import Depends
 from requests.exceptions import HTTPError
-from sqlalchemy import text
+from sqlalchemy import text, event
+from sqlalchemy.engine import Engine
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy.orm import declarative_base
 from sqlalchemy.pool import StaticPool
@@ -25,6 +26,17 @@ DATABASE_URL = settings.database.url
 def get_database_url() -> str:
     """Get the database URL for connection."""
     return DATABASE_URL
+
+
+@event.listens_for(Engine, "connect")
+def set_sqlite_pragma(dbapi_connection, connection_record):
+    """Enable SQLite foreign key constraints and other pragmas."""
+    if isinstance(dbapi_connection, sqlite3.Connection):
+        cursor = dbapi_connection.cursor()
+        cursor.execute("PRAGMA foreign_keys=ON")
+        cursor.execute("PRAGMA journal_mode=WAL")
+        cursor.execute("PRAGMA synchronous=NORMAL")
+        cursor.close()
 
 
 async def test_connection() -> bool:
@@ -158,6 +170,7 @@ async def init_db() -> None:
     - Creates all tables defined by SQLAlchemy models
     - Applies database-specific optimizations (SQLite pragmas, indexes)
     - Ensures proper schema setup for medical data compliance
+    - Creates default admin user if none exists
     """
     logger.info("Initializing database schema")
 
@@ -174,6 +187,12 @@ async def init_db() -> None:
                 await conn.execute(
                     text("ALTER TABLE users ADD COLUMN preferences JSON")
                 )
+
+        # Create default admin user if none exists
+        result = await conn.execute(text("SELECT COUNT(*) FROM users"))
+        if result.scalar() == 0:
+            logger.info("Creating default admin user")
+            await create_default_admin_user(conn)
 
         # Apply SQLite-specific optimizations if enabled
         if "sqlite" in DATABASE_URL and settings.database.sqlite_optimizations:
@@ -199,6 +218,21 @@ async def init_db() -> None:
             )  # Enable foreign key constraints
 
     logger.info("Database initialization complete")
+
+
+async def create_default_admin_user(conn):
+    """Create a default admin user if none exists."""
+    from src.database.models import User
+    from src.auth import get_password_hash
+
+    default_admin = User(
+        username="admin",
+        hashed_password=get_password_hash("admin123"),
+        is_active=True,
+        is_admin=True
+    )
+    conn.add(default_admin)
+    await conn.commit()
 
 
 async def close_db_connections() -> None:

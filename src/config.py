@@ -333,6 +333,17 @@ def validate_environment_security():
     if secret_key and len(secret_key) < 32:
         logger.warning("SECRET_KEY is shorter than recommended 32 characters")
 
+    # Validate Fernet key format
+    try:
+        from cryptography.fernet import Fernet
+        file_encryption_key = os.getenv("FILE_ENCRYPTION_KEY")
+        if file_encryption_key:
+            Fernet(file_encryption_key.encode())
+            logger.debug("FILE_ENCRYPTION_KEY format validation passed")
+    except Exception as e:
+        logger.error(f"Invalid FILE_ENCRYPTION_KEY format: {e}")
+        raise ValueError(f"Invalid FILE_ENCRYPTION_KEY format: {e}")
+
     # Check for default/insecure values
     insecure_defaults = {
         "DATABASE_ENCRYPTION_PASSWORD": "default-db-password-change-in-production",

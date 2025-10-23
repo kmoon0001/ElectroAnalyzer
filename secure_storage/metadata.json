@@ -1,16 +1,4 @@
 {
-  "54c26823-eefc-4afd-8624-9972bd5320ea": {
-    "filename": "test_progress_note.txt",
-    "user_id": 1,
-    "stored_at": "2025-10-22T06:54:21.499699",
-    "file_size": 874,
-    "encrypted_size": 1252,
-    "metadata": {
-      "upload_type": "legacy",
-      "original_filename": "test_progress_note.txt",
-      "content_type": "text/plain"
-    }
-  },
   "52da644d-b35f-4ac9-b867-d7d6cafbbf16": {
     "filename": "test_progress_note.txt",
     "user_id": 1,
@@ -92,6 +80,222 @@
     "metadata": {
       "upload_type": "legacy",
       "original_filename": "concurrent_test_3.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "bf945298-8b34-45be-b0aa-905f44b0ff8f": {
+    "filename": "test_progress_note.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-23T06:52:04.227091",
+    "file_size": 874,
+    "encrypted_size": 1252,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "test_progress_note.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "156cbcd2-f0e1-46f7-ad2f-b11ab6fabc56": {
+    "filename": "test_progress_note.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-23T06:56:40.941650",
+    "file_size": 874,
+    "encrypted_size": 1252,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "test_progress_note.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "a63f7886-04f1-4ea0-85b2-b235d738ca50": {
+    "filename": "test_progress_note.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-23T06:56:46.657431",
+    "file_size": 331,
+    "encrypted_size": 524,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "test_progress_note.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "d9b53436-8132-4bf5-bd1b-eb96517aa5ac": {
+    "filename": "test_evaluation.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-23T06:56:51.441015",
+    "file_size": 368,
+    "encrypted_size": 588,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "test_evaluation.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "84cf4a23-6262-4964-adb5-c527d7ebf227": {
+    "filename": "test_discharge_summary.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-23T06:56:56.196765",
+    "file_size": 341,
+    "encrypted_size": 548,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "test_discharge_summary.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "ed05da16-c203-4cca-8336-d6bed3ac8128": {
+    "filename": "concurrent_test_1.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-23T06:56:59.882105",
+    "file_size": 329,
+    "encrypted_size": 524,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "concurrent_test_1.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "c1de7931-f0f7-4dbc-9708-5c2dccd865a9": {
+    "filename": "concurrent_test_2.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-23T06:57:01.454107",
+    "file_size": 329,
+    "encrypted_size": 524,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "concurrent_test_2.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "4b20f57b-d821-4c66-8dc8-8cac26018c25": {
+    "filename": "concurrent_test_3.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-23T06:57:02.369587",
+    "file_size": 329,
+    "encrypted_size": 524,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "concurrent_test_3.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "9e62da69-7985-40b6-b4f9-14a8fa65cbf3": {
+    "filename": "test_progress_note.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-23T06:57:10.812400",
+    "file_size": 874,
+    "encrypted_size": 1252,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "test_progress_note.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "aa5fdfac-898e-4fdc-9b7c-7ed9cfb722d5": {
+    "filename": "test_progress_note.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-23T07:01:52.946920",
+    "file_size": 874,
+    "encrypted_size": 1252,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "test_progress_note.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "6f7d3c7e-ac0a-4f97-9ddb-a37d3e8388bf": {
+    "filename": "test_progress_note.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-23T07:01:58.393894",
+    "file_size": 331,
+    "encrypted_size": 524,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "test_progress_note.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "7f03e7a1-c414-4f1a-8e3a-a52d5f93f439": {
+    "filename": "test_evaluation.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-23T07:02:03.008298",
+    "file_size": 368,
+    "encrypted_size": 588,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "test_evaluation.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "b8a3fc7c-a2f9-43f6-88d1-24b8afd912d7": {
+    "filename": "test_discharge_summary.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-23T07:02:07.726006",
+    "file_size": 341,
+    "encrypted_size": 548,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "test_discharge_summary.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "1b4d6f67-27a5-4ab6-a689-23052fd1f2ec": {
+    "filename": "concurrent_test_1.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-23T07:02:13.129215",
+    "file_size": 329,
+    "encrypted_size": 524,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "concurrent_test_1.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "8eac6773-67a3-4581-afc7-16d993aaf143": {
+    "filename": "concurrent_test_2.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-23T07:02:13.654678",
+    "file_size": 329,
+    "encrypted_size": 524,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "concurrent_test_2.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "2a6315fb-7344-4f6a-92f4-45c2de534995": {
+    "filename": "concurrent_test_3.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-23T07:02:14.237574",
+    "file_size": 329,
+    "encrypted_size": 524,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "concurrent_test_3.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "51c9a75a-348b-433d-a57e-8ba1ddbc336c": {
+    "filename": "test_progress_note.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-23T07:02:22.118976",
+    "file_size": 874,
+    "encrypted_size": 1252,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "test_progress_note.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "346e02d5-7874-450b-b276-8530b595d171": {
+    "filename": "test_progress_note.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-23T07:07:42.263425",
+    "file_size": 874,
+    "encrypted_size": 1252,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "test_progress_note.txt",
       "content_type": "text/plain"
     }
   }

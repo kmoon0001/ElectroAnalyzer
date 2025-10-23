@@ -311,7 +311,8 @@ const createMainWindow = () => {
   if (isDev) {
     mainWindow.loadURL(rendererUrl);
   } else {
-    const indexFile = path.join(__dirname, '..', 'build', 'index.html');
+    // Fix: Use path.join for cross-platform compatibility
+    const indexFile = path.join(__dirname, '../build/index.html');
     mainWindow.loadFile(indexFile);
   }
 
