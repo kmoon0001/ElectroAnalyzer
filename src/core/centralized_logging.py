@@ -8,6 +8,8 @@ import asyncio
 import functools
 import logging
 import logging.config
+import os
+from logging.handlers import RotatingFileHandler
 import time
 import traceback
 from datetime import datetime, timezone, timedelta
@@ -300,6 +302,23 @@ audit_logger = AuditLogger()
 time_utils = TimeUtils()
 
 
+
+class SafeRotatingFileHandler(RotatingFileHandler):
+    """Rotating handler resilient to Windows file locks."""
+
+    def doRollover(self) -> None:
+        try:
+            super().doRollover()
+        except PermissionError as exc:
+            logging.getLogger(__name__).warning(
+                "Log rotation deferred for %s due to locked file: %s",
+                self.baseFilename,
+                exc,
+            )
+            if not self.delay:
+                self.stream = self._open()
+
+
 def setup_logging(
     log_level: str = 'INFO',
     log_file: Optional[str] = None,
@@ -308,6 +327,17 @@ def setup_logging(
     enable_performance: bool = True
 ) -> None:
     """Setup centralized logging configuration."""
+
+    # Ensure previous handlers are released to avoid file locking issues during reloads
+    for logger_name in ("", "audit", "performance"):
+        existing_logger = logging.getLogger(logger_name)
+        for handler in list(existing_logger.handlers):
+            try:
+                handler.close()
+            except Exception:
+                pass
+            existing_logger.removeHandler(handler)
+
 
     # Create logs directory
     log_dir = Path('logs')
@@ -358,12 +388,14 @@ def setup_logging(
     # Add file handler if specified
     if log_file:
         config['handlers']['file'] = {
-            'class': 'logging.handlers.RotatingFileHandler',
+            '()': SafeRotatingFileHandler,
             'level': log_level,
             'formatter': log_format,
             'filename': str(log_dir / log_file),
             'maxBytes': 10 * 1024 * 1024,  # 10MB
-            'backupCount': 5
+            'backupCount': 5,
+            'delay': True,
+            'encoding': 'utf-8'
         }
 
         # Add file handler to root logger
@@ -372,12 +404,14 @@ def setup_logging(
     # Add audit file handler
     if enable_audit:
         config['handlers']['audit_file'] = {
-            'class': 'logging.handlers.RotatingFileHandler',
+            '()': SafeRotatingFileHandler,
             'level': 'INFO',
             'formatter': 'json',
             'filename': str(log_dir / 'audit.log'),
             'maxBytes': 10 * 1024 * 1024,  # 10MB
-            'backupCount': 10
+            'backupCount': 10,
+            'delay': True,
+            'encoding': 'utf-8'
         }
 
         config['loggers']['audit']['handlers'].append('audit_file')
@@ -385,12 +419,14 @@ def setup_logging(
     # Add performance file handler
     if enable_performance:
         config['handlers']['performance_file'] = {
-            'class': 'logging.handlers.RotatingFileHandler',
+            '()': SafeRotatingFileHandler,
             'level': 'DEBUG',
             'formatter': 'json',
             'filename': str(log_dir / 'performance.log'),
             'maxBytes': 10 * 1024 * 1024,  # 10MB
-            'backupCount': 5
+            'backupCount': 5,
+            'delay': True,
+            'encoding': 'utf-8'
         }
 
         config['loggers']['performance']['handlers'].append('performance_file')

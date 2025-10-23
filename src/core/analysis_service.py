@@ -472,7 +472,7 @@ class AnalysisService:
                 )
 
                 # Use document chunker for large documents
-                chunker = get_document_chunker(max_tokens=512)
+                chunker = get_document_chunker()
                 chunks = chunker.chunk_document_by_sections(text_to_process)
                 logger.info("Document split into %d chunks for processing", len(chunks))
 

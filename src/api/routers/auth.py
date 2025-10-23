@@ -5,11 +5,13 @@ Provides endpoints for JWT token generation, user registration, and password upd
 
 import logging
 from datetime import timedelta
+from types import SimpleNamespace
 
 import sqlalchemy
 from fastapi import APIRouter, Depends, HTTPException, Request, status
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.ext.asyncio import AsyncSession
+from pydantic import BaseModel, ValidationError as PydanticValidationError
 
 from ...auth import AuthService, get_auth_service, get_current_active_user
 from ...config import get_settings
@@ -26,6 +28,12 @@ from ..error_handling import (
 logger = logging.getLogger(__name__)
 router = APIRouter(tags=["auth"])
 settings = get_settings()
+
+
+class LoginRequest(BaseModel):
+    """JSON login request model for Electron app and JSON clients."""
+    username: str
+    password: str
 
 
 async def _authenticate_user(
@@ -140,21 +148,88 @@ async def login_for_access_token(
     )
 
 
+
+def _create_form_like(username: str, password: str, scopes: list[str] | None = None) -> SimpleNamespace:
+    """Build a simple namespace mimicking OAuth2PasswordRequestForm."""
+    return SimpleNamespace(
+        username=username,
+        password=password,
+        scopes=list(scopes or []),
+    )
+
+
 @router.post("/login", response_model=schemas.Token)
-async def login_legacy(
-    form_data: OAuth2PasswordRequestForm = Depends(),
+async def login(
+    request: Request,
+    db: AsyncSession = Depends(get_async_db),
+    auth_service: AuthService = Depends(get_auth_service),
+) -> dict[str, str]:
+    """Authenticate via form or JSON payload, maintaining backward compatibility."""
+    content_type = (request.headers.get("content-type") or "").split(";")[0].strip().lower()
+
+    if content_type == "application/json":
+        try:
+            payload = await request.json()
+        except ValueError as exc:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Invalid JSON payload",
+            ) from exc
+
+        try:
+            credentials = LoginRequest(**payload)
+        except PydanticValidationError as exc:
+            raise HTTPException(
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                detail=exc.errors(),
+            ) from exc
+
+        form_like = _create_form_like(credentials.username, credentials.password)
+        return await _authenticate_user(
+            form_data=form_like,
+            db=db,
+            auth_service=auth_service,
+            request=request,
+        )
+
+    form = await request.form()
+    username = form.get("username")
+    password = form.get("password")
+
+    if username is None or password is None:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail="username and password are required",
+        )
+
+    scopes: list[str] = []
+    if hasattr(form, "getlist"):
+        scopes = list(form.getlist("scopes") or [])
+
+    form_like = _create_form_like(str(username), str(password), scopes=scopes)
+    return await _authenticate_user(
+        form_data=form_like,
+        db=db,
+        auth_service=auth_service,
+        request=request,
+    )
+
+
+@router.post("/json-login", response_model=schemas.Token)
+async def json_login(
+    credentials: LoginRequest,
     db: AsyncSession = Depends(get_async_db),
     auth_service: AuthService = Depends(get_auth_service),
     request: Request = None,
 ) -> dict[str, str]:
-    """Legacy login endpoint preserved for backward compatibility in tests.
-
-    Delegates to the same authentication flow as /auth/token.
-    """
+    """JSON-compatible login endpoint for Electron app and modern clients."""
+    form_data = _create_form_like(credentials.username, credentials.password)
     return await _authenticate_user(
-        form_data=form_data, db=db, auth_service=auth_service, request=request
+        form_data=form_data,
+        db=db,
+        auth_service=auth_service,
+        request=request,
     )
-
 
 @router.post("/users/change-password")
 async def change_password(
