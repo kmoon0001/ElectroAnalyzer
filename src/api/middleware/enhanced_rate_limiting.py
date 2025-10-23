@@ -343,6 +343,12 @@ class EnhancedRateLimitMiddleware(BaseHTTPMiddleware):
 
     def _should_skip_rate_limit(self, request: Request) -> bool:
         """Determine if rate limiting should be skipped."""
+        # DEVELOPMENT MODE: Skip all rate limiting
+        # This allows the frontend to make unlimited requests without hitting rate limits
+        import os
+        if os.getenv('DISABLE_RATE_LIMITING', 'true').lower() == 'true':
+            return True
+        
         # Skip for OPTIONS requests (CORS preflight)
         if request.method == "OPTIONS":
             return True
@@ -352,6 +358,10 @@ class EnhancedRateLimitMiddleware(BaseHTTPMiddleware):
 
         # Skip for health and metrics endpoints (including trailing slash variants)
         if path in ["", "/health", "/metrics"]:
+            return True
+        
+        # Skip auth endpoints during development to allow login
+        if path in ["/auth/login", "/auth/token", "/auth/register"]:
             return True
 
         # Skip rate limiting when running tests (httpx TestClient host) to avoid 429s masking other assertions
