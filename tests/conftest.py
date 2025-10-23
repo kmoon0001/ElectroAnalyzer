@@ -251,11 +251,11 @@ def _reset_vector_store() -> VectorStore:
 async def async_engine(tmp_path: Path):
     """Create async database engine for tests with NullPool (function-scoped for isolation)."""
     from sqlalchemy.pool import NullPool
-    
+
     # Use function-scoped temp directory for complete isolation
     db_path = tmp_path / "pytest.db"
     engine = create_async_engine(
-        f"sqlite+aiosqlite:///{db_path}", 
+        f"sqlite+aiosqlite:///{db_path}",
         future=True,
         poolclass=NullPool,  # Required for async tests
         echo=False
@@ -265,7 +265,20 @@ async def async_engine(tmp_path: Path):
     try:
         yield engine
     finally:
+        # Ensure proper cleanup of engine and connections
         await engine.dispose()
+
+
+@pytest_asyncio.fixture(autouse=True)
+async def cleanup_engine_connections(async_engine):
+    """Ensure engine connections are properly cleaned up after each test."""
+    yield
+    try:
+        # Double-check engine disposal
+        if async_engine and not async_engine.disposed:
+            await async_engine.dispose()
+    except Exception:
+        pass
 
 
 @pytest.fixture(scope="function")
@@ -677,6 +690,22 @@ def override_db_dependency(async_session_factory):
         del app.dependency_overrides[get_async_db]
 
 
+@pytest.fixture(autouse=True)
+def cleanup_test_client_connections():
+    """Clean up TestClient connections after each test."""
+    yield
+    # Clear FastAPI app dependency overrides
+    try:
+        from src.api.main import app
+        app.dependency_overrides.clear()
+    except Exception:
+        pass
+
+    # Force garbage collection to clean up any remaining connections
+    import gc
+    gc.collect()
+
+
 # ============================================================================
 # DATABASE STATE MANAGEMENT (CRITICAL FOR TEST ISOLATION)
 # ============================================================================
@@ -701,13 +730,13 @@ async def db_session(async_session_factory):
 @pytest_asyncio.fixture
 async def populated_test_db(db_session: AsyncSession):
     """Create a populated test database with sample data.
-    
+
     Test data expectations (from test_get_team_performance_trends comments):
     - report_1: 5 days ago, score 95.0 (PT) - Progress Note
     - report_2: 10 days ago, score 85.0 (PT) - Progress Note
     - report_3: 15 days ago, score 75.0 (OT) - Evaluation
     - report_4: 20 days ago, score 90.0 (ST) - Assessment
-    
+
     Overall average: (95 + 85 + 75 + 90) / 4 = 86.25 ✓
     Progress Note average: (95 + 85) / 2 = 90.0
     Week 1 avg: 95.0 (report_1 only)

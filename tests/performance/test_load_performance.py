@@ -3,6 +3,7 @@
 import pytest
 import asyncio
 import time
+import gc
 from concurrent.futures import ThreadPoolExecutor
 from fastapi.testclient import TestClient
 from src.api.main import app
@@ -13,8 +14,12 @@ class TestPerformanceLoad:
 
     @pytest.fixture
     def client(self):
-        """Create test client."""
-        return TestClient(app)
+        """Create test client with proper cleanup."""
+        client = TestClient(app)
+        yield client
+        # Explicitly close the client to release connections
+        client.close()
+        gc.collect()
 
     def test_single_request_performance(self, client):
         """Test single request performance."""
@@ -76,6 +81,7 @@ class TestPerformanceLoad:
 
         for _ in range(5):
             client.get("/health/")
+            gc.collect()  # Periodic cleanup
 
         end_time = time.time()
         total_time = end_time - start_time
@@ -198,8 +204,12 @@ class TestStressTesting:
 
     @pytest.fixture
     def client(self):
-        """Create test client."""
-        return TestClient(app)
+        """Create test client with proper cleanup."""
+        client = TestClient(app)
+        yield client
+        # Explicitly close the client to release connections
+        client.close()
+        gc.collect()
 
     def test_high_concurrency_stress(self, client):
         """Test system under high concurrency."""
@@ -236,6 +246,10 @@ class TestStressTesting:
             # Ensure we don't overwhelm the system
             time.sleep(0.1)
 
+            # Periodic cleanup to prevent connection buildup
+            if request_count % 10 == 0:
+                gc.collect()
+
         # Should handle sustained load
         assert request_count >= 50  # Should make at least 50 requests
         assert request_count <= 200  # But not too many
@@ -249,12 +263,15 @@ class TestStressTesting:
         initial_memory = process.memory_info().rss
 
         # Make many requests to test for memory leaks
-        for _ in range(100):
+        for i in range(100):
             client.get("/health/")
             client.get("/metrics")
 
+            # Periodic cleanup during stress test
+            if i % 10 == 0:
+                gc.collect()
+
         # Force garbage collection
-        import gc
         gc.collect()
 
         final_memory = process.memory_info().rss
@@ -269,9 +286,9 @@ class TestStressTesting:
         error_count = 0
         success_count = 0
 
-        for _ in range(50):
+        for i in range(50):
             # Mix of valid and invalid requests
-            if _ % 3 == 0:
+            if i % 3 == 0:
                 response = client.post("/analysis/start", json={"invalid": "data"})
                 if response.status_code >= 400:
                     error_count += 1
@@ -279,6 +296,10 @@ class TestStressTesting:
                 response = client.get("/health/")
                 if response.status_code == 200:
                     success_count += 1
+
+            # Periodic cleanup
+            if i % 10 == 0:
+                gc.collect()
 
         # System should handle errors gracefully
         assert error_count > 0  # Should have some errors
