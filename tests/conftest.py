@@ -257,7 +257,7 @@ async def async_engine(tmp_path: Path):
     engine = create_async_engine(
         f"sqlite+aiosqlite:///{db_path}",
         future=True,
-        poolclass=NullPool,  # Required for async tests
+        poolclass=NullPool,  # Required for async tests - NullPool doesn't pool, connects every time
         echo=False
     )
     async with engine.begin() as conn:
@@ -274,9 +274,11 @@ async def cleanup_engine_connections(async_engine):
     """Ensure engine connections are properly cleaned up after each test."""
     yield
     try:
-        # Double-check engine disposal
+        # Ensure all connections are returned to pool and disposed
         if async_engine and not async_engine.disposed:
             await async_engine.dispose()
+            # Small delay to allow connections to fully close
+            await asyncio.sleep(0.1)
     except Exception:
         pass
 
@@ -724,6 +726,7 @@ async def db_session(async_session_factory):
             await session.rollback()
             raise
         finally:
+            # Explicitly close the session to return connection to pool
             await session.close()
 
 
