@@ -29,3 +29,23 @@ jobs:
           USE_AI_MOCKS: '1'
         run: |
           pytest -q
+      - name: Generate OpenAPI schema
+        env:
+          SECRET_KEY: test-secret
+          USE_AI_MOCKS: '1'
+        run: |
+          python tools/dump_openapi.py
+      - name: Smoke test API import and health endpoints
+        env:
+          SECRET_KEY: test-secret
+          USE_AI_MOCKS: '1'
+          DISABLE_EXTERNAL_CHECKS: '1'
+        run: |
+          python tools/smoke_test.py
+      - name: Upload OpenAPI schema artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: openapi-schema
+          path: |
+            openapi.json
+            openapi_summary.txt

@@ -866,11 +866,14 @@ async def disconnect_ehr_system(
         ) from e
 
 
-@router.get("/supported-systems")
-async def get_supported_ehr_systems(
+@router.get("/supported-systems/summary")
+async def get_supported_ehr_systems_summary(
     current_user: User = Depends(get_current_user),
 ) -> dict[str, Any]:
-    """Get list of supported EHR systems."""
+    """Get summarized list of supported EHR systems.
+
+    This endpoint provides a concise list; see `/ehr/supported-systems` for detailed capabilities.
+    """
     return {
         "supported_systems": [
             {

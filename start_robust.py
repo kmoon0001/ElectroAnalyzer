@@ -9,6 +9,7 @@ import logging
 import sys
 import subprocess
 import time
+import os
 from pathlib import Path
 
 # Add src to path
@@ -73,7 +74,7 @@ def kill_process_on_port(port: int) -> bool:
         return False
 
 
-async def start_api_server(port: int = 8001) -> subprocess.Popen:
+async def start_api_server(port: int = 8001) -> tuple[subprocess.Popen, int]:
     """Start the API server on the specified port."""
     # Kill any existing process on the port
     kill_process_on_port(port)
@@ -93,26 +94,35 @@ async def start_api_server(port: int = 8001) -> subprocess.Popen:
         "src.api.main:app",
         "--host", "127.0.0.1",
         "--port", str(port),
-        "--reload"
     ]
+    # Enable reload only when explicitly requested (development)
+    try:
+        import os as _os
+        if (_os.getenv("UVICORN_RELOAD", "false").strip().lower() in {"1", "true", "yes"}):
+            cmd.append("--reload")
+    except Exception:
+        pass
 
     logger.info(f"Starting API server on port {port}")
-    process = subprocess.Popen(
-        cmd,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        text=True
-    )
+    process = subprocess.Popen(cmd)
 
     # Wait for server to start
     max_wait = 30
     for i in range(max_wait):
         try:
             import requests
-            response = requests.get(f"http://localhost:{port}/health", timeout=2)
-            if response.status_code == 200:
-                logger.info(f"API server started successfully on port {port}")
-                return process
+            # Try multiple health endpoints (prefer trailing slash)
+            for url in (
+                f"http://localhost:{port}/health/",
+                f"http://localhost:{port}/health/system",
+            ):
+                try:
+                    response = requests.get(url, timeout=2)
+                    if 200 <= response.status_code < 300:
+                        logger.info(f"API server started successfully on port {port}")
+                        return process, port
+                except Exception:
+                    continue
         except Exception:
             pass
 
@@ -127,7 +137,7 @@ async def start_api_server(port: int = 8001) -> subprocess.Popen:
     raise RuntimeError(f"API server failed to start within {max_wait} seconds")
 
 
-def start_frontend_server(port: int = 3001) -> subprocess.Popen:
+def start_frontend_server(port: int = 3001, api_port: int = 8001) -> subprocess.Popen:
     """Start the frontend server on the specified port."""
     # Kill any existing process on the port
     kill_process_on_port(port)
@@ -150,9 +160,10 @@ def start_frontend_server(port: int = 3001) -> subprocess.Popen:
     ]
 
     env = {
+        **os.environ,
         "PORT": str(port),
         "BROWSER": "none",
-        "REACT_APP_API_URL": f"http://127.0.0.1:8001"
+        "REACT_APP_API_URL": f"http://127.0.0.1:{api_port}",
     }
 
     logger.info(f"Starting frontend server on port {port}")
@@ -160,9 +171,6 @@ def start_frontend_server(port: int = 3001) -> subprocess.Popen:
         cmd,
         cwd=frontend_dir,
         env=env,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        text=True
     )
 
     # Wait for server to start
@@ -218,10 +226,10 @@ async def main():
         logger.info("Enhanced core services started successfully!")
 
         # Start API server
-        api_process = await start_api_server(8001)
+        api_process, api_port = await start_api_server(8001)
 
         # Start frontend server
-        frontend_process = start_frontend_server(3001)
+        frontend_process = start_frontend_server(3001, api_port=api_port)
 
         logger.info("All services started successfully!")
         logger.info("API Server: http://localhost:8001")

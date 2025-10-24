@@ -16,6 +16,8 @@ from fastapi.responses import JSONResponse
 from starlette.middleware.base import BaseHTTPMiddleware
 
 from src.core.advanced_security_system import security_system, SecurityLevel, ThreatType
+from src.auth import get_auth_service
+from jose import JWTError, jwt  # type: ignore[import-untyped]
 
 logger = logging.getLogger(__name__)
 
@@ -194,16 +196,27 @@ class AuthenticationMiddleware(BaseHTTPMiddleware):
         # Extract token
         token = auth_header.split(" ")[1]
 
-        # Validate token
-        payload = security_system.validate_token(token)
+        # Validate token using primary JWT config (AuthService / python-jose)
+        auth_service = get_auth_service()
+        payload: dict | None = None
+        try:
+            payload = jwt.decode(
+                token,
+                auth_service.secret_key,
+                algorithms=[auth_service.algorithm],
+            )
+        except JWTError:
+            # Fallback to advanced_security_system validation for backward compatibility
+            payload = security_system.validate_token(token)
+
         if not payload:
             return JSONResponse(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 content={"detail": "Invalid or expired token"}
             )
 
-        # Add user info to request state
-        request.state.user_id = payload.get("user_id")
+        # Add user info to request state (support both schemas)
+        request.state.user_id = payload.get("user_id") or payload.get("sub")
         request.state.token_payload = payload
 
         return await call_next(request)

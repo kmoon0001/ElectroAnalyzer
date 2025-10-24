@@ -141,8 +141,14 @@ class HealthChecker:
             return {"status": "unhealthy", "error": str(e)}
 
     async def check_external_dependencies(self) -> Dict[str, Any]:
-        """Check external service dependencies."""
-        dependencies = {}
+        """Check external service dependencies (can be fully disabled via env)."""
+        # Strict offline mode: skip all outbound checks when disabled
+        if os.getenv("DISABLE_EXTERNAL_CHECKS", "true").strip().lower() in {"1", "true", "yes"}:
+            return {
+                "huggingface": {"status": "skipped", "reason": "external checks disabled"}
+            }
+
+        dependencies: Dict[str, Any] = {}
 
         if self._is_test_mode():
             dependencies["huggingface"] = {"status": "skipped", "reason": "lightweight"}

@@ -174,6 +174,18 @@ async def init_db() -> None:
     """
     logger.info("Initializing database schema")
 
+    # Optional: run Alembic migrations if requested
+    import os as _os
+    if _os.getenv("USE_ALEMBIC", "false").strip().lower() in {"1", "true", "yes"}:
+        try:
+            from alembic.config import CommandLine as _AlembicCLI
+
+            cli = _AlembicCLI(prog="alembic")
+            cli.main(argv=["upgrade", "head"])  # raises SystemExit on success
+            logger.info("Alembic migrations applied (upgrade head)")
+        except Exception as _e:
+            logger.warning("Alembic migration skipped or failed: %s", _e)
+
     async with engine.begin() as conn:
         # Create all tables
         await conn.run_sync(Base.metadata.create_all)
@@ -192,7 +204,8 @@ async def init_db() -> None:
         result = await conn.execute(text("SELECT COUNT(*) FROM users"))
         if result.scalar() == 0:
             logger.info("Creating default admin user")
-            await create_default_admin_user(conn)
+            # Use a proper session for ORM operations
+            await create_default_admin_user()
 
         # Apply SQLite-specific optimizations if enabled
         if "sqlite" in DATABASE_URL and settings.database.sqlite_optimizations:
@@ -220,19 +233,20 @@ async def init_db() -> None:
     logger.info("Database initialization complete")
 
 
-async def create_default_admin_user(conn):
-    """Create a default admin user if none exists."""
+async def create_default_admin_user() -> None:
+    """Create a default admin user if none exists using an AsyncSession."""
     from src.database.models import User
     from src.auth import get_password_hash
 
-    default_admin = User(
-        username="admin",
-        hashed_password=get_password_hash("admin123"),
-        is_active=True,
-        is_admin=True
-    )
-    conn.add(default_admin)
-    await conn.commit()
+    async with AsyncSessionLocal() as session:
+        default_admin = User(
+            username="admin",
+            hashed_password=get_password_hash("admin123"),
+            is_active=True,
+            is_admin=True,
+        )
+        session.add(default_admin)
+        await session.commit()
 
 
 async def close_db_connections() -> None:

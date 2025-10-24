@@ -447,11 +447,17 @@ ALLOWED_CORS_ORIGINS = [
 # Enhanced CORS regex for Electron, Capacitor, and other desktop frameworks
 ALLOWED_CORS_REGEX = r"^(app|file|capacitor|electron)://.*$"
 
+_env = os.getenv("ENVIRONMENT", "development").lower()
+_docs_url = "/docs" if _env != "production" else None
+_redoc_url = None  # Avoid extra assets; prefer Swagger only in non-production
+
 app = FastAPI(
     title="Therapy Compliance Analyzer API",
     description="AI-powered clinical documentation compliance analysis",
     version="1.0.0",
     lifespan=lifespan,
+    docs_url=_docs_url,
+    redoc_url=_redoc_url,
 )
 
 # Set custom OpenAPI schema (if available)
@@ -489,11 +495,10 @@ app.add_middleware(PerformanceMonitoringMiddleware)
 # Add enhanced rate limiting middleware
 app.add_middleware(EnhancedRateLimitMiddleware)
 
-# Add CSRF protection middleware
+# Add CSRF protection middleware (use correct add_middleware signature)
 app.add_middleware(
-    lambda app: CSRFProtectionMiddleware(
-        app, settings.auth.secret_key.get_secret_value()
-    )
+    CSRFProtectionMiddleware,
+    secret_key=settings.auth.secret_key.get_secret_value(),
 )
 
 app.add_middleware(CorrelationIdMiddleware)
