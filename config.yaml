@@ -4,7 +4,7 @@ analysis:
   deterministic_focus: '- Treatment frequency documented\n- Goals reviewed or adjusted\n-
     Medical necessity justified'
   max_document_length: 50000
-use_ai_mocks: false
+use_ai_mocks: true
 auth:
   access_token_expire_minutes: 30
   algorithm: HS256
