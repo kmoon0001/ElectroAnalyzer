@@ -13,21 +13,15 @@ from src.config import get_settings as _get_settings
 from src.core.analysis_utils import enrich_analysis_result, trim_document_text
 from src.core.cache_service import cache_service
 from src.core.checklist_service import DeterministicChecklistService as ChecklistService
-from src.core.compliance_analyzer import ComplianceAnalyzer
 from src.core.document_chunker import get_document_chunker
-from src.core.document_classifier import DocumentClassifier
+from typing import TYPE_CHECKING
 from src.core.explanation import ExplanationEngine
 from src.core.unified_explanation_engine import UnifiedExplanationEngine, ExplanationContext
-from src.core.fact_checker_service import FactCheckerService
 from src.core.file_cleanup_service import get_cleanup_service
-from src.core.hybrid_retriever import HybridRetriever
-from src.core.llm_service import LLMService
 from src.core.model_selection_utils import (
     resolve_local_model_path,
     select_generator_profile,
 )
-from src.core.ner import ClinicalNERService
-from src.core.nlg_service import NLGService
 from src.core.parsing import parse_document_content
 from src.core.phi_scrubber import PhiScrubberService
 from src.core.preprocessing_service import PreprocessingService
@@ -39,6 +33,16 @@ from src.core.clinical_education_engine import ClinicalEducationEngine, Competen
 from src.core.human_feedback_system import HumanFeedbackSystem
 from src.core.text_utils import sanitize_human_text
 from src.utils.prompt_manager import PromptManager
+
+# Avoid importing heavy ML dependencies at module import time; import them lazily
+if TYPE_CHECKING:  # pragma: no cover - type checking only
+    from src.core.llm_service import LLMService  # noqa: F401
+    from src.core.hybrid_retriever import HybridRetriever  # noqa: F401
+    from src.core.ner import ClinicalNERService  # noqa: F401
+    from src.core.nlg_service import NLGService  # noqa: F401
+    from src.core.document_classifier import DocumentClassifier  # noqa: F401
+    from src.core.fact_checker_service import FactCheckerService  # noqa: F401
+    from src.core.compliance_analyzer import ComplianceAnalyzer  # noqa: F401
 
 logger = logging.getLogger(__name__)
 
@@ -134,39 +138,25 @@ class AnalysisService:
         self.use_mocks = bool(getattr(settings, "use_ai_mocks", False))
         logger.info("AnalysisService initialized with use_mocks=%s", self.use_mocks)
 
-        # Services used across both mocked and full pipelines
+        # Lightweight services used across both mocked and full pipelines
         self.checklist_service = kwargs.get("checklist_service") or ChecklistService()
-        self.phi_scrubber = kwargs.get("phi_scrubber") or PhiScrubberService()
         self.preprocessing = kwargs.get("preprocessing") or PreprocessingService()
         self.rubric_detector = kwargs.get("rubric_detector") or RubricDetector()
-
-        # Enhanced explanation engine with integrated XAI, bias mitigation, and accuracy enhancement
+        self.phi_scrubber = kwargs.get("phi_scrubber") or PhiScrubberService()
         self.explanation_engine = UnifiedExplanationEngine()
-
-        # Advanced ensemble optimizer for improved accuracy
         self.ensemble_optimizer = AdvancedEnsembleOptimizer(enable_learning=True)
-
-        # Human-in-the-loop feedback system
         self.feedback_system = HumanFeedbackSystem(enable_learning=True)
-
-        # Accuracy and hallucination tracking system
         from .accuracy_hallucination_tracker import accuracy_hallucination_tracker
         self.accuracy_tracker = accuracy_hallucination_tracker
-
-        # Safe accuracy improvements system
         from .safe_accuracy_improvements import safe_accuracy_enhancer
         self.safe_accuracy_enhancer = safe_accuracy_enhancer
-
-        # Multi-tier caching system for performance optimization
         self.multi_tier_cache = MultiTierCacheSystem(
-            l1_size_mb=200,  # 200MB L1 cache
-            l2_enabled=False,  # Redis not implemented yet
-            l3_enabled=True,   # Database cache enabled
-            default_ttl=3600,  # 1 hour default TTL
-            eviction_policy=EvictionPolicy.LRU
+            l1_size_mb=200,
+            l2_enabled=False,
+            l3_enabled=True,
+            default_ttl=3600,
+            eviction_policy=EvictionPolicy.LRU,
         )
-
-        # Clinical education engine for contextual learning
         self.education_engine = ClinicalEducationEngine()
 
         # Initialize 7 Habits Framework if enabled (works in both mock and real modes)
@@ -220,6 +210,7 @@ class AnalysisService:
         local_model_path = resolve_local_model_path(settings)
 
         # Stage 2 Services: Clinical Analysis on Anonymized Text
+        from src.core.llm_service import LLMService
         self.llm_service = kwargs.get("llm_service") or LLMService(
             model_repo_id=repo_id,
             model_filename=filename,
@@ -227,10 +218,12 @@ class AnalysisService:
             revision=revision,
             local_model_path=local_model_path,
         )
+        from src.core.hybrid_retriever import HybridRetriever
         self.retriever = kwargs.get("retriever") or HybridRetriever()
-        self.clinical_ner_service = kwargs.get(
-            "clinical_ner_service"
-        ) or ClinicalNERService(model_names=settings.models.ner_ensemble)
+        from src.core.ner import ClinicalNERService
+        self.clinical_ner_service = kwargs.get("clinical_ner_service") or ClinicalNERService(
+            model_names=settings.models.ner_ensemble
+        )
         template_path = Path(settings.models.analysis_prompt_template)
         self.prompt_manager = kwargs.get("prompt_manager") or PromptManager(
             template_name=template_path.name
@@ -247,6 +240,7 @@ class AnalysisService:
             if hasattr(settings, "models")
             else "pipeline"
         )
+        from src.core.fact_checker_service import FactCheckerService
         if fc_backend == "llm":
             self.fact_checker_service = kwargs.get("fact_checker_service") or FactCheckerService(
                 model_name=settings.models.fact_checker,
@@ -258,13 +252,14 @@ class AnalysisService:
                 model_name=settings.models.fact_checker,
                 backend="pipeline",
             )
+        from src.core.nlg_service import NLGService
         self.nlg_service = kwargs.get("nlg_service") or NLGService(
             llm_service=self.llm_service,
             prompt_template_path=settings.models.nlg_prompt_template,
         )
         self.compliance_analyzer = kwargs.get(
             "compliance_analyzer"
-        ) or ComplianceAnalyzer(
+        ) or __import__("src.core.compliance_analyzer", fromlist=["ComplianceAnalyzer"]).ComplianceAnalyzer(
             retriever=self.retriever,
             ner_service=self.clinical_ner_service,
             llm_service=self.llm_service,
@@ -275,9 +270,8 @@ class AnalysisService:
             deterministic_focus=settings.analysis.deterministic_focus,
         )
         self.compliance_analyzer.include_default_score = True
-        self.document_classifier = kwargs.get(
-            "document_classifier"
-        ) or DocumentClassifier(
+        from src.core.document_classifier import DocumentClassifier
+        self.document_classifier = kwargs.get("document_classifier") or DocumentClassifier(
             llm_service=self.llm_service,
             prompt_template_path=settings.models.doc_classifier_prompt,
         )

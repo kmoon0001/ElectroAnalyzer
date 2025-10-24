@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 """State-of-the-art PHI scrubbing service built on the Presidio framework."""
 
 import logging
