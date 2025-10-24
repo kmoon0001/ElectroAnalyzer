@@ -16,7 +16,8 @@ import time
 from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any, Dict, List, Optional, Tuple
-import jwt
+from jose import jwt  # Use python-jose consistently across the app
+from jose.exceptions import ExpiredSignatureError, JWTError
 from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
@@ -127,10 +128,10 @@ class AdvancedSecuritySystem:
         try:
             payload = jwt.decode(token, self.encryption_key, algorithms=['HS256'])
             return payload
-        except jwt.ExpiredSignatureError:
+        except ExpiredSignatureError:
             logger.warning("Token expired")
             return None
-        except jwt.InvalidTokenError:
+        except JWTError:
             logger.warning("Invalid token")
             return None
 

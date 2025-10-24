@@ -27,7 +27,10 @@ import structlog
 logger = structlog.get_logger(__name__)
 
 
-def find_available_port(start_port: int, max_attempts: int = 10) -> int:
+from typing import Optional
+
+
+def find_available_port(start_port: int, max_attempts: int = 10) -> Optional[int]:
     """Find an available port starting from start_port."""
     import socket
 
@@ -76,8 +79,12 @@ def kill_process_on_port(port: int) -> bool:
 
 async def start_api_server(port: int = 8001) -> tuple[subprocess.Popen, int]:
     """Start the API server on the specified port."""
-    # Kill any existing process on the port
-    kill_process_on_port(port)
+    # Optionally kill any existing process on the port (opt-in only)
+    try:
+        if os.getenv("KILL_PORT_PROCESS", "false").strip().lower() in {"1", "true", "yes"}:
+            kill_process_on_port(port)
+    except Exception:
+        pass
 
     # Find available port if needed
     available_port = find_available_port(port)
@@ -137,10 +144,14 @@ async def start_api_server(port: int = 8001) -> tuple[subprocess.Popen, int]:
     raise RuntimeError(f"API server failed to start within {max_wait} seconds")
 
 
-def start_frontend_server(port: int = 3001, api_port: int = 8001) -> subprocess.Popen:
+def start_frontend_server(port: int = 3001, api_port: int = 8001) -> tuple[subprocess.Popen, int]:
     """Start the frontend server on the specified port."""
-    # Kill any existing process on the port
-    kill_process_on_port(port)
+    # Optionally kill any existing process on the port (opt-in only)
+    try:
+        if os.getenv("KILL_PORT_PROCESS", "false").strip().lower() in {"1", "true", "yes"}:
+            kill_process_on_port(port)
+    except Exception:
+        pass
 
     # Find available port if needed
     available_port = find_available_port(port)
@@ -181,7 +192,7 @@ def start_frontend_server(port: int = 3001, api_port: int = 8001) -> subprocess.
             response = requests.get(f"http://localhost:{port}", timeout=2)
             if response.status_code == 200:
                 logger.info(f"Frontend server started successfully on port {port}")
-                return process
+                return process, port
         except Exception:
             pass
 
@@ -225,16 +236,31 @@ async def main():
 
         logger.info("Enhanced core services started successfully!")
 
-        # Start API server
-        api_process, api_port = await start_api_server(8001)
+        # Determine starting ports from env (optional), default to 8001/3001
+        try:
+            api_start_port = int(os.getenv("API_PORT_START", "8001"))
+        except Exception:
+            api_start_port = 8001
+        try:
+            fe_start_port = int(os.getenv("FRONTEND_PORT_START", "3001"))
+        except Exception:
+            fe_start_port = 3001
 
-        # Start frontend server
-        frontend_process = start_frontend_server(3001, api_port=api_port)
+        # Start API server (auto-finds a free port)
+        api_process, api_port = await start_api_server(api_start_port)
+
+        # Start frontend server (auto-finds a free port) unless explicitly skipped
+        frontend_process = None
+        frontend_port = None
+        skip_fe = os.getenv("SKIP_FRONTEND", "false").strip().lower() in {"1", "true", "yes"}
+        if not skip_fe:
+            frontend_process, frontend_port = start_frontend_server(fe_start_port, api_port=api_port)
 
         logger.info("All services started successfully!")
-        logger.info("API Server: http://localhost:8001")
-        logger.info("Frontend Server: http://localhost:3001")
-        logger.info("API Documentation: http://localhost:8001/docs")
+        logger.info(f"API Server: http://localhost:{api_port}")
+        if frontend_port is not None:
+            logger.info(f"Frontend Server: http://localhost:{frontend_port}")
+        logger.info(f"API Documentation: http://localhost:{api_port}/docs")
 
         # Keep running until interrupted
         try:
@@ -244,7 +270,7 @@ async def main():
                     logger.error("API server stopped unexpectedly")
                     break
 
-                if frontend_process.poll() is not None:
+                if frontend_process is not None and frontend_process.poll() is not None:
                     logger.error("Frontend server stopped unexpectedly")
                     break
 
@@ -264,7 +290,7 @@ async def main():
                 except subprocess.TimeoutExpired:
                     api_process.kill()
 
-            if frontend_process.poll() is None:
+            if frontend_process is not None and frontend_process.poll() is None:
                 frontend_process.terminate()
                 try:
                     frontend_process.wait(timeout=10)
