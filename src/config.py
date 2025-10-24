@@ -52,6 +52,7 @@ class GeneratorProfile(BaseModel):
 
 
 class ChatModelSettings(BaseModel):
+    model_config = {"protected_namespaces": ()}
     repo: str
     filename: str
     revision: str | None = None
@@ -82,6 +83,7 @@ class ModelsSettings(BaseModel):
 
 
 class LLMSettings(BaseModel):
+    model_config = {"protected_namespaces": ()}
     model_type: str
     model_repo_id: str
     context_length: int

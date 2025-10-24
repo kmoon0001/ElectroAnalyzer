@@ -663,6 +663,7 @@ router = APIRouter(prefix="/api/v2/ml-models", tags=["ML Model Management"])
 # Pydantic models
 class ModelRegistrationRequest(BaseModel):
     """Request model for model registration."""
+    model_config = {"protected_namespaces": ()}
     name: str = Field(..., description="Model name")
     model_type: str = Field(..., description="Model type")
     description: str = Field(default="", description="Model description")
@@ -674,6 +675,7 @@ class ModelRegistrationRequest(BaseModel):
 
 class ModelVersionRequest(BaseModel):
     """Request model for creating model version."""
+    model_config = {"protected_namespaces": ()}
     model_id: str = Field(..., description="Model ID")
     version: str = Field(..., description="Version string")
     performance_metrics: Dict[str, float] = Field(default_factory=dict, description="Performance metrics")
@@ -681,6 +683,7 @@ class ModelVersionRequest(BaseModel):
 
 class ModelDeploymentRequest(BaseModel):
     """Request model for model deployment."""
+    model_config = {"protected_namespaces": ()}
     model_id: str = Field(..., description="Model ID")
     version: str = Field(..., description="Version to deploy")
     strategy: str = Field(default="blue_green", description="Deployment strategy")
@@ -690,6 +693,7 @@ class ModelDeploymentRequest(BaseModel):
 
 class PerformanceRecordRequest(BaseModel):
     """Request model for recording performance."""
+    model_config = {"protected_namespaces": ()}
     model_id: str = Field(..., description="Model ID")
     version: str = Field(..., description="Version")
     accuracy: float = Field(default=0.0, description="Accuracy")

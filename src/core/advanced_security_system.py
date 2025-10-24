@@ -109,6 +109,24 @@ class AdvancedSecuritySystem:
     def generate_secure_token(self, user_id: int, expires_in_hours: int = 24) -> str:
         """Generate secure JWT token."""
         try:
+            # Use the centralized AuthService secret/algorithm for JWTs
+            try:
+                from src.auth import get_auth_service  # lazy import to avoid cycles
+                auth_service = get_auth_service()
+                secret_key = auth_service.secret_key
+                algorithm = auth_service.algorithm
+            except Exception:
+                # Fallback: do not fail token generation if auth service isn't ready
+                # Use HS256 with a derived application key (not the Fernet key) as last resort
+                from src.config import get_settings  # lazy import
+                settings = get_settings()
+                secret_key = (
+                    settings.auth.secret_key.get_secret_value()
+                    if settings and settings.auth and settings.auth.secret_key
+                    else (self.encryption_key.decode() if isinstance(self.encryption_key, bytes) else str(self.encryption_key))
+                )
+                algorithm = "HS256"
+
             payload = {
                 'user_id': user_id,
                 'iat': datetime.utcnow(),
@@ -116,7 +134,7 @@ class AdvancedSecuritySystem:
                 'jti': secrets.token_urlsafe(32)  # JWT ID for tracking
             }
 
-            token = jwt.encode(payload, self.encryption_key, algorithm='HS256')
+            token = jwt.encode(payload, secret_key, algorithm=algorithm)
             return token
 
         except Exception as e:
@@ -126,7 +144,23 @@ class AdvancedSecuritySystem:
     def validate_token(self, token: str) -> Optional[Dict[str, Any]]:
         """Validate JWT token."""
         try:
-            payload = jwt.decode(token, self.encryption_key, algorithms=['HS256'])
+            # Use centralized AuthService for validation parameters
+            try:
+                from src.auth import get_auth_service  # lazy import
+                auth_service = get_auth_service()
+                secret_key = auth_service.secret_key
+                algorithms = [auth_service.algorithm]
+            except Exception:
+                from src.config import get_settings
+                settings = get_settings()
+                secret_key = (
+                    settings.auth.secret_key.get_secret_value()
+                    if settings and settings.auth and settings.auth.secret_key
+                    else (self.encryption_key.decode() if isinstance(self.encryption_key, bytes) else str(self.encryption_key))
+                )
+                algorithms = ["HS256"]
+
+            payload = jwt.decode(token, secret_key, algorithms=algorithms)
             return payload
         except ExpiredSignatureError:
             logger.warning("Token expired")
