@@ -43,46 +43,186 @@ def test_settings():
 
 @pytest.fixture(scope="session")
 def test_client(test_settings, test_db) -> Generator[TestClient, None, None]:
-    """Create a test client for the FastAPI application."""
+    """Create a test client for the FastAPI application with proper database isolation."""
+    # Override the database dependency to use test database
+    from src.database.database import get_async_db
+
+    # Get the test session factory from test_db fixture
+    TestAsyncSessionLocal = test_db.test_session_factory
+
+    # Create a test-specific database dependency using the test database engine
+    async def get_test_db():
+        async with TestAsyncSessionLocal() as session:
+            try:
+                yield session
+                await session.commit()
+            except Exception:
+                await session.rollback()
+                raise
+            finally:
+                await session.close()
+
+    # Clear any existing overrides first
+    app.dependency_overrides.clear()
+
+    # Override the dependency BEFORE creating the TestClient
+    app.dependency_overrides[get_async_db] = get_test_db
+
+    # Load rubrics into the test database using the same session factory
+    async def load_rubrics():
+        async with TestAsyncSessionLocal() as session:
+            from src.core.rubric_loader import parse_and_load_rubrics
+            from pathlib import Path
+            from src.database.models import ComplianceRubric
+            from sqlalchemy import select
+
+            # Check if rubrics are already loaded
+            result = await session.execute(select(ComplianceRubric))
+            existing_rubrics = result.scalars().all()
+
+            if not existing_rubrics:
+                # Find TTL files in the resources directory
+                src_path = Path(__file__).parent.parent.parent
+                rubrics_path = src_path / "src" / "resources" / "rubrics"
+                ttl_files = list(rubrics_path.glob("*.ttl")) if rubrics_path.exists() else []
+
+                print(f"Found {len(ttl_files)} TTL files in {rubrics_path}")
+
+                if ttl_files:
+                    await parse_and_load_rubrics(session, ttl_files)
+                    await session.commit()
+
+                    # Verify rubrics were loaded
+                    result = await session.execute(select(ComplianceRubric))
+                    loaded_rubrics = result.scalars().all()
+                    print(f"Loaded {len(loaded_rubrics)} rubrics into test database")
+                else:
+                    # Fallback: create a simple test rubric manually
+                    test_rubric = ComplianceRubric(
+                        name="PT Compliance Test Rubric",
+                        discipline="PT",
+                        regulation="Standard PT compliance rubric for testing",
+                        common_pitfalls="Missing subjective/objective data",
+                        best_practice="Document all SOAP sections",
+                        category="Test"
+                    )
+                    session.add(test_rubric)
+                    await session.commit()
+                    print("Created fallback test rubric")
+
+    # Load rubrics synchronously
+    import asyncio
+    asyncio.run(load_rubrics())
+
+    # Verify rubrics are accessible via the API
+    print("Verifying rubrics are accessible via API...")
+    test_client = TestClient(app)
+    try:
+        # Create a test user and get auth token
+        register_data = {"username": "test_therapist", "password": "Th3r@p1sBetter", "is_admin": False}
+        register_response = test_client.post("/auth/register", json=register_data)
+        assert register_response.status_code == 201
+
+        login_data = {"username": "test_therapist", "password": "Th3r@p1sBetter"}
+        login_response = test_client.post("/auth/token", data=login_data)
+        assert login_response.status_code == 200
+        token = login_response.json()["access_token"]
+
+        # Test rubrics endpoint
+        headers = {"Authorization": f"Bearer {token}"}
+        rubrics_response = test_client.get("/rubrics/", headers=headers)
+        print(f"Rubrics API response: {rubrics_response.status_code}, {rubrics_response.text}")
+
+        if rubrics_response.status_code == 200:
+            rubrics_data = rubrics_response.json()
+            print(f"Rubrics returned: {len(rubrics_data.get('rubrics', []))} rubrics")
+    except Exception as e:
+        print(f"Error verifying rubrics: {e}")
+    finally:
+        test_client.close()
+
     with TestClient(app) as client:
         yield client
+
+    # Clean up dependency overrides
+    app.dependency_overrides.clear()
 
 
 @pytest.fixture(scope="session")
 async def test_db(test_settings):
     """Create a test database for E2E testing."""
     from sqlalchemy.exc import IntegrityError
+    from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
+    from sqlalchemy.pool import NullPool
 
     from src.database import crud, schemas
-    from src.database.database import AsyncSessionLocal, Base, engine
+    from src.database.database import Base
+
+    # Create test-specific engine and session factory
+    test_engine = create_async_engine(
+        "sqlite+aiosqlite:///./test_e2e.db",
+        future=True,
+        poolclass=NullPool,
+        echo=False
+    )
+
+    TestAsyncSessionLocal = async_sessionmaker(
+        bind=test_engine,
+        expire_on_commit=False,
+        autoflush=False
+    )
 
     # Create all tables
-    async with engine.begin() as conn:
+    async with test_engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
 
     # Seed default rubrics so end-to-end workflows have options
-    async with AsyncSessionLocal() as session:
-        default_rubrics = [
-            schemas.RubricCreate(
+    async with TestAsyncSessionLocal() as session:
+        # Use the rubric loader to ensure proper loading
+        from src.core.rubric_loader import parse_and_load_rubrics
+        from pathlib import Path
+
+        # Find TTL files in the resources directory
+        src_path = Path(__file__).parent.parent.parent
+        rubrics_path = src_path / "src" / "resources" / "rubrics"
+        ttl_files = list(rubrics_path.glob("*.ttl")) if rubrics_path.exists() else []
+
+        print(f"Found {len(ttl_files)} TTL files in {rubrics_path}")
+
+        if ttl_files:
+            await parse_and_load_rubrics(session, ttl_files)
+            await session.commit()
+
+            # Verify rubrics were loaded
+            from src.database.models import ComplianceRubric
+            from sqlalchemy import select
+            result = await session.execute(select(ComplianceRubric))
+            loaded_rubrics = result.scalars().all()
+            print(f"Loaded {len(loaded_rubrics)} rubrics into test database")
+        else:
+            # Fallback: create a simple test rubric manually
+            from src.database.models import ComplianceRubric
+            test_rubric = ComplianceRubric(
                 name="PT Compliance Test Rubric",
                 discipline="PT",
-                category="Default",
-                regulation="Standard PT compliance rubric",
+                regulation="Standard PT compliance rubric for testing",
                 common_pitfalls="Missing subjective/objective data",
                 best_practice="Document all SOAP sections",
-            ),
-        ]
-        for rubric in default_rubrics:
-            try:
-                await crud.create_rubric(session, rubric)
-            except IntegrityError:
-                await session.rollback()
+                category="Test"
+            )
+            session.add(test_rubric)
+            await session.commit()
+            print("Created fallback test rubric")
 
-    yield
+    # Store the test session factory for use in test_client
+    test_db.test_session_factory = TestAsyncSessionLocal
+
+    yield test_db
 
     # Cleanup
-    async with engine.begin() as conn:
+    async with test_engine.begin() as conn:
         await conn.run_sync(Base.metadata.drop_all)
+    await test_engine.dispose()
 
 
 @pytest.fixture

@@ -391,8 +391,20 @@ async def lifespan(app: FastAPI):
     yield
 
     await api_shutdown()
-    scheduler.shutdown()
-    in_memory_task_purge_service.stop()
+
+    # Shutdown scheduler safely
+    try:
+        if scheduler.running:
+            scheduler.shutdown()
+            logger.info("Scheduler shutdown completed")
+    except Exception as e:
+        logger.warning(f"Error shutting down scheduler: {e}")
+
+    try:
+        in_memory_task_purge_service.stop()
+        logger.info("In-memory task purge service stopped")
+    except Exception as e:
+        logger.warning(f"Error stopping task purge service: {e}")
 
     # Cleanup services - wrapped in try/except to handle if they didn't start
     try:

@@ -39,14 +39,12 @@ async def test_auth_register_login_change_password(client: AsyncClient, db_sessi
     assert token and isinstance(token, str)
 
     # Change password using the token
-    r = await client.post(
-        "/auth/users/change-password",
+    r = await client.put(
+        "/users/me/password",
         headers={"Authorization": f"Bearer {token}"},
-        json={"current_password": password, "new_password": new_password},
+        json={"old_password": password, "new_password": new_password},
     )
-    assert r.status_code == 200, r.text
-    body = r.json()
-    assert body.get("status") == "ok"
+    assert r.status_code == 204, r.text
 
     # Login with new password to confirm change
     r = await client.post(

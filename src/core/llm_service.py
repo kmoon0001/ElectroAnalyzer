@@ -378,10 +378,19 @@ class LLMService:
 
             # Transformers backend
             import torch  # lazy import
-            from transformers import (  # type: ignore[import-untyped]
-                StoppingCriteria,
-                StoppingCriteriaList,
-            )
+            try:
+                from transformers import (  # type: ignore[import-untyped]
+                    StoppingCriteria,
+                    StoppingCriteriaList,
+                )
+            except ImportError:
+                logger.warning("StoppingCriteria not available in transformers, using fallback")
+                # Fallback for older transformers versions
+                class StoppingCriteria:
+                    pass
+                class StoppingCriteriaList:
+                    def __init__(self, *args):
+                        pass
 
             if self.tokenizer is None or self.llm is None:
                 logger.error("Tokenizer/LLM not initialised for transformers backend")

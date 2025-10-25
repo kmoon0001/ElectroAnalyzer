@@ -236,12 +236,15 @@ async def init_db() -> None:
 async def create_default_admin_user() -> None:
     """Create a default admin user if none exists using an AsyncSession."""
     from src.database.models import User
-    from src.auth import get_password_hash
+    from passlib.context import CryptContext
+
+    # Use CryptContext directly to avoid circular import
+    pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
     async with AsyncSessionLocal() as session:
         default_admin = User(
             username="admin",
-            hashed_password=get_password_hash("admin123"),
+            hashed_password=pwd_context.hash("admin123"),
             is_active=True,
             is_admin=True,
         )

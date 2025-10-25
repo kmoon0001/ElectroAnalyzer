@@ -9,7 +9,7 @@ from sqlalchemy.future import select
 
 from ..database import AsyncSessionLocal, Base
 from ..database import engine as async_engine
-from ..database.models import Rubric
+from ..database.models import ComplianceRubric
 
 # --- Configuration ---
 logging.basicConfig(
@@ -59,15 +59,18 @@ async def parse_and_load_rubrics(db_session: AsyncSession, rubric_files: list[Pa
             continue
 
         # Check if a rubric with the same name already exists in the database
-        result = await db_session.execute(select(Rubric).filter_by(name=name))
+        result = await db_session.execute(select(ComplianceRubric).filter_by(name=name))
         if result.scalars().first():
             logger.info("Rubric '%s' already exists in the database. Skipping.", name)
             continue
 
         # If it's a new, unique rule, prepare it for addition
-        new_rubric = Rubric(
+        new_rubric = ComplianceRubric(
             name=name,
-            content=str(content_node),
+            regulation=str(content_node),
+            discipline=str(category_node) if category_node else "General",
+            common_pitfalls="",
+            best_practice="",
             category=str(category_node) if category_node else None,
         )
         rules_to_add.append(new_rubric)
@@ -91,12 +94,13 @@ async def main():
         await conn.run_sync(Base.metadata.create_all)
     logger.info("Database schema initialized.")
 
-    # Find all .ttl files in the 'src' directory, which is the parent of 'core'
+    # Find all .ttl files in the 'src/resources/rubrics' directory
     src_path = Path(__file__).parent.parent
-    ttl_files = list(src_path.glob("*.ttl"))
+    rubrics_path = src_path / "resources" / "rubrics"
+    ttl_files = list(rubrics_path.glob("*.ttl")) if rubrics_path.exists() else []
 
     if not ttl_files:
-        logger.warning("No .ttl files found in the 'src' directory. Exiting.")
+        logger.warning("No .ttl files found in the 'src/resources/rubrics' directory. Exiting.")
         return
 
     logger.info("Found %s TTL files to process.", len(ttl_files))

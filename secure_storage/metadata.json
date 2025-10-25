@@ -1,1 +1,278 @@
-{}
+{
+  "f4419c4b-4b92-44b1-b2ee-11e8f1777608": {
+    "filename": "test_progress_note.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-25T00:51:31.259838",
+    "file_size": 874,
+    "encrypted_size": 1252,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "test_progress_note.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "b5410ee4-8bc3-4ac2-b5fd-e9909f1c546e": {
+    "filename": "test_progress_note.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-25T00:51:35.463991",
+    "file_size": 331,
+    "encrypted_size": 524,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "test_progress_note.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "0cc6259d-b587-49a0-b9cd-c79315cf5fa7": {
+    "filename": "concurrent_test_1.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-25T00:51:36.944491",
+    "file_size": 329,
+    "encrypted_size": 524,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "concurrent_test_1.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "e2f4aae9-7326-43bc-95a6-16346fbcf012": {
+    "filename": "test_progress_note.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-25T00:51:39.865370",
+    "file_size": 874,
+    "encrypted_size": 1252,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "test_progress_note.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "ba14e313-6856-4e54-badf-d72d6c90e28e": {
+    "filename": "test_progress_note.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-25T01:36:42.902230",
+    "file_size": 874,
+    "encrypted_size": 1252,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "test_progress_note.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "119c51ec-334a-4e1b-8f70-21853001dc68": {
+    "filename": "test_progress_note.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-25T01:37:35.905356",
+    "file_size": 874,
+    "encrypted_size": 1252,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "test_progress_note.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "f520f907-546c-488b-848c-c632d05d13a9": {
+    "filename": "test_progress_note.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-25T01:38:32.864772",
+    "file_size": 874,
+    "encrypted_size": 1252,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "test_progress_note.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "2baa53da-bd49-4a05-ab41-1567a2190912": {
+    "filename": "test_progress_note.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-25T05:40:31.591711",
+    "file_size": 874,
+    "encrypted_size": 1252,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "test_progress_note.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "fc4b294d-50d1-4556-8119-40d7f50497a9": {
+    "filename": "test_progress_note.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-25T05:40:33.402101",
+    "file_size": 331,
+    "encrypted_size": 524,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "test_progress_note.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "7df1006a-7bc5-498c-b2ab-e0ec0fb62f6e": {
+    "filename": "concurrent_test_1.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-25T05:40:34.884189",
+    "file_size": 329,
+    "encrypted_size": 524,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "concurrent_test_1.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "fe40a2c2-8c75-440d-bd8f-002ecd33e56d": {
+    "filename": "test_progress_note.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-25T05:40:37.723982",
+    "file_size": 874,
+    "encrypted_size": 1252,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "test_progress_note.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "36d2df48-176f-47c1-9224-d391a8b29fb4": {
+    "filename": "test_progress_note.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-25T05:57:28.830117",
+    "file_size": 874,
+    "encrypted_size": 1252,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "test_progress_note.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "0277386a-6a06-4f02-8c28-b3ad37074069": {
+    "filename": "test_progress_note.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-25T05:58:00.893714",
+    "file_size": 874,
+    "encrypted_size": 1252,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "test_progress_note.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "db4192d3-78cb-4ff6-8aa7-5e5941d84de6": {
+    "filename": "test_progress_note.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-25T06:03:15.734954",
+    "file_size": 874,
+    "encrypted_size": 1252,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "test_progress_note.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "b61d68a8-704c-471d-b590-08f612e73821": {
+    "filename": "test_progress_note.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-25T06:03:17.541424",
+    "file_size": 331,
+    "encrypted_size": 524,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "test_progress_note.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "092b4860-f176-44de-9977-984598635eb1": {
+    "filename": "concurrent_test_1.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-25T06:03:19.332567",
+    "file_size": 329,
+    "encrypted_size": 524,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "concurrent_test_1.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "4289c15b-2ff7-462d-8803-7fccab5aa41f": {
+    "filename": "test_progress_note.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-25T06:03:22.831855",
+    "file_size": 874,
+    "encrypted_size": 1252,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "test_progress_note.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "554ea6ad-8e61-4b35-8c6a-c5bcb5394f38": {
+    "filename": "test_progress_note.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-25T06:08:51.623656",
+    "file_size": 874,
+    "encrypted_size": 1252,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "test_progress_note.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "57d7616c-ec86-494b-8063-49b6c89565f9": {
+    "filename": "test_progress_note.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-25T06:08:53.164887",
+    "file_size": 331,
+    "encrypted_size": 524,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "test_progress_note.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "32cc5caf-3bc4-4650-8102-b1cdf0fb49d1": {
+    "filename": "concurrent_test_1.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-25T06:08:54.459948",
+    "file_size": 329,
+    "encrypted_size": 524,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "concurrent_test_1.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "eb7bad92-6228-46ab-9bae-b88fd2e00fe2": {
+    "filename": "test_progress_note.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-25T06:08:57.065478",
+    "file_size": 874,
+    "encrypted_size": 1252,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "test_progress_note.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "bde8d438-da34-49d7-ab34-4eba7c948195": {
+    "filename": "test_progress_note.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-25T06:25:20.813404",
+    "file_size": 874,
+    "encrypted_size": 1252,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "test_progress_note.txt",
+      "content_type": "text/plain"
+    }
+  },
+  "4866a019-4a1a-46e0-bb40-b6971896ac2c": {
+    "filename": "test_progress_note.txt",
+    "user_id": 1,
+    "stored_at": "2025-10-25T06:26:10.120963",
+    "file_size": 874,
+    "encrypted_size": 1252,
+    "metadata": {
+      "upload_type": "legacy",
+      "original_filename": "test_progress_note.txt",
+      "content_type": "text/plain"
+    }
+  }
+}

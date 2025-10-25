@@ -32,7 +32,62 @@ else:
 
 
 @pytest_asyncio.fixture
+async def client_with_auth_override(db_session: AsyncSession) -> AsyncClient:
+    if SQLALCHEMY_IMPORT_ERROR is not None:
+        pytest.skip(
+            "SQLAlchemy is required for API database fixtures but is not installed in this environment.",
+            allow_module_level=True,
+        )
+    if HTTPX_IMPORT_ERROR is not None:
+        pytest.skip(
+            "httpx is required for API client fixtures but is not installed in this environment.",
+            allow_module_level=True,
+        )
+    if API_IMPORT_ERROR is not None:
+        pytest.skip(
+            "FastAPI dependencies are unavailable; API tests cannot run in this environment.",
+            allow_module_level=True,
+        )
+
+    # Create a dummy user for authentication (use models.User, not schemas.User)
+    from src.database import models
+    from src.auth import AuthService
+    from datetime import datetime, UTC
+
+    # Create a database model user with hashed_password attribute
+    # Use a valid bcrypt hash for "password"
+    auth_service = AuthService()
+    dummy_user = models.User(
+        id=1,
+        username="testuser",
+        hashed_password=auth_service.get_password_hash("password"),  # Hash of "password"
+        is_active=True,
+        is_admin=True,  # Set to True for admin tests
+        created_at=datetime.now(UTC),
+        updated_at=datetime.now(UTC),
+    )
+
+    def override_get_current_active_user():
+        # Check if the request has a specific user override
+        # This allows tests to override the user if needed
+        return dummy_user
+
+    async def override_get_async_db() -> AsyncSession:
+        yield db_session
+
+    app.dependency_overrides[get_async_db] = override_get_async_db
+    app.dependency_overrides[get_current_active_user] = override_get_current_active_user
+
+    transport = ASGITransport(app=app)
+    async with AsyncClient(transport=transport, base_url="http://test") as c:
+        yield c
+
+    app.dependency_overrides.clear()
+
+
+@pytest_asyncio.fixture
 async def client(db_session: AsyncSession) -> AsyncClient:
+    """Create a test client without authentication override for authorization tests."""
     if SQLALCHEMY_IMPORT_ERROR is not None:
         pytest.skip(
             "SQLAlchemy is required for API database fixtures but is not installed in this environment.",

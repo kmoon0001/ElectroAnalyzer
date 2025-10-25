@@ -154,7 +154,32 @@ async def list_plugins(
     current_user: User = Depends(get_current_user),
 ) -> dict[str, Any]:
     """List all plugins with their current status."""
-    return {}
+    try:
+        logger.info("User %s requested plugin list", current_user.username)
+
+        # Get all discovered plugins
+        discovered_plugins = plugin_manager.discover_plugins()
+        plugins_data = []
+
+        for metadata in discovered_plugins:
+            plugin_name = metadata.name if hasattr(metadata, 'name') else 'unknown'
+            status_info = plugin_manager.get_plugin_status(plugin_name)
+            plugin_data = _status_to_dict(status_info)
+            plugins_data.append(plugin_data)
+
+        return {
+            "success": True,
+            "total_plugins": len(plugins_data),
+            "plugins": plugins_data,
+        }
+    except Exception as e:
+        logger.exception("Failed to list plugins: %s", e)
+        return {
+            "success": False,
+            "total_plugins": 0,
+            "plugins": [],
+            "error": str(e),
+        }
 
 
 @router.get("/extension-points")
