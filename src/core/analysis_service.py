@@ -7,7 +7,7 @@ import logging
 import uuid
 from collections.abc import Callable
 from pathlib import Path
-from typing import Any, List, Dict
+from typing import Any, List, Dict, Optional, Union, Callable, TYPE_CHECKING
 
 from src.config import get_settings as _get_settings
 from src.core.analysis_utils import enrich_analysis_result, trim_document_text
@@ -33,6 +33,7 @@ from src.core.clinical_education_engine import ClinicalEducationEngine, Competen
 from src.core.human_feedback_system import HumanFeedbackSystem
 from src.core.text_utils import sanitize_human_text
 from src.utils.prompt_manager import PromptManager
+from src.utils.performance_monitor import monitor_performance, monitor_operation
 
 # Avoid importing heavy ML dependencies at module import time; import them lazily
 if TYPE_CHECKING:  # pragma: no cover - type checking only
@@ -342,16 +343,17 @@ class AnalysisService:
             hasher.update(strictness.encode())
         return f"analysis_report_{hasher.hexdigest()}"
 
+    @monitor_performance("document_analysis", metadata={"component": "analysis_service"})
     async def analyze_document(
         self,
         discipline: str = "pt",
-        analysis_mode: str | None = None,
-        strictness: str | None = None,
-        document_text: str | None = None,
-        file_content: bytes | None = None,
-        original_filename: str | None = None,
-        progress_callback: Callable[[int, str | None], None] | None = None,
-    ) -> Any:
+        analysis_mode: Optional[str] = None,
+        strictness: Optional[str] = None,
+        document_text: Optional[str] = None,
+        file_content: Optional[bytes] = None,
+        original_filename: Optional[str] = None,
+        progress_callback: Optional[Callable[[int, Optional[str]], None]] = None,
+    ) -> Dict[str, Any]:
         # Ensure models are registered
         if not hasattr(self, "_models_registered"):
             self._models_registered = True

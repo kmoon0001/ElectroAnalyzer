@@ -8,7 +8,7 @@ import asyncio
 import datetime
 import sqlite3
 import uuid
-from typing import Any, Optional
+from typing import Any, Optional, Dict, List
 
 import sqlalchemy
 import sqlalchemy.exc
@@ -28,6 +28,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from ...auth import get_current_active_user
 from ...core.analysis_service import AnalysisService
+from ...utils.performance_monitor import monitor_performance, monitor_operation
 from ...core.file_encryption import get_secure_storage
 from ...core.file_upload_validator import sanitize_filename, validate_uploaded_file
 from ...core.persistent_task_registry import TaskStatus, persistent_task_registry
@@ -470,6 +471,7 @@ async def legacy_export_report(
 
 
 @router.post("/analyze", status_code=status.HTTP_202_ACCEPTED)
+@monitor_performance("api_analyze_document", metadata={"endpoint": "analyze"})
 async def analyze_document(
     background_tasks: BackgroundTasks,
     file: UploadFile = File(...),
@@ -479,7 +481,7 @@ async def analyze_document(
     _current_user: models.User = Depends(get_current_active_user),
     analysis_service: AnalysisService = Depends(get_analysis_service),
     request_id: str = RequestId,
-) -> dict[str, str]:
+) -> Dict[str, str]:
     """Upload and analyze a clinical document for compliance from in-memory content with request tracking."""
     log_with_request_id(
         f"Analysis request started by user {_current_user.username}",
