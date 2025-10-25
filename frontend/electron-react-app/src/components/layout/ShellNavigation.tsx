@@ -28,7 +28,7 @@ const links = [
   {
     path: "/analytics/advanced",
     label: "Advanced Analytics",
-    icon: "📊",
+    icon: "[CHART]",
     IconComponent: TrendingUp,
   },
   {

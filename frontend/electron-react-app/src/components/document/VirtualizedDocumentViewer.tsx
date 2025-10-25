@@ -160,7 +160,7 @@ const PageItem: React.FC<PageItemProps> = ({ index, style, data }) => {
     >
       <div className="page-header">
         <span className="page-number">Page {pageNumber}</span>
-        {page?.isLoaded && <span className="page-status">✓</span>}
+        {page?.isLoaded && <span className="page-status">[OK]</span>}
       </div>
       {renderPageContent()}
     </div>
@@ -205,7 +205,7 @@ export const VirtualizedDocumentViewer: React.FC<DocumentViewerProps> = ({
     };
 
     updateHeight();
-    window.addEventListener("resize", updateHeight);
+    window.addEventListener("resize", updateHeight); // TODO: Add removeEventListener cleanup in useEffect return // TODO: Add removeEventListener cleanup in useEffect return
     return () => window.removeEventListener("resize", updateHeight);
   }, []);
 

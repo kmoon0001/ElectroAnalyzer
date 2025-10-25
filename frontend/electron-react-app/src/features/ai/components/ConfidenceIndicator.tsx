@@ -52,7 +52,7 @@ export const ConfidenceIndicator: React.FC<ConfidenceIndicatorProps> = ({
               <span className={styles.originalScore}>
                 Original: {Math.round(originalConfidence * 100)}%
               </span>
-              <span className={styles.arrow}>→</span>
+              <span className={styles.arrow}>-></span>
               <span className={styles.calibratedScore}>
                 Calibrated: {percentage}%
               </span>

@@ -107,7 +107,7 @@ export default function MetaAnalyticsPage() {
 
   const refreshAnalytics = async () => {
     setIsLoading(true);
-    setTimeout(() => {
+    setTimeout(() => { // TODO: Add clearTimeout cleanup
       generateMockData();
       setIsLoading(false);
     }, 1000);
@@ -211,7 +211,7 @@ export default function MetaAnalyticsPage() {
         <Card title="Activity Summary" subtitle="Recent team activity">
           <div className={styles.activitySummary}>
             <div className={styles.activityItem}>
-              <div className={styles.activityIcon}>📄</div>
+              <div className={styles.activityIcon}>[FILE]</div>
               <div className={styles.activityContent}>
                 <div className={styles.activityValue}>
                   {teamMetrics?.documentsThisWeek || 0}
@@ -311,7 +311,7 @@ export default function MetaAnalyticsPage() {
           <div className={styles.trainingList}>
             {trainingNeeds?.mediumPriority.map((need, index) => (
               <div key={index} className={styles.trainingItem}>
-                <div className={styles.trainingIcon}>⚠️</div>
+                <div className={styles.trainingIcon}>[WARNING]</div>
                 <div className={styles.trainingText}>{need}</div>
                 <StatusChip label="Medium Priority" status="warming" />
               </div>

@@ -135,19 +135,19 @@ export const PDFExportButton: React.FC<PDFExportButtonProps> = ({
         onExportComplete?.(result);
 
         // Reset status after 3 seconds
-        setTimeout(() => setExportStatus("idle"), 3000);
+        setTimeout(() => setExportStatus("idle"), 3000); // TODO: Add clearTimeout cleanup
       } else {
         throw new Error(result.error || "Export failed");
       }
     } catch (error) {
-      console.error("PDF export error:", error);
+      logger?.error?.( // Error:"PDF export error:", error);
       const errorMessage =
         error instanceof Error ? error.message : "Export failed";
       setExportStatus("error");
       onExportError?.(errorMessage);
 
       // Reset status after 5 seconds
-      setTimeout(() => setExportStatus("idle"), 5000);
+      setTimeout(() => setExportStatus("idle"), 5000); // TODO: Add clearTimeout cleanup
     } finally {
       setIsExporting(false);
     }
@@ -224,7 +224,7 @@ export const PDFExportButton: React.FC<PDFExportButtonProps> = ({
               onClick={() => setShowOptions(false)}
               className={styles.closeButton}
             >
-              ×
+              x
             </button>
           </div>
 
@@ -370,11 +370,11 @@ export const BatchPDFExportButton: React.FC<{
           document.body.removeChild(a);
         } else {
           // Handle individual files (would need zip download)
-          console.log("Individual files exported:", result.results);
+          logger?.debug?.( // TODO: Review logging level"Individual files exported:", result.results);
         }
       }
     } catch (error) {
-      console.error("Batch export error:", error);
+      logger?.error?.( // Error:"Batch export error:", error);
     } finally {
       setIsExporting(false);
     }

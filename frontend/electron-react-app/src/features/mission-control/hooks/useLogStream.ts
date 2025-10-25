@@ -125,7 +125,7 @@ export const useLogStream = () => {
         try {
           socketRef.current.close();
         } catch (error) {
-          console.warn("Failed to close log stream socket", error);
+          logger?.warn?.( // Warning:"Failed to close log stream socket", error);
         }
       }
       socketRef.current = null;
@@ -154,7 +154,7 @@ export const useLogStream = () => {
         return;
       }
       const delay = backoff.next();
-      reconnectTimerRef.current = window.setTimeout(connect, delay);
+      reconnectTimerRef.current = window.setTimeout(connect, delay); // TODO: Add clearTimeout cleanup
     };
 
     const handleMessage = async (data: MessageEvent["data"]) => {

@@ -20,7 +20,7 @@ export const ShellHeader = () => {
         <div>
           <h1 className={styles.title}>Therapy Compliance Analyzer</h1>
           <p className={styles.subtitle}>
-            Clinical documentation review • Medicare compliance intelligence
+            Clinical documentation review * Medicare compliance intelligence
           </p>
         </div>
       </div>

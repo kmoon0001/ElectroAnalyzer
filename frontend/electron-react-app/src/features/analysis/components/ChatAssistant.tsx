@@ -86,7 +86,7 @@ export function ChatAssistant({
 
     try {
       // Simulate API call - replace with actual chat API
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      await new Promise((resolve) => setTimeout(resolve, 2000)); // TODO: Add clearTimeout cleanup
 
       const aiResponse: ChatMessage = {
         role: "assistant",

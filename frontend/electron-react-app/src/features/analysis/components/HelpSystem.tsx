@@ -169,7 +169,7 @@ export function HelpSystem({ className }: HelpSystemProps) {
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside); // TODO: Add removeEventListener cleanup in useEffect return // TODO: Add removeEventListener cleanup in useEffect return
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
@@ -224,7 +224,7 @@ export function HelpSystem({ className }: HelpSystemProps) {
                   </h3>
                   <div
                     className={styles.guideText}
-                    dangerouslySetInnerHTML={{
+                    dangerouslySetInnerHTML /* TODO: Sanitize or use alternative */ /* TODO: Sanitize or use alternative */={{
                       __html:
                         CLINICAL_GUIDES[
                           selectedGuide as keyof typeof CLINICAL_GUIDES

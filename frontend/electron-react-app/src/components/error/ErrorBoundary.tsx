@@ -26,7 +26,7 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error("ErrorBoundary caught an error:", error, errorInfo);
+    logger?.error?.( // Error:"ErrorBoundary caught an error:", error, errorInfo);
 
     this.setState({
       error,
@@ -51,7 +51,7 @@ export class ErrorBoundary extends Component<Props, State> {
         });
       })
       .catch((e) =>
-        console.warn("Failed to report error to diagnostics store:", e),
+        logger?.warn?.( // Warning:"Failed to report error to diagnostics store:", e),
       );
   }
 
@@ -151,7 +151,7 @@ export class NetworkErrorBoundary extends Component<
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error(
+    logger?.error?.( // Error:
       "NetworkErrorBoundary caught a network error:",
       error,
       errorInfo,
@@ -210,8 +210,8 @@ export const useAsyncError = () => {
 // Global error handler setup
 export const setupGlobalErrorHandlers = () => {
   // Handle unhandled promise rejections
-  window.addEventListener("unhandledrejection", (event) => {
-    console.error("Unhandled promise rejection:", event.reason);
+  window.addEventListener("unhandledrejection", (event) => { // TODO: Add removeEventListener cleanup in useEffect return // TODO: Add removeEventListener cleanup in useEffect return
+    logger?.error?.( // Error:"Unhandled promise rejection:", event.reason);
 
     // Report to diagnostics store
     import("../../store/useDiagnosticsStore")
@@ -228,13 +228,13 @@ export const setupGlobalErrorHandlers = () => {
         });
       })
       .catch((e) =>
-        console.warn("Failed to report error to diagnostics store:", e),
+        logger?.warn?.( // Warning:"Failed to report error to diagnostics store:", e),
       );
   });
 
   // Handle general errors
-  window.addEventListener("error", (event) => {
-    console.error("Global error:", event.error);
+  window.addEventListener("error", (event) => { // TODO: Add removeEventListener cleanup in useEffect return // TODO: Add removeEventListener cleanup in useEffect return
+    logger?.error?.( // Error:"Global error:", event.error);
 
     // Report to diagnostics store
     import("../../store/useDiagnosticsStore")
@@ -252,7 +252,7 @@ export const setupGlobalErrorHandlers = () => {
         });
       })
       .catch((e) =>
-        console.warn("Failed to report error to diagnostics store:", e),
+        logger?.warn?.( // Warning:"Failed to report error to diagnostics store:", e),
       );
   });
 };

@@ -15,7 +15,7 @@ export const MetricCard: React.FC<MetricCardProps> = ({
   change,
   color,
 }) => {
-  const isPositive = change.includes("↑");
+  const isPositive = change.includes("^");
   const changeColor = isPositive ? "#28a745" : "#dc3545";
 
   return (

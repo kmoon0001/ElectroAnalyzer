@@ -134,7 +134,7 @@ describe("useLogStream", () => {
 
   it("schedules reconnect with backoff on unexpected close", async () => {
     jest.useFakeTimers();
-    const setTimeoutSpy = jest.spyOn(window, "setTimeout");
+    const setTimeoutSpy = jest.spyOn(window, "setTimeout"); // TODO: Add clearTimeout cleanup
 
     act(() => {
       useAppStore.setState((state) => ({
@@ -158,7 +158,7 @@ describe("useLogStream", () => {
       "Log stream disconnected, attempting to reconnect...",
     );
     expect(mockNext).toHaveBeenCalledTimes(1);
-    expect(setTimeoutSpy).toHaveBeenCalledTimes(1);
+    expect(setTimeoutSpy).toHaveBeenCalledTimes(1); // TODO: Add clearTimeout cleanup
 
     const reconnectFn = setTimeoutSpy.mock.calls[0]?.[0] as () => void;
     act(() => {
@@ -167,6 +167,6 @@ describe("useLogStream", () => {
 
     expect(MockWebSocket.instances).toHaveLength(2);
 
-    setTimeoutSpy.mockRestore();
+    setTimeoutSpy.mockRestore(); // TODO: Add clearTimeout cleanup
   });
 });

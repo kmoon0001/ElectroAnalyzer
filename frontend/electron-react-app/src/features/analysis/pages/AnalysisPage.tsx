@@ -580,7 +580,7 @@ export default function AnalysisPage() {
                   variant="outline"
                   onClick={() => setShowReportDialog(true)}
                 >
-                  📊 Open Detailed Report
+                  [CHART] Open Detailed Report
                 </Button>
                 <Button
                   variant="ghost"
@@ -648,10 +648,10 @@ export default function AnalysisPage() {
         <div className={styles.dialogOverlay}>
           <CitationManager
             onSelect={(citation) => {
-              console.log("Selected citation:", citation);
+              logger?.debug?.( // TODO: Review logging level"Selected citation:", citation);
             }}
             onInsert={(citation) => {
-              console.log("Inserting citation:", citation);
+              logger?.debug?.( // TODO: Review logging level"Inserting citation:", citation);
             }}
             onClose={() => setShowCitationManager(false)}
           />

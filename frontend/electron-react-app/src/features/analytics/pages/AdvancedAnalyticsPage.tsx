@@ -102,7 +102,7 @@ export default function AdvancedAnalyticsPage() {
   const refreshAnalytics = useCallback(async () => {
     setIsLoading(true);
     // Simulate API call
-    setTimeout(() => {
+    setTimeout(() => { // TODO: Add clearTimeout cleanup
       setAnalyticsData(generateMockData());
       setIsLoading(false);
     }, 1000);
@@ -118,7 +118,7 @@ export default function AdvancedAnalyticsPage() {
       <div className={styles.header}>
         <div className={styles.headerContent}>
           <h1 className={styles.title}>
-            📊 Advanced Analytics & Predictive Insights
+            [CHART] Advanced Analytics & Predictive Insights
           </h1>
           <p className={styles.subtitle}>
             Comprehensive compliance analytics with predictive insights and team
@@ -289,7 +289,7 @@ export default function AdvancedAnalyticsPage() {
             <ul className={styles.trendsList}>
               {analyticsData?.riskPredictions.trends.map((trend, index) => (
                 <li key={index} className={styles.trendItem}>
-                  <span className={styles.trendBullet}>•</span>
+                  <span className={styles.trendBullet}>*</span>
                   {trend}
                 </li>
               ))}

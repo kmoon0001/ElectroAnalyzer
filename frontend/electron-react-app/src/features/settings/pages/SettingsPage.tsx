@@ -121,7 +121,7 @@ export default function SettingsPage() {
       <header>
         <h2>Application Settings</h2>
         <p>
-          Maps to the PySide settings tab—user preferences, report
+          Maps to the PySide settings tab--user preferences, report
           customization, and advanced administrator tooling.
         </p>
       </header>

@@ -435,7 +435,7 @@ export const ReportBuilder: React.FC<ReportBuilderProps> = ({
             <span>
               {sections.filter((s) => s.enabled).length} sections enabled
             </span>
-            <span>•</span>
+            <span>*</span>
             <span>{sections.length} total sections</span>
           </div>
         </div>

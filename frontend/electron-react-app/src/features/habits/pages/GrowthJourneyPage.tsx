@@ -30,7 +30,7 @@ export default function GrowthJourneyPage() {
   const getImprovementIcon = (rate: number) => {
     if (rate > 0) return "📈";
     if (rate < 0) return "📉";
-    return "📊";
+    return "[CHART]";
   };
 
   const getImprovementColor = (rate: number) => {
@@ -93,7 +93,7 @@ export default function GrowthJourneyPage() {
       <div className={styles.content}>
         {/* Left Panel - Habit Mastery */}
         <div className={styles.leftPanel}>
-          <Card title="📊 Habit Mastery Levels" className={styles.masteryCard}>
+          <Card title="[CHART] Habit Mastery Levels" className={styles.masteryCard}>
             <div className={styles.habitsList}>
               {progression?.habit_breakdown &&
                 Object.entries(progression.habit_breakdown)
