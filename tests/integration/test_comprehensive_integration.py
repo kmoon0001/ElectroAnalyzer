@@ -11,7 +11,6 @@ Tests complete workflows and system integration:
 
 import pytest
 import asyncio
-import aiohttp
 import requests
 import time
 from typing import Dict, Any, Optional
@@ -19,6 +18,14 @@ from pathlib import Path
 import json
 import tempfile
 import os
+
+# Conditional import for aiohttp
+try:
+    import aiohttp
+    AIOHTTP_AVAILABLE = True
+except ImportError:
+    AIOHTTP_AVAILABLE = False
+    aiohttp = None
 
 class IntegrationTestBase:
     """Base class for integration tests."""
@@ -62,6 +69,7 @@ class TestCompleteWorkflow(IntegrationTestBase):
     """Test complete document analysis workflow."""
 
     @pytest.mark.asyncio
+    @pytest.mark.skipif(not AIOHTTP_AVAILABLE, reason="aiohttp not available")
     async def test_complete_document_analysis_workflow(self):
         """Test complete document analysis workflow from upload to results."""
         # 1. Authenticate
@@ -124,6 +132,7 @@ class TestCompleteWorkflow(IntegrationTestBase):
             self.cleanup_test_file(test_file)
 
     @pytest.mark.asyncio
+    @pytest.mark.skipif(not AIOHTTP_AVAILABLE, reason="aiohttp not available")
     async def test_multiple_document_workflow(self):
         """Test workflow with multiple documents."""
         assert await self.authenticate(), "Authentication failed"
@@ -194,6 +203,7 @@ class TestAuthenticationIntegration(IntegrationTestBase):
     """Test authentication and authorization integration."""
 
     @pytest.mark.asyncio
+    @pytest.mark.skipif(not AIOHTTP_AVAILABLE, reason="aiohttp not available")
     async def test_authentication_flow(self):
         """Test complete authentication flow."""
         # 1. Test login
@@ -223,6 +233,7 @@ class TestAuthenticationIntegration(IntegrationTestBase):
         assert response.status_code == 401
 
     @pytest.mark.asyncio
+    @pytest.mark.skipif(not AIOHTTP_AVAILABLE, reason="aiohttp not available")
     async def test_user_registration_flow(self):
         """Test user registration flow."""
         # 1. Register new user
@@ -258,6 +269,7 @@ class TestDatabaseIntegration(IntegrationTestBase):
     """Test database integration."""
 
     @pytest.mark.asyncio
+    @pytest.mark.skipif(not AIOHTTP_AVAILABLE, reason="aiohttp not available")
     async def test_database_persistence(self):
         """Test that data persists correctly in database."""
         assert await self.authenticate(), "Authentication failed"
@@ -318,6 +330,7 @@ class TestDatabaseIntegration(IntegrationTestBase):
             self.cleanup_test_file(test_file)
 
     @pytest.mark.asyncio
+    @pytest.mark.skipif(not AIOHTTP_AVAILABLE, reason="aiohttp not available")
     async def test_database_concurrent_access(self):
         """Test database handles concurrent access correctly."""
         assert await self.authenticate(), "Authentication failed"
@@ -358,6 +371,7 @@ class TestErrorHandlingIntegration(IntegrationTestBase):
     """Test error handling and recovery."""
 
     @pytest.mark.asyncio
+    @pytest.mark.skipif(not AIOHTTP_AVAILABLE, reason="aiohttp not available")
     async def test_invalid_file_handling(self):
         """Test handling of invalid files."""
         assert await self.authenticate(), "Authentication failed"
@@ -391,6 +405,7 @@ class TestErrorHandlingIntegration(IntegrationTestBase):
             self.cleanup_test_file(invalid_file)
 
     @pytest.mark.asyncio
+    @pytest.mark.skipif(not AIOHTTP_AVAILABLE, reason="aiohttp not available")
     async def test_oversized_file_handling(self):
         """Test handling of oversized files."""
         assert await self.authenticate(), "Authentication failed"
@@ -423,6 +438,7 @@ class TestErrorHandlingIntegration(IntegrationTestBase):
             self.cleanup_test_file(large_file)
 
     @pytest.mark.asyncio
+    @pytest.mark.skipif(not AIOHTTP_AVAILABLE, reason="aiohttp not available")
     async def test_network_error_recovery(self):
         """Test recovery from network errors."""
         assert await self.authenticate(), "Authentication failed"
@@ -445,6 +461,7 @@ class TestCrossComponentIntegration(IntegrationTestBase):
     """Test integration between different components."""
 
     @pytest.mark.asyncio
+    @pytest.mark.skipif(not AIOHTTP_AVAILABLE, reason="aiohttp not available")
     async def test_ai_model_integration(self):
         """Test AI model integration."""
         assert await self.authenticate(), "Authentication failed"
@@ -507,6 +524,7 @@ class TestCrossComponentIntegration(IntegrationTestBase):
             self.cleanup_test_file(test_file)
 
     @pytest.mark.asyncio
+    @pytest.mark.skipif(not AIOHTTP_AVAILABLE, reason="aiohttp not available")
     async def test_caching_integration(self):
         """Test caching system integration."""
         assert await self.authenticate(), "Authentication failed"

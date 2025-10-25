@@ -4,7 +4,7 @@ import os
 import tempfile
 import pytest
 from unittest.mock import patch, MagicMock
-from tests.data.test_documents import create_test_pdf, create_test_docx, create_test_image
+from tests.data.test_documents import TestDocumentData
 
 
 class TestDocumentParsingComprehensive:
@@ -12,7 +12,7 @@ class TestDocumentParsingComprehensive:
 
     def setup_method(self):
         """Set up test data."""
-        pass
+        self.test_data = TestDocumentData()
 
     def _create_temp_file(self, content: bytes, suffix: str) -> str:
         """Create a temporary file with proper cleanup."""
@@ -41,7 +41,7 @@ class TestDocumentParsingComprehensive:
         from src.core.parsing import parse_document_content
 
         # Create temporary PDF file
-        pdf_content = create_test_pdf("Sample PDF content for testing")
+        pdf_content = self.test_data.create_test_pdf("Sample PDF content for testing")
         tmp_path = self._create_temp_file(pdf_content, ".pdf")
 
         try:
@@ -69,7 +69,7 @@ class TestDocumentParsingComprehensive:
                 mock_tesseract.image_to_string.return_value = "OCR extracted text"
 
                 # Create temporary PDF file
-                pdf_content = create_test_pdf("Sample PDF with images")
+                pdf_content = self.test_data.create_test_pdf("Sample PDF with images")
                 tmp_path = self._create_temp_file(pdf_content, ".pdf")
 
                 try:
@@ -87,7 +87,7 @@ class TestDocumentParsingComprehensive:
         from src.core.parsing import parse_document_content
 
         # Create temporary DOCX file
-        docx_content = create_test_docx("Sample DOCX content")
+        docx_content = self.test_data.create_test_docx("Sample DOCX content")
         tmp_path = self._create_temp_file(docx_content, ".docx")
 
         try:
@@ -114,7 +114,7 @@ class TestDocumentParsingComprehensive:
                 mock_tesseract.image_to_string.return_value = "OCR extracted text from image"
 
                 # Create temporary image file
-                image_content = create_test_image("Sample image content")
+                image_content = self.test_data.create_test_image()
                 tmp_path = self._create_temp_file(image_content, ".png")
 
                 try:
@@ -159,11 +159,8 @@ class TestDocumentParsingComprehensive:
         tmp_path = self._create_temp_file(content, ".xyz")
 
         try:
-            result = parse_document_content(tmp_path)
-            # Should return error message instead of raising exception
-            assert isinstance(result, list)
-            assert len(result) > 0
-            assert "Error" in result[0]["sentence"]
+            with pytest.raises(ValueError, match="Unsupported file type"):
+                parse_document_content(tmp_path)
 
         finally:
             self._cleanup_temp_file(tmp_path)
@@ -172,11 +169,8 @@ class TestDocumentParsingComprehensive:
         """Test parsing of nonexistent file."""
         from src.core.parsing import parse_document_content
 
-        result = parse_document_content("nonexistent_file.pdf")
-        # Should return error message instead of raising exception
-        assert isinstance(result, list)
-        assert len(result) > 0
-        assert "Error" in result[0]["sentence"]
+        with pytest.raises(FileNotFoundError):
+            parse_document_content("nonexistent_file.pdf")
 
     def test_parse_empty_file(self):
         """Test parsing of empty file."""

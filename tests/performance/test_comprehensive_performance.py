@@ -12,7 +12,6 @@ Tests API performance characteristics including:
 import pytest
 import time
 import asyncio
-import aiohttp
 import requests
 import psutil
 import os
@@ -20,6 +19,14 @@ from typing import List, Dict, Any
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import statistics
 from dataclasses import dataclass
+
+# Conditional import for aiohttp
+try:
+    import aiohttp
+    AIOHTTP_AVAILABLE = True
+except ImportError:
+    AIOHTTP_AVAILABLE = False
+    aiohttp = None
 
 @dataclass
 class PerformanceMetrics:
@@ -146,6 +153,7 @@ class TestConcurrentPerformance(PerformanceTestBase):
         print(f"Concurrent requests - Avg: {avg_response_time:.2f}ms, P95: {p95_response_time:.2f}ms")
 
     @pytest.mark.asyncio
+    @pytest.mark.skipif(not AIOHTTP_AVAILABLE, reason="aiohttp not available")
     async def test_async_concurrent_requests(self):
         """Test async concurrent request handling."""
         async def make_request(session):

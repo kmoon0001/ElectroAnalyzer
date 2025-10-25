@@ -224,7 +224,7 @@ class TestRunner:
 """
 
         for test_name, result in self.results.items():
-            status = "✅ PASSED" if result["success"] else "❌ FAILED"
+            status = "[OK] PASSED" if result["success"] else "[FAIL] FAILED"
             report += f"""
 ### {test_name}
 - **Status**: {status}
@@ -348,9 +348,9 @@ Integration tests failed. Consider:
         self.results["Environment Check"] = env_check
 
         if not env_check["success"]:
-            print("❌ Test environment not ready. Please check:")
+            print("[FAIL] Test environment not ready. Please check:")
             for check, status in env_check["checks"].items():
-                print(f"  - {check}: {'✅' if status else '❌'}")
+                print(f"  - {check}: {'[OK]' if status else '[FAIL]'}")
             return self.results
 
         # Run requested tests
@@ -359,7 +359,7 @@ Integration tests failed. Consider:
                 result = test_functions[test_type]()
                 self.results[test_type.title() + " Tests"] = result
             else:
-                print(f"❌ Unknown test type: {test_type}")
+                print(f"[FAIL] Unknown test type: {test_type}")
 
         return self.results
 
@@ -395,14 +395,14 @@ def main():
 
     if args.check_env:
         env_check = runner.check_test_environment()
-        print("🔍 Test Environment Check:")
+        print("[CHECK] Test Environment Check:")
         for check, status in env_check["checks"].items():
-            print(f"  - {check}: {'✅' if status else '❌'}")
+            print(f"  - {check}: {'[OK]' if status else '[FAIL]'}")
         return
 
     if args.pattern:
         result = runner.run_specific_tests(args.pattern)
-        print(f"\n{'✅' if result['success'] else '❌'} Pattern test completed")
+        print(f"\n{'[OK]' if result['success'] else '[FAIL]'} Pattern test completed")
         if not result["success"]:
             print(f"Error: {result['stderr']}")
         return
@@ -411,10 +411,11 @@ def main():
     results = runner.run_tests(args.tests)
 
     # Print summary
-    print("\n📊 Test Summary:")
+    print("\n[SUMMARY] Test Summary:")
     for test_name, result in results.items():
-        status = "✅ PASSED" if result["success"] else "❌ FAILED"
-        print(f"  - {test_name}: {status} ({result['execution_time']:.2f}s)")
+        status = "[OK] PASSED" if result["success"] else "[FAIL] FAILED"
+        execution_time = result.get('execution_time', 0.0)
+        print(f"  - {test_name}: {status} ({execution_time:.2f}s)")
 
     # Generate report if requested
     if args.report:
@@ -424,15 +425,15 @@ def main():
         with open(report_file, 'w', encoding='utf-8') as f:
             f.write(report)
 
-        print(f"\n📄 Detailed report saved to: {report_file}")
+        print(f"\n[REPORT] Detailed report saved to: {report_file}")
 
     # Exit with appropriate code
     failed_tests = [name for name, result in results.items() if not result["success"]]
     if failed_tests:
-        print(f"\n❌ {len(failed_tests)} test suite(s) failed")
+        print(f"\n[FAIL] {len(failed_tests)} test suite(s) failed")
         sys.exit(1)
     else:
-        print("\n✅ All test suites passed!")
+        print("\n[OK] All test suites passed!")
         sys.exit(0)
 
 if __name__ == "__main__":
