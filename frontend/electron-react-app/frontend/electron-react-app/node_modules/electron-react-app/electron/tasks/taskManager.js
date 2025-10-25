@@ -49,7 +49,7 @@ class TaskManager extends EventEmitter {
       }
     }
 
-    this.#telemetryTimer = setInterval(() => { // TODO: Add clearInterval cleanup
+    this.#telemetryTimer = setInterval(() => {
       void this.#emitTelemetry();
     }, this.telemetryIntervalMs);
 
@@ -218,7 +218,7 @@ class TaskManager extends EventEmitter {
     this.emit('started', { jobId: job.id, job });
 
     if (job.timeoutMs) {
-      activeRecord.timeoutHandle = setTimeout(() => { // TODO: Add clearTimeout cleanup
+      activeRecord.timeoutHandle = setTimeout(() => {
         this.cancel(job.id, 'Timed out');
       }, job.timeoutMs);
       if (typeof activeRecord.timeoutHandle.unref === 'function') {

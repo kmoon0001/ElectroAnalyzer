@@ -29,6 +29,37 @@ interface PDFExportButtonProps {
   onExportError?: (error: string) => void;
 }
 
+import React, { useState, useRef, useEffect } from "react";
+import {
+  Download,
+  FileText,
+  Loader2,
+  CheckCircle,
+  AlertCircle,
+} from "../../../components/ui/Icons";
+import { useAppStore } from "../../../store/useAppStore";
+import styles from "./PDFExportButton.module.css";
+
+interface PDFExportOptions {
+  includeCharts: boolean;
+  includeMetadata: boolean;
+  watermark?: string;
+  format: "standard" | "detailed" | "summary";
+}
+
+interface PDFExportButtonProps {
+  analysisId?: string;
+  reportData?: any;
+  filename?: string;
+  variant?: "primary" | "secondary" | "ghost";
+  size?: "small" | "medium" | "large";
+  disabled?: boolean;
+  className?: string;
+  onExportStart?: () => void;
+  onExportComplete?: (result: any) => void;
+  onExportError?: (error: string) => void;
+}
+
 export const PDFExportButton: React.FC<PDFExportButtonProps> = ({
   analysisId,
   reportData,
@@ -51,8 +82,17 @@ export const PDFExportButton: React.FC<PDFExportButtonProps> = ({
     includeMetadata: true,
     format: "standard",
   });
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const token = useAppStore((state) => state.auth.token);
+
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+    };
+  }, []);
 
   const exportToPDF = async (exportOptions: PDFExportOptions) => {
     if (!token || (!analysisId && !reportData)) {
@@ -135,7 +175,7 @@ export const PDFExportButton: React.FC<PDFExportButtonProps> = ({
         onExportComplete?.(result);
 
         // Reset status after 3 seconds
-        setTimeout(() => setExportStatus("idle"), 3000); // TODO: Add clearTimeout cleanup
+        timerRef.current = setTimeout(() => setExportStatus("idle"), 3000);
       } else {
         throw new Error(result.error || "Export failed");
       }
@@ -147,7 +187,7 @@ export const PDFExportButton: React.FC<PDFExportButtonProps> = ({
       onExportError?.(errorMessage);
 
       // Reset status after 5 seconds
-      setTimeout(() => setExportStatus("idle"), 5000); // TODO: Add clearTimeout cleanup
+      timerRef.current = setTimeout(() => setExportStatus("idle"), 5000);
     } finally {
       setIsExporting(false);
     }
@@ -370,7 +410,7 @@ export const BatchPDFExportButton: React.FC<{
           document.body.removeChild(a);
         } else {
           // Handle individual files (would need zip download)
-          logger?.debug?.( // TODO: Review logging level"Individual files exported:", result.results);
+          logger?.debug?.("Individual files exported:", result.results);
         }
       }
     } catch (error) {

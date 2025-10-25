@@ -205,7 +205,7 @@ export const VirtualizedDocumentViewer: React.FC<DocumentViewerProps> = ({
     };
 
     updateHeight();
-    window.addEventListener("resize", updateHeight); // TODO: Add removeEventListener cleanup in useEffect return // TODO: Add removeEventListener cleanup in useEffect return
+    window.addEventListener("resize", updateHeight);
     return () => window.removeEventListener("resize", updateHeight);
   }, []);
 

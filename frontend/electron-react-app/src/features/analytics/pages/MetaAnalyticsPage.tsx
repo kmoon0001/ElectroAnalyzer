@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Card } from "../../../components/ui/Card";
 import { Button } from "../../../components/ui/Button";
 import { StatusChip } from "../../../components/ui/StatusChip";
@@ -54,6 +54,7 @@ export default function MetaAnalyticsPage() {
     null,
   );
   const [isLoading, setIsLoading] = useState(false);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   // Mock data generation
   const generateMockData = () => {
@@ -107,7 +108,7 @@ export default function MetaAnalyticsPage() {
 
   const refreshAnalytics = async () => {
     setIsLoading(true);
-    setTimeout(() => { // TODO: Add clearTimeout cleanup
+    timerRef.current = setTimeout(() => {
       generateMockData();
       setIsLoading(false);
     }, 1000);
@@ -115,6 +116,11 @@ export default function MetaAnalyticsPage() {
 
   useEffect(() => {
     generateMockData();
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+    };
   }, [timePeriod]);
 
   return (

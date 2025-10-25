@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const os = require('os');
 
-logger?.debug?.( // TODO: Review logging level'Main process started');
+logger?.info?.('Main process started');
 const { taskManager } = require('./tasks');
 
 const isDev = process.env.ELECTRON_IS_DEV === '1' || !app.isPackaged;
@@ -287,7 +287,7 @@ const registerTaskIpcHandlers = () => {
 };
 
 const createMainWindow = () => {
-  logger?.debug?.( // TODO: Review logging level'Creating main window');
+  logger?.info?.('Creating main window');
     mainWindow = new BrowserWindow({
       width: 1440,
       height: 900,

@@ -10,7 +10,7 @@ const sleep = (ms, signal) =>
       return;
     }
     const timer = setTimeout(resolve, ms);
-    signal?.addEventListener( // TODO: Add removeEventListener cleanup in useEffect return // TODO: Add removeEventListener cleanup in useEffect return
+    signal?.addEventListener(
       'abort',
       () => {
         clearTimeout(timer);
@@ -72,7 +72,7 @@ const createRequestSignal = (timeoutMs, ...signals) => {
       composite.abort();
       break;
     }
-    signal.addEventListener('abort', abort, { once: true }); // TODO: Add removeEventListener cleanup in useEffect return // TODO: Add removeEventListener cleanup in useEffect return
+    signal.addEventListener('abort', abort, { once: true });
   }
 
   return {

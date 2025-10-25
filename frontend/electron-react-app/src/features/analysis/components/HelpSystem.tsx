@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Card } from "../../../components/ui/Card";
 import { StatusChip } from "../../../components/ui/StatusChip";
+import DOMPurify from "dompurify";
 
 import styles from "./HelpSystem.module.css";
 
@@ -169,7 +170,7 @@ export function HelpSystem({ className }: HelpSystemProps) {
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside); // TODO: Add removeEventListener cleanup in useEffect return // TODO: Add removeEventListener cleanup in useEffect return
+    document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
@@ -224,11 +225,12 @@ export function HelpSystem({ className }: HelpSystemProps) {
                   </h3>
                   <div
                     className={styles.guideText}
-                    dangerouslySetInnerHTML /* TODO: Sanitize or use alternative */ /* TODO: Sanitize or use alternative */={{
-                      __html:
+                    dangerouslySetInnerHTML={{
+                      __html: DOMPurify.sanitize(
                         CLINICAL_GUIDES[
                           selectedGuide as keyof typeof CLINICAL_GUIDES
                         ].content,
+                      ),
                     }}
                   />
                 </div>

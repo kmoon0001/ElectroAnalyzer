@@ -210,7 +210,7 @@ export const useAsyncError = () => {
 // Global error handler setup
 export const setupGlobalErrorHandlers = () => {
   // Handle unhandled promise rejections
-  window.addEventListener("unhandledrejection", (event) => { // TODO: Add removeEventListener cleanup in useEffect return // TODO: Add removeEventListener cleanup in useEffect return
+  window.addEventListener("unhandledrejection", (event) => {
     logger?.error?.( // Error:"Unhandled promise rejection:", event.reason);
 
     // Report to diagnostics store
@@ -233,7 +233,7 @@ export const setupGlobalErrorHandlers = () => {
   });
 
   // Handle general errors
-  window.addEventListener("error", (event) => { // TODO: Add removeEventListener cleanup in useEffect return // TODO: Add removeEventListener cleanup in useEffect return
+  window.addEventListener("error", (event) => {
     logger?.error?.( // Error:"Global error:", event.error);
 
     // Report to diagnostics store

@@ -154,7 +154,7 @@ export const useLogStream = () => {
         return;
       }
       const delay = backoff.next();
-      reconnectTimerRef.current = window.setTimeout(connect, delay); // TODO: Add clearTimeout cleanup
+      reconnectTimerRef.current = window.setTimeout(connect, delay);
     };
 
     const handleMessage = async (data: MessageEvent["data"]) => {

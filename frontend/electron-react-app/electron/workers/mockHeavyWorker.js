@@ -19,7 +19,7 @@ parentPort.on('message', (message) => {
       if (cancelled) {
         return;
       }
-      await new Promise((resolve) => setTimeout(resolve, durationMs / steps)); // TODO: Add clearTimeout cleanup
+      await new Promise((resolve) => setTimeout(resolve, durationMs / steps));
       post('progress', {
         progress: Math.round((i / steps) * 100),
         statusMessage: `Mock heavy work step ${i}/${steps}`,

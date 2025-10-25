@@ -1,8 +1,9 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Button } from "../../../components/ui/Button";
 import { Card } from "../../../components/ui/Card";
 import { StatusChip } from "../../../components/ui/StatusChip";
 import { ChatAssistant } from "./ChatAssistant";
+import DOMPurify from "dompurify";
 
 import styles from "./ReportDialog.module.css";
 
@@ -29,6 +30,15 @@ export function ReportDialog({
   const [activeTab, setActiveTab] = useState<"report" | "chat">("report");
   const [isExporting, setIsExporting] = useState(false);
   const reportRef = useRef<HTMLDivElement>(null);
+  const printTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (printTimerRef.current) {
+        clearTimeout(printTimerRef.current);
+      }
+    };
+  }, []);
 
   const handlePrintToPDF = async () => {
     setIsExporting(true);
@@ -233,7 +243,7 @@ export function ReportDialog({
       printWindow.document.close();
 
       // Wait for content to load, then trigger print
-      setTimeout(() => { // TODO: Add clearTimeout cleanup
+      printTimerRef.current = setTimeout(() => {
         printWindow.print();
         printWindow.close();
       }, 500);
@@ -331,7 +341,7 @@ export function ReportDialog({
                 <div
                   ref={reportRef}
                   className={styles.reportDisplay}
-                  dangerouslySetInnerHTML /* TODO: Sanitize or use alternative */ /* TODO: Sanitize or use alternative */={{ __html: reportHtml }}
+                  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(reportHtml) }}
                 />
               </div>
             ) : (

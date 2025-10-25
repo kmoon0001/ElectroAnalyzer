@@ -27,6 +27,7 @@ export function ChatAssistant({
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -63,6 +64,14 @@ export function ChatAssistant({
     }
   }, [initialContext]);
 
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+    };
+  }, []);
+
   const sendMessage = async () => {
     if (!inputValue.trim() || isLoading) return;
 
@@ -86,7 +95,9 @@ export function ChatAssistant({
 
     try {
       // Simulate API call - replace with actual chat API
-      await new Promise((resolve) => setTimeout(resolve, 2000)); // TODO: Add clearTimeout cleanup
+      await new Promise((resolve) => {
+        timerRef.current = setTimeout(resolve, 2000);
+      });
 
       const aiResponse: ChatMessage = {
         role: "assistant",

@@ -648,10 +648,10 @@ export default function AnalysisPage() {
         <div className={styles.dialogOverlay}>
           <CitationManager
             onSelect={(citation) => {
-              logger?.debug?.( // TODO: Review logging level"Selected citation:", citation);
+              logger?.debug?.("Selected citation:", citation);
             }}
             onInsert={(citation) => {
-              logger?.debug?.( // TODO: Review logging level"Inserting citation:", citation);
+              logger?.debug?.("Inserting citation:", citation);
             }}
             onClose={() => setShowCitationManager(false)}
           />

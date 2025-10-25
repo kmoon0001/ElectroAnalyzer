@@ -254,8 +254,7 @@ export default function SettingsPage() {
               </li>
             ))}
           </ul>
-          {/* TODO: Wire profiler launcher once the diagnostics window ships to Electron. */}
-          <Button variant="ghost">Open Profiler</Button>
+          
         </Card>
         <Card
           title="Administrative Controls"

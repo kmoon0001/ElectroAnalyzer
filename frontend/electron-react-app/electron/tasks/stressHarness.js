@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const os = require('node:os');
-const { setTimeout: delay } = require('node:timers/promises'); // TODO: Add clearTimeout cleanup
+const { setTimeout: delay } = require('node:timers/promises');
 const { createTaskManager } = require('./index');
 
 const DEFAULTS = {
@@ -150,7 +150,7 @@ const run = async () => {
 
   const jobs = Array.from({ length: options.jobs }, (_value, index) => buildJobPlan(index, options));
 
-  logger?.debug?.( // TODO: Review logging level`
+  logger?.info?.(`
 [stress] launching ${jobs.length} jobs (concurrency=${options.concurrency})`);
 
   for (const plan of jobs) {
@@ -178,7 +178,7 @@ const run = async () => {
     jobRecords.set(jobId, record);
 
     if (plan.cancelAfterMs !== null) {
-      setTimeout(() => { // TODO: Add clearTimeout cleanup
+      setTimeout(() => {
         manager.cancel(jobId, 'Harness cancellation');
       }, plan.cancelAfterMs).unref();
     }
@@ -186,13 +186,13 @@ const run = async () => {
     await delay(50);
   }
 
-  const telemetryLog = setInterval(() => { // TODO: Add clearInterval cleanup
+  const telemetryLog = setInterval(() => {
     if (!lastTelemetry) {
       return;
     }
     const cpu = formatPercent(lastTelemetry.cpu.normalizedPercent ?? lastTelemetry.cpu.percent ?? 0);
     const rssMb = Math.round((lastTelemetry.memory.rss ?? 0) / 1024 / 1024);
-    logger?.debug?.( // TODO: Review logging level
+logger?.debug?.(
       `[telemetry] active=${lastTelemetry.activeCount}/${lastTelemetry.concurrency} queued=${lastTelemetry.queueSize} cpu=${cpu} rss=${rssMb}MB loop-p99=${lastTelemetry.eventLoop ? lastTelemetry.eventLoop.p99.toFixed(1) : 'n/a'}ms`,
     );
   }, 2_000);
@@ -203,8 +203,7 @@ const run = async () => {
   clearInterval(telemetryLog);
   manager.dispose();
 
-  logger?.debug?.( // TODO: Review logging level'
-[stress] results');
+  logger?.info?.('\n[stress] results');
   console.table([
     { metric: 'completed', value: stats.completed },
     { metric: 'cancelled', value: stats.cancelled },

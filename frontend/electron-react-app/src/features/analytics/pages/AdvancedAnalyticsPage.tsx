@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { Card } from "../../../components/ui/Card";
 import { Button } from "../../../components/ui/Button";
 import { StatusChip } from "../../../components/ui/StatusChip";
@@ -51,6 +51,7 @@ export default function AdvancedAnalyticsPage() {
     null,
   );
   const [isLoading, setIsLoading] = useState(false);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const generateMockData = useCallback((): AnalyticsData => {
     const days = parseInt(timeRange);
@@ -102,7 +103,7 @@ export default function AdvancedAnalyticsPage() {
   const refreshAnalytics = useCallback(async () => {
     setIsLoading(true);
     // Simulate API call
-    setTimeout(() => { // TODO: Add clearTimeout cleanup
+    timerRef.current = setTimeout(() => {
       setAnalyticsData(generateMockData());
       setIsLoading(false);
     }, 1000);
@@ -110,6 +111,11 @@ export default function AdvancedAnalyticsPage() {
 
   useEffect(() => {
     refreshAnalytics();
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+    };
   }, [timeRange, disciplineFilter, refreshAnalytics]);
 
   return (
