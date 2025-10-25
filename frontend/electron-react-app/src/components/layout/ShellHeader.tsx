@@ -43,7 +43,15 @@ export const ShellHeader = () => {
             {theme === "dark" ? "Light" : "Dark"}
           </span>
         </Button>
-        <Button variant="ghost" onClick={clearAuth} title="Log Out">
+        <Button
+          variant="ghost"
+          onClick={async () => {
+            const ok = window.confirm("Log out of the current session?");
+            if (!ok) return;
+            await clearAuth();
+          }}
+          title="Log Out"
+        >
           <LogOut size={16} />
           <span className={styles.buttonText}>Log Out</span>
         </Button>

@@ -271,9 +271,12 @@ async def change_password(
     )
 
     logger.info(
-        f"Password changed for user {current_user.username}",
-        user_id=current_user.id,
-        sessions_invalidated=invalidated_count,
+        "Password changed for user %s",
+        current_user.username,
+        extra={
+            "user_id": current_user.id,
+            "sessions_invalidated": invalidated_count,
+        },
     )
 
     return {"status": "ok", "sessions_invalidated": invalidated_count}

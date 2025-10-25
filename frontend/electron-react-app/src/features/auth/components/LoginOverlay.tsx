@@ -5,6 +5,7 @@ import { Button } from "../../../components/ui/Button";
 import { Card } from "../../../components/ui/Card";
 import { login } from "../api";
 import { useAppStore } from "../../../store/useAppStore";
+import { tokenManager } from "../../../lib/security/secureTokenStorage";
 
 import styles from "./LoginOverlay.module.css";
 
@@ -69,19 +70,6 @@ export const LoginOverlay = () => {
               disabled={mutation.isPending}
             >
               {mutation.isPending ? "Signing in..." : "Sign In"}
-            </Button>
-            <Button
-              type="button"
-              variant="ghost"
-              onClick={async () => {
-                const clear = useAppStore.getState().auth.clear;
-                await clear();
-                localStorage.removeItem("tca-app-store");
-                window.location.reload();
-              }}
-              style={{ fontSize: "0.8rem", padding: "4px 8px" }}
-            >
-              Clear Stored Data & Refresh
             </Button>
           </div>
         </form>

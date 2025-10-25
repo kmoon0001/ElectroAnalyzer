@@ -8,6 +8,7 @@ import { useAppStore } from "../../../store/useAppStore";
 import { fetchPreferences, updatePreferences, PreferencesForm } from "../api";
 
 import styles from "./SettingsPage.module.css";
+import { tokenManager } from "../../../lib/security/secureTokenStorage";
 
 const TOGGLES = [
   { key: "enableBetaWidgets", label: "Enable beta mission-control widgets" },
@@ -266,6 +267,33 @@ export default function SettingsPage() {
             updates.
           </p>
           <Button variant="primary">Open Advanced Editor</Button>
+        </Card>
+        <Card
+          title="Session & Storage"
+          subtitle="Manage local session data and app cache"
+        >
+          <p className={styles.helperText}>
+            Use this to clear the current session and local app data. You will
+            be signed out and the app will refresh.
+          </p>
+          <Button
+            variant="ghost"
+            onClick={async () => {
+              const ok = window.confirm(
+                "This will clear stored session data and refresh the app. Continue?",
+              );
+              if (!ok) return;
+              try {
+                const clearAuth = useAppStore.getState().auth.clear;
+                await clearAuth();
+                await tokenManager.clearAll();
+              } catch {}
+              localStorage.removeItem("tca-app-store");
+              window.location.reload();
+            }}
+          >
+            Clear Stored Data & Refresh
+          </Button>
         </Card>
       </section>
     </div>

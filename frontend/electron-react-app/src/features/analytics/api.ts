@@ -1,4 +1,5 @@
 import axios from "axios";
+import { tokenManager } from "../../lib/security/secureTokenStorage";
 
 const API_BASE_URL = process.env.REACT_APP_API_URL || "http://127.0.0.1:8001";
 
@@ -74,29 +75,26 @@ export interface AdvancedAnalyticsData {
 export const fetchAdvancedAnalytics = async (
   timeRange: string,
 ): Promise<AdvancedAnalyticsData> => {
+  const token = await tokenManager.getAuthToken();
   const response = await axios.get(`${API_BASE_URL}/analytics/advanced`, {
     params: { time_range: timeRange },
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("auth_token")}`,
-    },
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
   });
   return response.data;
 };
 
 export const fetchPredictiveAnalytics = async (): Promise<RiskPrediction> => {
+  const token = await tokenManager.getAuthToken();
   const response = await axios.get(`${API_BASE_URL}/analytics/predictive`, {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("auth_token")}`,
-    },
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
   });
   return response.data;
 };
 
 export const fetchBenchmarkData = async (): Promise<BenchmarkData> => {
+  const token = await tokenManager.getAuthToken();
   const response = await axios.get(`${API_BASE_URL}/analytics/benchmarks`, {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("auth_token")}`,
-    },
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
   });
   return response.data;
 };
@@ -164,10 +162,9 @@ export const fetchMetaAnalytics = async (
     params.append("discipline", discipline);
   }
 
+  const token = await tokenManager.getAuthToken();
   const response = await axios.get(`${API_BASE_URL}/meta-analytics?${params}`, {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("auth_token")}`,
-    },
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
   });
   return response.data;
 };

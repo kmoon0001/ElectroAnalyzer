@@ -1,4 +1,5 @@
 import axios from "axios";
+import { tokenManager } from "../../lib/security/secureTokenStorage";
 
 const API_BASE_URL = process.env.REACT_APP_API_URL || "http://127.0.0.1:8001";
 
@@ -52,20 +53,17 @@ export interface HabitsAchievements {
 }
 
 export const fetchHabitsProgression = async (): Promise<HabitProgression> => {
+  const token = await tokenManager.getAuthToken();
   const response = await axios.get(`${API_BASE_URL}/habits/progression`, {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("auth_token")}`,
-    },
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
   });
   return response.data;
 };
 
-export const fetchHabitsAchievements =
-  async (): Promise<HabitsAchievements> => {
-    const response = await axios.get(`${API_BASE_URL}/habits/achievements`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("auth_token")}`,
-      },
-    });
-    return response.data;
-  };
+export const fetchHabitsAchievements = async (): Promise<HabitsAchievements> => {
+  const token = await tokenManager.getAuthToken();
+  const response = await axios.get(`${API_BASE_URL}/habits/achievements`, {
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
+  });
+  return response.data;
+};
