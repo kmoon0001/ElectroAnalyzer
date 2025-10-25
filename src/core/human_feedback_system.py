@@ -24,6 +24,11 @@ import json
 import hashlib
 from pathlib import Path
 
+try:
+    import aiofiles
+except ImportError:
+    aiofiles = None
+
 logger = logging.getLogger(__name__)
 
 
@@ -655,8 +660,13 @@ class HumanFeedbackSystem:
                 'impact_score': feedback_item.impact_score
             }
 
-            with open(file_path, 'w') as f:
-                json.dump(feedback_data, f, indent=2)
+            if aiofiles:
+                async with aiofiles.open(file_path, 'w', encoding='utf-8') as f:
+                    await f.write(json.dumps(feedback_data, indent=2))
+            else:
+                # Fallback if aiofiles not available
+                with open(file_path, 'w', encoding='utf-8') as f:
+                    json.dump(feedback_data, f, indent=2)
 
         except Exception as e:
             logger.error("Failed to save feedback item %s: %s", feedback_item.feedback_id, e)

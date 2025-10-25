@@ -331,12 +331,12 @@ class ProductionValidator:
                         check.status = ValidationStatus.PASSED
                         check.result = result.value
                         report.passed_checks += 1
-                        self.logger.info(f"✅ {check.name}: PASSED")
+                        self.logger.info(f"[OK] {check.name}: PASSED")
                     else:
                         check.status = ValidationStatus.FAILED
                         check.error_message = result.error
                         report.failed_checks += 1
-                        self.logger.error(f"❌ {check.name}: FAILED - {result.error}")
+                        self.logger.error(f"[FAIL] {check.name}: FAILED - {result.error}")
 
                         if check.required:
                             report.rollback_required = True
@@ -347,7 +347,7 @@ class ProductionValidator:
                     check.execution_time_ms = (time.time() - start_time) * 1000
                     report.failed_checks += 1
 
-                    self.logger.error(f"❌ {check.name}: FAILED - {str(e)}")
+                    self.logger.error(f"[FAIL] {check.name}: FAILED - {str(e)}")
 
                     if check.required:
                         report.rollback_required = True
@@ -950,7 +950,7 @@ class ProductionValidator:
             report_text += f"\n### {category.value.title()} Validation\n\n"
 
             for check in checks:
-                status_icon = "✅" if check.status == ValidationStatus.PASSED else "❌" if check.status == ValidationStatus.FAILED else "⚠️"
+                status_icon = "[OK]" if check.status == ValidationStatus.PASSED else "[FAIL]" if check.status == ValidationStatus.FAILED else "[WARNING]"
                 report_text += f"- {status_icon} **{check.name}** ({check.status.value})\n"
                 if check.result:
                     report_text += f"  - Result: {check.result}\n"
@@ -989,9 +989,9 @@ async def main():
     if result.is_success:
         report = result.value
         logger.info("Production validation completed successfully!")
-        print("✅ Production validation completed!")
+        print("[OK] Production validation completed!")
 
-        print(f"\n📊 Validation Summary:")
+        print(f"\n[SUMMARY] Validation Summary:")
         print(f"   Overall Status: {report.overall_status.value.upper()}")
         print(f"   Total Checks: {report.total_checks}")
         print(f"   Passed: {report.passed_checks}")
@@ -1011,11 +1011,11 @@ async def main():
         with open(report_file, 'w') as f:
             f.write(detailed_report)
 
-        print(f"\n📄 Detailed report saved to: {report_file}")
+        print(f"\n[REPORT] Detailed report saved to: {report_file}")
 
     else:
         logger.error(f"Production validation failed: {result.error}")
-        print(f"❌ Production validation failed: {result.error}")
+        print(f"[FAIL] Production validation failed: {result.error}")
 
 
 if __name__ == "__main__":

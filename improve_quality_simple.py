@@ -22,9 +22,9 @@ def main():
 
     plan = f"""# 🎯 Quality Metrics Improvement Plan
 
-## Current Status: A- (9.0/10) → Target: A+ (9.5+/10)
+## Current Status: A- (9.0/10) -> Target: A+ (9.5+/10)
 
-### 📊 Priority Improvements
+### [SUMMARY] Priority Improvements
 
 | Metric | Current | Target | Gap | Priority |
 |--------|---------|--------|-----|----------|
@@ -123,11 +123,11 @@ mypy src/
 ## 📈 Expected Results
 
 After implementation:
-- Performance: 8.5 → 9.2 (+0.7)
-- Documentation: 8.0 → 9.0 (+1.0)
-- Test Coverage: 9.2 → 9.8 (+0.6)
-- Code Quality: 9.0 → 9.5 (+0.5)
-- Overall Grade: A- (9.0) → A+ (9.5)
+- Performance: 8.5 -> 9.2 (+0.7)
+- Documentation: 8.0 -> 9.0 (+1.0)
+- Test Coverage: 9.2 -> 9.8 (+0.6)
+- Code Quality: 9.0 -> 9.5 (+0.5)
+- Overall Grade: A- (9.0) -> A+ (9.5)
 
 ## 🎯 Success Metrics
 

@@ -146,7 +146,7 @@ class ComplianceService:
                 issue_category="goals",
                 discipline="all",
                 document_type="all",
-                suggestion="Use objective measurements, functional outcomes, and specific timeframes. Example: 'Patient will increase right shoulder flexion from 90° to 120° within 3 weeks.'",
+                suggestion="Use objective measurements, functional outcomes, and specific timeframes. Example: 'Patient will increase right shoulder flexion from 90deg to 120deg within 3 weeks.'",
                 financial_impact=50,
                 positive_keywords=["goal", "objective", "outcome"],
                 negative_keywords=[

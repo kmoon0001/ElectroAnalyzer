@@ -740,7 +740,7 @@ async def populated_test_db(db_session: AsyncSession):
     - report_3: 15 days ago, score 75.0 (OT) - Evaluation
     - report_4: 20 days ago, score 90.0 (ST) - Assessment
 
-    Overall average: (95 + 85 + 75 + 90) / 4 = 86.25 ✓
+    Overall average: (95 + 85 + 75 + 90) / 4 = 86.25 [OK]
     Progress Note average: (95 + 85) / 2 = 90.0
     Week 1 avg: 95.0 (report_1 only)
     Week 2 avg: 85.0 (report_2 only)

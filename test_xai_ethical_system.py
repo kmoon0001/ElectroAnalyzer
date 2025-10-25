@@ -76,7 +76,7 @@ async def test_xai_ethical_system():
 
         xai_metrics = result.get('xai_metrics', {})
         if xai_metrics:
-            print("✅ XAI metrics present")
+            print("[OK] XAI metrics present")
             print(f"   Decision path steps: {len(xai_metrics.get('decision_path', []))}")
             print(f"   Feature importance keys: {len(xai_metrics.get('feature_importance', {}))}")
             print(f"   Confidence breakdown: {xai_metrics.get('confidence_breakdown', {})}")
@@ -86,7 +86,7 @@ async def test_xai_ethical_system():
             print(f"   Bias checks: {xai_metrics.get('bias_checks', {})}")
             print(f"   Ethical flags: {xai_metrics.get('ethical_flags', [])}")
         else:
-            print("❌ XAI metrics missing")
+            print("[FAIL] XAI metrics missing")
 
         # Check bias metrics
         print("\n" + "=" * 40)
@@ -95,7 +95,7 @@ async def test_xai_ethical_system():
 
         bias_metrics = result.get('bias_metrics', {})
         if bias_metrics:
-            print("✅ Bias metrics present")
+            print("[OK] Bias metrics present")
             print(f"   Demographic bias score: {bias_metrics.get('demographic_bias_score', 0):.3f}")
             print(f"   Linguistic bias score: {bias_metrics.get('linguistic_bias_score', 0):.3f}")
             print(f"   Clinical bias score: {bias_metrics.get('clinical_bias_score', 0):.3f}")
@@ -103,7 +103,7 @@ async def test_xai_ethical_system():
             print(f"   Bias sources: {bias_metrics.get('bias_sources', [])}")
             print(f"   Mitigation applied: {bias_metrics.get('mitigation_applied', [])}")
         else:
-            print("❌ Bias metrics missing")
+            print("[FAIL] Bias metrics missing")
 
         # Check accuracy enhancement
         print("\n" + "=" * 40)
@@ -112,12 +112,12 @@ async def test_xai_ethical_system():
 
         accuracy_enhancement = result.get('accuracy_enhancement', {})
         if accuracy_enhancement:
-            print("✅ Accuracy enhancement present")
+            print("[OK] Accuracy enhancement present")
             print(f"   Techniques applied: {accuracy_enhancement.get('techniques_applied', [])}")
             print(f"   Expected improvement: {accuracy_enhancement.get('expected_improvement', 0):.3f}")
             print(f"   Enhancement timestamp: {accuracy_enhancement.get('enhancement_timestamp', 'N/A')}")
         else:
-            print("❌ Accuracy enhancement missing")
+            print("[FAIL] Accuracy enhancement missing")
 
         # Check confidence metrics
         print("\n" + "=" * 40)
@@ -126,14 +126,14 @@ async def test_xai_ethical_system():
 
         confidence_metrics = result.get('confidence_metrics', {})
         if confidence_metrics:
-            print("✅ Confidence metrics present")
+            print("[OK] Confidence metrics present")
             print(f"   Overall confidence: {confidence_metrics.get('overall_confidence', 0):.3f}")
             print(f"   Entity confidence: {confidence_metrics.get('entity_confidence', 0):.3f}")
             print(f"   Fact check confidence: {confidence_metrics.get('fact_check_confidence', 0):.3f}")
             print(f"   Context confidence: {confidence_metrics.get('context_confidence', 0):.3f}")
             print(f"   Reasoning: {confidence_metrics.get('reasoning', 'N/A')}")
         else:
-            print("❌ Confidence metrics missing")
+            print("[FAIL] Confidence metrics missing")
 
         # Check findings quality
         print("\n" + "=" * 40)
@@ -142,7 +142,7 @@ async def test_xai_ethical_system():
 
         findings = result.get('findings', [])
         if findings:
-            print(f"✅ {len(findings)} findings generated")
+            print(f"[OK] {len(findings)} findings generated")
 
             # Check individual finding enhancements
             enhanced_findings = 0
@@ -155,19 +155,19 @@ async def test_xai_ethical_system():
                 # Check for enhancements
                 if 'expanded_context' in finding:
                     enhanced_findings += 1
-                    print(f"     ✅ Expanded context: {finding['expanded_context']}")
+                    print(f"     [OK] Expanded context: {finding['expanded_context']}")
 
                 if 'prompt_optimization' in finding:
                     enhanced_findings += 1
-                    print(f"     ✅ Prompt optimization: {finding['prompt_optimization']}")
+                    print(f"     [OK] Prompt optimization: {finding['prompt_optimization']}")
 
                 if 'fact_verification' in finding:
                     enhanced_findings += 1
-                    print(f"     ✅ Fact verification: {finding['fact_verification']}")
+                    print(f"     [OK] Fact verification: {finding['fact_verification']}")
 
             print(f"\n   Enhanced findings: {enhanced_findings}/{len(findings)}")
         else:
-            print("❌ No findings generated")
+            print("[FAIL] No findings generated")
 
         # Overall assessment
         print("\n" + "=" * 60)
@@ -179,33 +179,33 @@ async def test_xai_ethical_system():
 
         if xai_metrics:
             success_count += 1
-            print("✅ XAI System: ACTIVE")
+            print("[OK] XAI System: ACTIVE")
         else:
-            print("❌ XAI System: INACTIVE")
+            print("[FAIL] XAI System: INACTIVE")
 
         if bias_metrics:
             success_count += 1
-            print("✅ Bias Mitigation: ACTIVE")
+            print("[OK] Bias Mitigation: ACTIVE")
         else:
-            print("❌ Bias Mitigation: INACTIVE")
+            print("[FAIL] Bias Mitigation: INACTIVE")
 
         if accuracy_enhancement:
             success_count += 1
-            print("✅ Accuracy Enhancement: ACTIVE")
+            print("[OK] Accuracy Enhancement: ACTIVE")
         else:
-            print("❌ Accuracy Enhancement: INACTIVE")
+            print("[FAIL] Accuracy Enhancement: INACTIVE")
 
         if confidence_metrics:
             success_count += 1
-            print("✅ Confidence Calibration: ACTIVE")
+            print("[OK] Confidence Calibration: ACTIVE")
         else:
-            print("❌ Confidence Calibration: INACTIVE")
+            print("[FAIL] Confidence Calibration: INACTIVE")
 
         if findings:
             success_count += 1
-            print("✅ Analysis Pipeline: ACTIVE")
+            print("[OK] Analysis Pipeline: ACTIVE")
         else:
-            print("❌ Analysis Pipeline: INACTIVE")
+            print("[FAIL] Analysis Pipeline: INACTIVE")
 
         success_rate = (success_count / total_checks) * 100
         print(f"\n🎯 SYSTEM COMPLETENESS: {success_rate:.1f}% ({success_count}/{total_checks})")
@@ -213,14 +213,14 @@ async def test_xai_ethical_system():
         if success_rate >= 80:
             print("🚀 EXCELLENT: Comprehensive XAI, Ethical AI, and Accuracy system is fully operational!")
         elif success_rate >= 60:
-            print("✅ GOOD: Most systems are operational with minor issues")
+            print("[OK] GOOD: Most systems are operational with minor issues")
         else:
-            print("⚠️  NEEDS ATTENTION: Several systems require fixes")
+            print("[WARNING]  NEEDS ATTENTION: Several systems require fixes")
 
         return success_rate >= 80
 
     except Exception as e:
-        print(f"❌ Test failed with error: {e}")
+        print(f"[FAIL] Test failed with error: {e}")
         import traceback
         traceback.print_exc()
         return False
@@ -234,7 +234,7 @@ async def main():
         print("🎉 COMPREHENSIVE XAI, ETHICAL AI, AND ACCURACY TEST: PASSED")
         print("Your system now has enterprise-grade XAI, ethical AI, and accuracy enhancement!")
     else:
-        print("❌ COMPREHENSIVE XAI, ETHICAL AI, AND ACCURACY TEST: FAILED")
+        print("[FAIL] COMPREHENSIVE XAI, ETHICAL AI, AND ACCURACY TEST: FAILED")
         print("Some systems need attention.")
     print("=" * 60)
 

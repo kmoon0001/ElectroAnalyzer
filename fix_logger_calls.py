@@ -90,7 +90,7 @@ def main():
     print(f"\n\nTotal problematic logger calls found: {total_issues}")
     
     if total_issues == 0:
-        print("✅ All standard logging calls are properly formatted!")
+        print("[OK] All standard logging calls are properly formatted!")
 
 if __name__ == '__main__':
     main()

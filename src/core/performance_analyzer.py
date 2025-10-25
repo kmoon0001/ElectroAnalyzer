@@ -572,7 +572,7 @@ def generate_performance_report() -> str:
         report = f"""
 # 🚀 COMPREHENSIVE PERFORMANCE AND RAM ANALYSIS
 
-## 📊 Current System Specifications
+## [SUMMARY] Current System Specifications
 
 **System Overview:**
 - Total RAM: {analysis.current_system_specs.get('total_ram_gb', 0):.1f} GB
@@ -652,7 +652,7 @@ def generate_performance_report() -> str:
             report += f"{i}. {recommendation}\n"
 
         report += f"""
-## 📊 Model Performance Comparison
+## [SUMMARY] Model Performance Comparison
 
 | Model | Size | RAM | Accuracy | Speed | Medical Focus |
 |-------|------|-----|----------|-------|---------------|
@@ -666,14 +666,14 @@ def generate_performance_report() -> str:
 
 **Cumulative Accuracy Enhancement:**
 - Base System: 85-92%
-- + Model Upgrade (Llama 3.2 3B): +7-10% → 92-99%
-- + Multi-Model Ensemble: +15-20% → 99-99.5%
-- + Advanced RAG: +10-15% → 99.5-99.8%
-- + Chain-of-Verification: +8-12% → 99.8-99.9%
-- + RLHF System: +5-10% → 99.9-99.95%
-- + Dynamic Prompting: +6-10% → 99.95-99.98%
-- + Multi-Modal Analysis: +15-25% → 99.98-99.99%
-- + Causal Reasoning: +10-15% → **99.99-99.995%**
+- + Model Upgrade (Llama 3.2 3B): +7-10% -> 92-99%
+- + Multi-Model Ensemble: +15-20% -> 99-99.5%
+- + Advanced RAG: +10-15% -> 99.5-99.8%
+- + Chain-of-Verification: +8-12% -> 99.8-99.9%
+- + RLHF System: +5-10% -> 99.9-99.95%
+- + Dynamic Prompting: +6-10% -> 99.95-99.98%
+- + Multi-Modal Analysis: +15-25% -> 99.98-99.99%
+- + Causal Reasoning: +10-15% -> **99.99-99.995%**
 
 **Total Expected Improvement: +14-17% accuracy improvement**
 

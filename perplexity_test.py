@@ -306,19 +306,19 @@ class PerplexityChat:
                     import time
                     time.sleep(2)
                 else:
-                    print("❌ Rate limit exceeded. Please try again later.")
+                    print("[FAIL] Rate limit exceeded. Please try again later.")
                     return None
 
             except APIError as e:
                 logger.error(f"API error on attempt {attempt + 1}: {str(e)}")
                 if attempt == max_retries - 1:
-                    print(f"❌ API Error: {str(e)}")
+                    print(f"[FAIL] API Error: {str(e)}")
                     return None
 
             except Exception as e:
                 logger.error(f"Unexpected error on attempt {attempt + 1}: {str(e)}")
                 if attempt == max_retries - 1:
-                    print(f"❌ Error: {str(e)}")
+                    print(f"[FAIL] Error: {str(e)}")
                     return None
 
         return None
@@ -364,12 +364,12 @@ class PerplexityChat:
                 json.dump(conversation.to_dict(), f, indent=2, ensure_ascii=False)
 
             logger.info(f"Conversation saved to {filename}")
-            print(f"\n✅ Conversation saved to {filename}")
+            print(f"\n[OK] Conversation saved to {filename}")
             return True
 
         except IOError as e:
             logger.error(f"Failed to save conversation: {str(e)}")
-            print(f"❌ Failed to save: {str(e)}")
+            print(f"[FAIL] Failed to save: {str(e)}")
             return False
 
     def load_conversation(self, filename: str) -> bool:
@@ -391,12 +391,12 @@ class PerplexityChat:
                 self.conversation_history.append(message)
 
             logger.info(f"Conversation loaded from {filename}")
-            print(f"✅ Loaded {len(self.conversation_history)} messages")
+            print(f"[OK] Loaded {len(self.conversation_history)} messages")
             return True
 
         except Exception as e:
             logger.error(f"Failed to load conversation: {str(e)}")
-            print(f"❌ Failed to load: {str(e)}")
+            print(f"[FAIL] Failed to load: {str(e)}")
             return False
 
     def clear_conversation(self) -> None:
@@ -405,7 +405,7 @@ class PerplexityChat:
         self.conversation_history = []
         self.current_mode = PromptMode.STANDARD
         logger.info("Conversation cleared")
-        print("✅ Conversation cleared")
+        print("[OK] Conversation cleared")
 
     def display_response(self, response: Optional[str]) -> None:
         """Format and display response with styling"""
@@ -423,7 +423,7 @@ class PerplexityChat:
         print("\n📚 Available Prompt Modes:")
         print("=" * 75)
         for mode in PromptMode:
-            print(f"  • {mode.value:12} - {self._get_mode_description(mode)}")
+            print(f"  * {mode.value:12} - {self._get_mode_description(mode)}")
         print("=" * 75 + "\n")
 
     @staticmethod
@@ -443,13 +443,13 @@ class PerplexityChat:
 
     def show_stats(self) -> None:
         """Display conversation statistics"""
-        print("\n📊 Conversation Statistics:")
+        print("\n[SUMMARY] Conversation Statistics:")
         print("=" * 75)
-        print(f"  • Session ID: {self.session_id}")
-        print(f"  • Total Messages: {len(self.conversation_history)}")
-        print(f"  • Total Tokens Used: {self.total_tokens}")
-        print(f"  • Current Mode: {self.current_mode.value}")
-        print(f"  • Model: {self.config.DEFAULT_MODEL}")
+        print(f"  * Session ID: {self.session_id}")
+        print(f"  * Total Messages: {len(self.conversation_history)}")
+        print(f"  * Total Tokens Used: {self.total_tokens}")
+        print(f"  * Current Mode: {self.current_mode.value}")
+        print(f"  * Model: {self.config.DEFAULT_MODEL}")
         print("=" * 75 + "\n")
 
 
@@ -460,16 +460,16 @@ class PerplexityChat:
 def print_welcome():
     """Print welcome message"""
     print("\n" + "=" * 75)
-    print("🔍 Perplexity AI Chat - Professional Edition")
+    print("[CHECK] Perplexity AI Chat - Professional Edition")
     print("=" * 75)
     print("Commands:")
-    print("  • mode: <mode_name>  - Switch prompt engineering mode")
-    print("  • modes              - Show all available modes")
-    print("  • stats              - Show conversation statistics")
-    print("  • clear              - Start new conversation")
-    print("  • save               - Save conversation to file")
-    print("  • load <filename>    - Load previous conversation")
-    print("  • exit               - Quit application")
+    print("  * mode: <mode_name>  - Switch prompt engineering mode")
+    print("  * modes              - Show all available modes")
+    print("  * stats              - Show conversation statistics")
+    print("  * clear              - Start new conversation")
+    print("  * save               - Save conversation to file")
+    print("  * load <filename>    - Load previous conversation")
+    print("  * exit               - Quit application")
     print("=" * 75 + "\n")
 
 
@@ -485,7 +485,7 @@ def main():
                 user_input = input("You: ").strip()
 
                 if not user_input:
-                    print("⚠️  Please enter a question.\n")
+                    print("[WARNING]  Please enter a question.\n")
                     continue
 
                 # Handle commands
@@ -517,10 +517,10 @@ def main():
                     try:
                         mode = PromptMode[mode_name.upper()]
                         chat.current_mode = mode
-                        print(f"✅ Switched to '{mode.value}' mode\n")
+                        print(f"[OK] Switched to '{mode.value}' mode\n")
                         logger.info(f"Mode changed to {mode.value}")
                     except KeyError:
-                        print(f"❌ Unknown mode '{mode_name}'. Type 'modes' to see options.\n")
+                        print(f"[FAIL] Unknown mode '{mode_name}'. Type 'modes' to see options.\n")
                     continue
 
                 if command.startswith("load"):
@@ -541,12 +541,12 @@ def main():
 
             except Exception as e:
                 logger.exception(f"Unexpected error in main loop")
-                print(f"\n❌ Unexpected error: {str(e)}\n")
+                print(f"\n[FAIL] Unexpected error: {str(e)}\n")
                 print("Please try again or type 'exit' to quit.\n")
 
     except Exception as e:
         logger.critical(f"Critical error during initialization: {str(e)}")
-        print(f"❌ Critical Error: {str(e)}")
+        print(f"[FAIL] Critical Error: {str(e)}")
         sys.exit(1)
 
 

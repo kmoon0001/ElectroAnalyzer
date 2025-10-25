@@ -190,8 +190,13 @@ class PDFExportServiceFallback:
                 raise Exception(result.error_message or "PDF export failed")
 
             # Read file content
-            with open(temp_file, "rb") as f:
-                pdf_bytes = f.read()
+            try:
+                import aiofiles
+                async with aiofiles.open(temp_file, "rb") as f:
+                    pdf_bytes = await f.read()
+            except ImportError:
+                with open(temp_file, "rb") as f:
+                    pdf_bytes = f.read()
 
             # Clean up temp file
             temp_file.unlink(missing_ok=True)

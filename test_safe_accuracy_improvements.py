@@ -603,11 +603,11 @@ class SafeAccuracyImprovementTester:
 
         # Generate recommendations
         if len(successful_strategies) >= 8:
-            recommendations.append("✅ Most strategies performing well - ready for production deployment")
+            recommendations.append("[OK] Most strategies performing well - ready for production deployment")
         elif len(successful_strategies) >= 5:
-            recommendations.append("⚠️ Some strategies need attention - consider phased deployment")
+            recommendations.append("[WARNING] Some strategies need attention - consider phased deployment")
         else:
-            recommendations.append("❌ Multiple strategies failing - review implementation before deployment")
+            recommendations.append("[FAIL] Multiple strategies failing - review implementation before deployment")
 
         if failed_strategies:
             recommendations.append(f"🔧 Review failed strategies: {', '.join(failed_strategies)}")
@@ -626,7 +626,7 @@ class SafeAccuracyImprovementTester:
         elif overall_safety >= 0.8:
             recommendations.append("🛡️ Safety score good - monitor in production")
         else:
-            recommendations.append("⚠️ Safety score low - review before clinical deployment")
+            recommendations.append("[WARNING] Safety score low - review before clinical deployment")
 
         # Integration recommendations
         integration_score = integration_tests.get("overall_integration_score", 0.0)
@@ -637,7 +637,7 @@ class SafeAccuracyImprovementTester:
         else:
             recommendations.append("🔗 Integration needs work - review strategy compatibility")
 
-        recommendations.append("📊 Monitor performance metrics in production")
+        recommendations.append("[SUMMARY] Monitor performance metrics in production")
         recommendations.append("🔄 Implement continuous improvement based on real-world usage")
 
         return recommendations

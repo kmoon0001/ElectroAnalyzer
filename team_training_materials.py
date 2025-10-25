@@ -821,7 +821,7 @@ def generate_training_materials():
         print(f"   Code Examples: {len(material.code_examples)}")
         print(f"   Exercises: {len(material.exercises)}")
 
-    print(f"\n📊 Training Summary:")
+    print(f"\n[SUMMARY] Training Summary:")
     print(f"   Total Materials: {len(materials)}")
     print(f"   Modules Covered: {len(set(m.module for m in materials))}")
     print(f"   Levels Available: {len(set(m.level for m in materials))}")
@@ -849,7 +849,7 @@ def generate_training_materials():
 if __name__ == "__main__":
     training_manager = generate_training_materials()
 
-    print("\n✅ Training materials generated successfully!")
+    print("\n[OK] Training materials generated successfully!")
     print("\n📋 Next Steps:")
     print("1. Review training materials with your team")
     print("2. Schedule training sessions")

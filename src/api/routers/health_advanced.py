@@ -154,17 +154,21 @@ class HealthChecker:
             dependencies["huggingface"] = {"status": "skipped", "reason": "lightweight"}
             return dependencies
 
-        # Check Hugging Face Hub connectivity
+        # External service health checks
         try:
-            import requests
+            import httpx
 
-            response = requests.get("https://huggingface.co", timeout=5)
-            dependencies["huggingface"] = {
-                "status": "healthy" if response.status_code == 200 else "unhealthy",
-                "response_time_ms": round(response.elapsed.total_seconds() * 1000, 2),
-            }
-        except Exception as e:
-            dependencies["huggingface"] = {"status": "unhealthy", "error": str(e)}
+            async with httpx.AsyncClient(timeout=5.0) as client:
+                try:
+                    response = await client.get("https://huggingface.co")
+                    dependencies["huggingface"] = {
+                        "status": "healthy" if response.status_code == 200 else "unhealthy",
+                        "response_time_ms": round(response.elapsed.total_seconds() * 1000, 2),
+                    }
+                except Exception as e:
+                    dependencies["huggingface"] = {"status": "unhealthy", "error": str(e)}
+        except ImportError:
+            dependencies["huggingface"] = {"status": "unknown", "error": "httpx not installed"}
 
         return dependencies
 

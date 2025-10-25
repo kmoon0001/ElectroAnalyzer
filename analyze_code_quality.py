@@ -57,12 +57,12 @@ def main():
             print(f"Error: File {file_path} does not exist")
             return
 
-        print(f"🔍 Analyzing {file_path}")
+        print(f"[CHECK] Analyzing {file_path}")
 
         try:
             metrics = enhancer.analyze_file(file_path)
 
-            print(f"\n📊 Code Quality Metrics:")
+            print(f"\n[SUMMARY] Code Quality Metrics:")
             print(f"  - Lines of Code: {metrics.lines_of_code}")
             print(f"  - Functions: {metrics.functions_count}")
             print(f"  - Classes: {metrics.classes_count}")
@@ -78,19 +78,19 @@ def main():
                     for suggestion in suggestions:
                         print(f"  - {suggestion}")
                 else:
-                    print(f"\n✅ No major improvements needed")
+                    print(f"\n[OK] No major improvements needed")
 
         except Exception as e:
             print(f"Error analyzing file: {e}")
 
     elif args.analyze:
         # Analyze entire codebase
-        print("🔍 Analyzing entire codebase...")
+        print("[CHECK] Analyzing entire codebase...")
 
         try:
             analysis = enhancer.analyze_codebase(src_path)
 
-            print(f"\n📊 Codebase Analysis Summary:")
+            print(f"\n[SUMMARY] Codebase Analysis Summary:")
             print(f"  - Files Analyzed: {analysis['files_analyzed']}")
             print(f"  - Total Lines of Code: {analysis['total_metrics']['lines_of_code']}")
             print(f"  - Total Functions: {analysis['total_metrics']['functions_count']}")
@@ -117,7 +117,7 @@ def main():
                     for priority in medium_priority[:5]:  # Show top 5
                         print(f"    - {priority['file']}: {priority['issue']} (score: {priority['score']:.2f})")
             else:
-                print(f"\n✅ No major improvement priorities identified")
+                print(f"\n[OK] No major improvement priorities identified")
 
             # Generate report if requested
             if args.report:
@@ -127,14 +127,14 @@ def main():
                 with open(report_file, 'w', encoding='utf-8') as f:
                     f.write(report)
 
-                print(f"\n📄 Detailed report saved to: {report_file}")
+                print(f"\n[REPORT] Detailed report saved to: {report_file}")
 
             # Save analysis data
             analysis_file = project_root / "code_quality_analysis.json"
             with open(analysis_file, 'w', encoding='utf-8') as f:
                 json.dump(analysis, f, indent=2, default=str)
 
-            print(f"📊 Analysis data saved to: {analysis_file}")
+            print(f"[SUMMARY] Analysis data saved to: {analysis_file}")
 
         except Exception as e:
             print(f"Error analyzing codebase: {e}")
@@ -145,7 +145,7 @@ def main():
 def generate_quality_report(analysis: Dict[str, Any]) -> str:
     """Generate comprehensive quality report."""
 
-    report = f"""# 📊 Code Quality Analysis Report
+    report = f"""# [SUMMARY] Code Quality Analysis Report
 
 ## Summary
 - **Files Analyzed**: {analysis['files_analyzed']}
@@ -157,10 +157,10 @@ def generate_quality_report(analysis: Dict[str, Any]) -> str:
 
 | Metric | Score | Status |
 |--------|-------|--------|
-| Type Hint Coverage | {analysis['total_metrics']['type_hint_coverage']:.1%} | {'✅ Good' if analysis['total_metrics']['type_hint_coverage'] > 0.8 else '⚠️ Needs Improvement'} |
-| Docstring Coverage | {analysis['total_metrics']['docstring_coverage']:.1%} | {'✅ Good' if analysis['total_metrics']['docstring_coverage'] > 0.7 else '⚠️ Needs Improvement'} |
-| Maintainability Index | {analysis['total_metrics']['maintainability_index']:.1f}/100 | {'✅ Good' if analysis['total_metrics']['maintainability_index'] > 70 else '⚠️ Needs Improvement'} |
-| Total Complexity | {analysis['total_metrics']['cyclomatic_complexity']} | {'✅ Good' if analysis['total_metrics']['cyclomatic_complexity'] < 1000 else '⚠️ High'} |
+| Type Hint Coverage | {analysis['total_metrics']['type_hint_coverage']:.1%} | {'[OK] Good' if analysis['total_metrics']['type_hint_coverage'] > 0.8 else '[WARNING] Needs Improvement'} |
+| Docstring Coverage | {analysis['total_metrics']['docstring_coverage']:.1%} | {'[OK] Good' if analysis['total_metrics']['docstring_coverage'] > 0.7 else '[WARNING] Needs Improvement'} |
+| Maintainability Index | {analysis['total_metrics']['maintainability_index']:.1f}/100 | {'[OK] Good' if analysis['total_metrics']['maintainability_index'] > 70 else '[WARNING] Needs Improvement'} |
+| Total Complexity | {analysis['total_metrics']['cyclomatic_complexity']} | {'[OK] Good' if analysis['total_metrics']['cyclomatic_complexity'] < 1000 else '[WARNING] High'} |
 
 ## Improvement Priorities
 
@@ -183,7 +183,7 @@ def generate_quality_report(analysis: Dict[str, Any]) -> str:
         report += "\n"
 
     if not analysis['improvement_priorities']:
-        report += "### ✅ No Major Issues Found\n\nAll files meet quality standards.\n\n"
+        report += "### [OK] No Major Issues Found\n\nAll files meet quality standards.\n\n"
 
     # Top files by maintainability
     file_metrics = analysis.get('file_metrics', [])
@@ -266,13 +266,13 @@ sphinx-build -b html docs/ docs/_build/html
 *Report generated by Code Quality Analyzer*
 """.format(
         analysis['total_metrics']['type_hint_coverage'],
-        '✅' if analysis['total_metrics']['type_hint_coverage'] > 0.9 else '⚠️',
+        '[OK]' if analysis['total_metrics']['type_hint_coverage'] > 0.9 else '[WARNING]',
         analysis['total_metrics']['docstring_coverage'],
-        '✅' if analysis['total_metrics']['docstring_coverage'] > 0.8 else '⚠️',
+        '[OK]' if analysis['total_metrics']['docstring_coverage'] > 0.8 else '[WARNING]',
         analysis['total_metrics']['maintainability_index'],
-        '✅' if analysis['total_metrics']['maintainability_index'] > 80 else '⚠️',
+        '[OK]' if analysis['total_metrics']['maintainability_index'] > 80 else '[WARNING]',
         analysis['total_metrics']['cyclomatic_complexity'],
-        '✅' if analysis['total_metrics']['cyclomatic_complexity'] < 1000 else '⚠️'
+        '[OK]' if analysis['total_metrics']['cyclomatic_complexity'] < 1000 else '[WARNING]'
     )
 
     return report

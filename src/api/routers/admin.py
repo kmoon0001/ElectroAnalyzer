@@ -54,9 +54,15 @@ async def update_settings(
 ):
     """Endpoint to validate and save new application settings."""
     try:
+        import aiofiles
+
         # Load the current full settings to provide defaults
-        with open(CONFIG_PATH) as f:
-            current_config_data = yaml.safe_load(f)
+        try:
+            async with aiofiles.open(CONFIG_PATH, 'r') as f:
+                content = await f.read()
+                current_config_data = yaml.safe_load(content)
+        except FileNotFoundError:
+            current_config_data = {}
 
         # Merge the new settings into the current ones
         updated_data = {**current_config_data, **new_settings}
@@ -64,9 +70,9 @@ async def update_settings(
         # Validate the merged data
         Settings.model_validate(updated_data)
 
-        # Write the validated data back to the config file
-        with open(CONFIG_PATH, "w") as f:
-            yaml.dump(new_settings, f, default_flow_style=False, sort_keys=False)
+        # Write updated config
+        async with aiofiles.open(CONFIG_PATH, 'w') as f:
+            await f.write(yaml.dump(updated_data))
 
         return JSONResponse(
             {

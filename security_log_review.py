@@ -629,9 +629,9 @@ async def main():
     if result.is_success:
         report = result.value
         logger.info("Daily security review completed successfully!")
-        print("✅ Daily security review completed successfully!")
+        print("[OK] Daily security review completed successfully!")
 
-        print(f"📊 Security Report Summary:")
+        print(f"[SUMMARY] Security Report Summary:")
         print(f"   - Report ID: {report.report_id}")
         print(f"   - Total Events: {report.total_events}")
         print(f"   - Incidents Created: {len(report.incidents)}")
@@ -649,13 +649,13 @@ async def main():
                 print(f"🚨 High-priority incident detected: {incident.incident_id}")
                 response_result = await reviewer.perform_incident_response(incident.incident_id)
                 if response_result.is_success:
-                    print(f"✅ Incident response completed for {incident.incident_id}")
+                    print(f"[OK] Incident response completed for {incident.incident_id}")
                 else:
-                    print(f"❌ Incident response failed: {response_result.error}")
+                    print(f"[FAIL] Incident response failed: {response_result.error}")
 
     else:
         logger.error(f"Security review failed: {result.error}")
-        print(f"❌ Security review failed: {result.error}")
+        print(f"[FAIL] Security review failed: {result.error}")
 
 
 if __name__ == "__main__":

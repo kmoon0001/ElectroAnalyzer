@@ -257,7 +257,7 @@ class DocumentProcessingTestRunner:
         report.append("")
 
         for test_file, result in test_results.items():
-            status = "✅ PASS" if result["success"] else "❌ FAIL"
+            status = "[OK] PASS" if result["success"] else "[FAIL] FAIL"
             report.append(f"### {test_file}")
             report.append(f"- Status: {status}")
             report.append(f"- Duration: {result['duration']:.2f} seconds")

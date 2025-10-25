@@ -45,11 +45,11 @@ def _run_keyboard_shortcuts_help():
             assert "Open Chat Assistant" in help_text
             assert "<table>" in help_text
 
-            print("✅ Keyboard shortcuts help text generated correctly")
+            print("[OK] Keyboard shortcuts help text generated correctly")
             return True
 
     except Exception as e:
-        print(f"❌ Keyboard shortcuts test failed: {e}")
+        print(f"[FAIL] Keyboard shortcuts test failed: {e}")
         return False
 
 
@@ -74,11 +74,11 @@ def _run_preferences_structure():
         assert "theme" in loaded_prefs
         assert "chat_button_position" in loaded_prefs
 
-        print("✅ Preferences structure is valid")
+        print("[OK] Preferences structure is valid")
         return True
 
     except Exception as e:
-        print(f"❌ Preferences structure test failed: {e}")
+        print(f"[FAIL] Preferences structure test failed: {e}")
         return False
 
 
@@ -92,11 +92,11 @@ def _run_notification_types():
             # For now, just verify the types are valid
             assert notification_type in ["info", "warning", "error", "success"]
 
-        print("✅ Notification types are valid")
+        print("[OK] Notification types are valid")
         return True
 
     except Exception as e:
-        print(f"❌ Notification types test failed: {e}")
+        print(f"[FAIL] Notification types test failed: {e}")
         return False
 
 
@@ -135,13 +135,13 @@ def main():
         print()
 
     print("=" * 50)
-    print(f"📊 Test Results: {passed}/{total} tests passed")
+    print(f"[SUMMARY] Test Results: {passed}/{total} tests passed")
 
     if passed == total:
         print("🎉 All improvements are working correctly!")
         return 0
     else:
-        print("⚠️  Some improvements need attention")
+        print("[WARNING]  Some improvements need attention")
         return 1
 
 

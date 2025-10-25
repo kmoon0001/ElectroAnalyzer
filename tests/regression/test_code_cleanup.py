@@ -25,7 +25,7 @@ def _run_code_cleanup():
 
         from src.gui.main_window import MainApplicationWindow
 
-        print("   ✅ All imports successful")
+        print("   [OK] All imports successful")
 
         # Database test
         print("2. 🗄️ Testing database...")
@@ -34,44 +34,44 @@ def _run_code_cleanup():
         from src.database import init_db
 
         asyncio.run(init_db())
-        print("   ✅ Database initialized")
+        print("   [OK] Database initialized")
 
         # Application creation
         print("3. 🖥️ Creating application...")
         _app = QApplication([])
         main_win = MainApplicationWindow()
-        print("   ✅ Application created")
+        print("   [OK] Application created")
 
         # Check for cleaned up features
-        print("4. 🔍 Verifying cleanup...")
+        print("4. [CHECK] Verifying cleanup...")
 
         # Check that redundant methods are removed
         redundant_methods = ["logout", "show_preferences", "show_theme_settings"]
         for method in redundant_methods:
             if hasattr(main_win, method):
-                print(f"   ⚠️ Redundant method still exists: {method}")
+                print(f"   [WARNING] Redundant method still exists: {method}")
             else:
-                print(f"   ✅ Redundant method removed: {method}")
+                print(f"   [OK] Redundant method removed: {method}")
 
         # Check for proper button organization
         if hasattr(main_win, "run_analysis_button_doc"):
-            print("   ✅ Analysis button properly placed in document area")
+            print("   [OK] Analysis button properly placed in document area")
         else:
-            print("   ❌ Analysis button missing from document area")
+            print("   [FAIL] Analysis button missing from document area")
 
         if hasattr(main_win, "manage_rubrics_button_inline"):
-            print("   ✅ Rubric management button properly placed inline")
+            print("   [OK] Rubric management button properly placed inline")
         else:
-            print("   ❌ Inline rubric management button missing")
+            print("   [FAIL] Inline rubric management button missing")
 
         if hasattr(main_win, "chat_button"):
-            print("   ✅ Chat button exists and positioned correctly")
+            print("   [OK] Chat button exists and positioned correctly")
         else:
-            print("   ❌ Chat button missing")
+            print("   [FAIL] Chat button missing")
 
         print("5. 🚀 Starting application...")
         main_win.start()
-        print("   ✅ Application started successfully")
+        print("   [OK] Application started successfully")
 
         print("\n" + "=" * 50)
         print("🧹 CODE CLEANUP RESULTS")
@@ -79,25 +79,25 @@ def _run_code_cleanup():
 
         print("\n📋 CLEANUP SUMMARY:")
         print("┌────────────────────────────────────────────────┐")
-        print("│ ✅ REDUNDANT CODE REMOVED                      │")
+        print("│ [OK] REDUNDANT CODE REMOVED                      │")
         print("├────────────────────────────────────────────────┤")
         print("│ 🗑️ Duplicate Admin Menus                      │")
-        print("│    • Removed duplicate dev_menu and admin_menu│")
-        print("│    • Admin options moved to Settings tab      │")
+        print("│    * Removed duplicate dev_menu and admin_menu│")
+        print("│    * Admin options moved to Settings tab      │")
         print("│                                                │")
         print("│ 🗑️ Unused Methods                             │")
-        print("│    • Removed logout() method                  │")
-        print("│    • Removed show_preferences() placeholder   │")
-        print("│    • Removed show_theme_settings() placeholder│")
+        print("│    * Removed logout() method                  │")
+        print("│    * Removed show_preferences() placeholder   │")
+        print("│    * Removed show_theme_settings() placeholder│")
         print("│                                                │")
         print("│ 🗑️ Duplicate Progress Bars                    │")
-        print("│    • Removed duplicate progress bar creation  │")
-        print("│    • Using single progress bar from status    │")
+        print("│    * Removed duplicate progress bar creation  │")
+        print("│    * Using single progress bar from status    │")
         print("│                                                │")
         print("│ 🔧 Competing Features Resolved                │")
-        print("│    • Settings consolidated in Settings tab    │")
-        print("│    • Menu bar simplified to essentials only   │")
-        print("│    • No conflicting UI elements               │")
+        print("│    * Settings consolidated in Settings tab    │")
+        print("│    * Menu bar simplified to essentials only   │")
+        print("│    * No conflicting UI elements               │")
         print("└────────────────────────────────────────────────┘")
 
         print("\n📐 CURRENT CLEAN ARCHITECTURE:")
@@ -105,48 +105,48 @@ def _run_code_cleanup():
         print("│ 🎯 STREAMLINED FEATURES                        │")
         print("├────────────────────────────────────────────────┤")
         print("│ 📋 Analysis Tab                               │")
-        print("│    • Document upload with inline analyze btn  │")
-        print("│    • Rubric selection with inline manage btn  │")
-        print("│    • Clean action buttons (preview, export)   │")
+        print("│    * Document upload with inline analyze btn  │")
+        print("│    * Rubric selection with inline manage btn  │")
+        print("│    * Clean action buttons (preview, export)   │")
         print("│                                                │")
-        print("│ 📊 Dashboard Tab                              │")
-        print("│    • Analytics and charts                     │")
-        print("│    • No overlapping elements                  │")
+        print("│ [SUMMARY] Dashboard Tab                              │")
+        print("│    * Analytics and charts                     │")
+        print("│    * No overlapping elements                  │")
         print("│                                                │")
         print("│ ⚙️ Settings Tab                                │")
-        print("│    • All configuration options centralized    │")
-        print("│    • Theme, user, performance, analysis       │")
-        print("│    • Admin options (if admin user)            │")
+        print("│    * All configuration options centralized    │")
+        print("│    * Theme, user, performance, analysis       │")
+        print("│    * Admin options (if admin user)            │")
         print("│                                                │")
         print("│ 💬 Floating Chat Button                       │")
-        print("│    • Positioned away from easter eggs         │")
-        print("│    • Draggable and functional                 │")
+        print("│    * Positioned away from easter eggs         │")
+        print("│    * Draggable and functional                 │")
         print("│                                                │")
         print("│ 📱 Clean Menu Bar                             │")
-        print("│    • Only essential File menu                 │")
-        print("│    • No redundant options                     │")
+        print("│    * Only essential File menu                 │")
+        print("│    * No redundant options                     │")
         print("└────────────────────────────────────────────────┘")
 
         print("\n🎮 WHAT'S IMPROVED:")
         print("1. 🧹 No More Redundant Code:")
-        print("   • Removed duplicate menus and buttons")
-        print("   • Eliminated unused placeholder methods")
-        print("   • Fixed competing progress bars")
+        print("   * Removed duplicate menus and buttons")
+        print("   * Eliminated unused placeholder methods")
+        print("   * Fixed competing progress bars")
 
         print("\n2. 🎯 Logical Organization:")
-        print("   • Analysis controls in document area")
-        print("   • Rubric management next to selector")
-        print("   • All settings in dedicated tab")
+        print("   * Analysis controls in document area")
+        print("   * Rubric management next to selector")
+        print("   * All settings in dedicated tab")
 
         print("\n3. 💬 Proper Chat Button:")
-        print("   • Positioned away from easter eggs")
-        print("   • Fully functional and draggable")
-        print("   • No competing UI elements")
+        print("   * Positioned away from easter eggs")
+        print("   * Fully functional and draggable")
+        print("   * No competing UI elements")
 
         print("\n4. 📱 Clean Interface:")
-        print("   • Simplified menu structure")
-        print("   • No overlapping features")
-        print("   • Consistent styling throughout")
+        print("   * Simplified menu structure")
+        print("   * No overlapping features")
+        print("   * Consistent styling throughout")
 
         print("\n✨ READY TO USE!")
         print("All redundant code removed, features properly organized.")
@@ -154,7 +154,7 @@ def _run_code_cleanup():
         return True
 
     except Exception as e:
-        print(f"\n❌ ERROR: {e}")
+        print(f"\n[FAIL] ERROR: {e}")
         import traceback
 
         traceback.print_exc()

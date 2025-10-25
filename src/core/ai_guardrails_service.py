@@ -769,7 +769,7 @@ class AIGuardrailsService:
         # Append transparency statements
         if transparency_additions:
             transparency_section = "\n\n**AI Transparency Notice:**\n" + "\n".join(
-                f"• {statement}" for statement in transparency_additions
+                f"* {statement}" for statement in transparency_additions
             )
             content += transparency_section
 

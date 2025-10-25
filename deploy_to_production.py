@@ -483,22 +483,22 @@ async def main():
 
     if result.is_success:
         logger.info("Production deployment completed successfully!")
-        print("✅ Production deployment completed successfully!")
+        print("[OK] Production deployment completed successfully!")
 
         # Print deployment status
         status = deployment_manager.get_deployment_status()
-        print(f"📊 Deployment Status: {status['status']}")
+        print(f"[SUMMARY] Deployment Status: {status['status']}")
         print(f"⏱️  Duration: {status['completed_at'] - status['started_at']}")
-        print(f"✅ Steps Completed: {len(status['steps_completed'])}")
+        print(f"[OK] Steps Completed: {len(status['steps_completed'])}")
 
     else:
         logger.error(f"Production deployment failed: {result.error}")
-        print(f"❌ Production deployment failed: {result.error}")
+        print(f"[FAIL] Production deployment failed: {result.error}")
 
         # Print deployment status
         status = deployment_manager.get_deployment_status()
-        print(f"📊 Deployment Status: {status['status']}")
-        print(f"❌ Errors: {status['errors']}")
+        print(f"[SUMMARY] Deployment Status: {status['status']}")
+        print(f"[FAIL] Errors: {status['errors']}")
 
 
 if __name__ == "__main__":

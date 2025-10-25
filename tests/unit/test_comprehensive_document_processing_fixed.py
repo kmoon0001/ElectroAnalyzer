@@ -244,7 +244,7 @@ class TestDocumentParsingComprehensive:
         from src.core.parsing import parse_document_content
 
         # Create file with Unicode characters
-        unicode_content = "Unicode: 🚀🌟💡🎯📊".encode('utf-8')
+        unicode_content = "Unicode: 🚀🌟💡🎯[SUMMARY]".encode('utf-8')
         tmp_path = self._create_temp_file(unicode_content, ".txt")
 
         try:

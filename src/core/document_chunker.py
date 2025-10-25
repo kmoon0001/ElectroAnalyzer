@@ -34,7 +34,7 @@ class DocumentChunker:
         if not text or len(text.strip()) == 0:
             return []
 
-        # Estimate tokens (rough approximation: 1 token ≈ 4 characters)
+        # Estimate tokens (rough approximation: 1 token ~= 4 characters)
         estimated_tokens = len(text) // 4
 
         if estimated_tokens <= self.max_tokens:

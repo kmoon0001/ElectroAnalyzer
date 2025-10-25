@@ -26,17 +26,17 @@
 #     try:
 #         # Initialize the database first
 #         asyncio.run(init_db())
-#         print("✅ Database initialized")
+#         print("[OK] Database initialized")
 #
 #         # Create and run the application
 #         app = QApplication(sys.argv)
-#         print("✅ QApplication created")
+#         print("[OK] QApplication created")
 #
 #         main_win = OptimizedMainWindow()
-#         print("✅ OptimizedMainWindow created")
+#         print("[OK] OptimizedMainWindow created")
 #
 #         main_win.start()
-#         print("✅ Application started")
+#         print("[OK] Application started")
 #
 #         print("\n🎉 SUCCESS! Optimized GUI is working.")
 #         print("\nFeatures to test:")
@@ -48,7 +48,7 @@
 #         sys.exit(app.exec())
 #
 #     except Exception as e:
-#         print(f"❌ ERROR: {str(e)}")
+#         print(f"[FAIL] ERROR: {str(e)}")
 #         import traceback
 #         traceback.print_exc()
 #         return 1

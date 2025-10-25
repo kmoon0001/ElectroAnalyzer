@@ -66,7 +66,8 @@ try:
                 overall_stats = metrics.get("overall_stats", {})
                 cache_hit_rate = overall_stats.get("overall_hit_rate", 0.75)
                 avg_response_time = overall_stats.get("avg_response_time_ms", 150.0)
-            except:
+            except (KeyError, TypeError, ValueError) as e:
+                logger.warning(f"Error reading performance stats: {e}")
                 # Fallback to defaults
                 cache_memory = 500.0
                 cache_hit_rate = 0.75
@@ -788,7 +789,7 @@ class AdvancedPerformanceOptimizer:
                     {
                         "type": "temperature",
                         "severity": "critical",
-                        "description": f"System temperature at {metrics.temperature_celsius}°C (critical threshold: {self.thresholds['temperature_critical']}°C)",
+                        "description": f"System temperature at {metrics.temperature_celsius}degC (critical threshold: {self.thresholds['temperature_critical']}degC)",
                         "recommendations": [
                             "Improve system cooling",
                             "Reduce CPU-intensive operations",

@@ -522,10 +522,10 @@ class UltraLightweightTestSuite:
 - **Total Time**: {test_results['test_summary']['total_time_seconds']:.1f} seconds
 
 ## Ultra-Lightweight Validation
-- **Memory Under 10GB**: {'✅' if test_results['ultra_lightweight_validation']['memory_under_10gb'] else '❌'}
-- **Clinical Accuracy Preserved**: {'✅' if test_results['ultra_lightweight_validation']['clinical_accuracy_preserved'] else '❌'}
-- **Medical Focus Maintained**: {'✅' if test_results['ultra_lightweight_validation']['medical_focus_maintained'] else '❌'}
-- **All Components Functional**: {'✅' if test_results['ultra_lightweight_validation']['all_components_functional'] else '❌'}
+- **Memory Under 10GB**: {'[OK]' if test_results['ultra_lightweight_validation']['memory_under_10gb'] else '[FAIL]'}
+- **Clinical Accuracy Preserved**: {'[OK]' if test_results['ultra_lightweight_validation']['clinical_accuracy_preserved'] else '[FAIL]'}
+- **Medical Focus Maintained**: {'[OK]' if test_results['ultra_lightweight_validation']['medical_focus_maintained'] else '[FAIL]'}
+- **All Components Functional**: {'[OK]' if test_results['ultra_lightweight_validation']['all_components_functional'] else '[FAIL]'}
 
 ## Test Categories
 """
@@ -535,12 +535,12 @@ class UltraLightweightTestSuite:
                 report += f"- **Tests**: {category_results['passed_tests']}/{category_results['total_tests']}\n"
 
                 for test in category_results.get('tests', []):
-                    status = "✅" if test['passed'] else "❌"
+                    status = "[OK]" if test['passed'] else "[FAIL]"
                     report += f"- {status} {test['name']}: {test['details']}\n"
 
             report += f"""
 ## System Status
-- **Ultra-Lightweight Mode**: {'✅' if test_results['system_status'].get('ultra_lightweight_mode') else '❌'}
+- **Ultra-Lightweight Mode**: {'[OK]' if test_results['system_status'].get('ultra_lightweight_mode') else '[FAIL]'}
 - **Optimization Level**: {test_results['system_status'].get('optimization_level', 'Unknown')}
 - **Total Analyses**: {test_results['system_status'].get('total_analyses', 0)}
 - **Success Rate**: {test_results['system_status'].get('success_rate', 0):.1%}
@@ -551,19 +551,19 @@ class UltraLightweightTestSuite:
 """
 
             if test_results['test_summary']['success_rate'] < 0.8:
-                report += "- ⚠️ System needs improvement - success rate below 80%\n"
+                report += "- [WARNING] System needs improvement - success rate below 80%\n"
             else:
-                report += "- ✅ System performing well - success rate above 80%\n"
+                report += "- [OK] System performing well - success rate above 80%\n"
 
             if test_results['ultra_lightweight_validation']['memory_under_10gb']:
-                report += "- ✅ Memory usage within 10GB limit\n"
+                report += "- [OK] Memory usage within 10GB limit\n"
             else:
-                report += "- ⚠️ Memory usage exceeds 10GB limit\n"
+                report += "- [WARNING] Memory usage exceeds 10GB limit\n"
 
             if test_results['ultra_lightweight_validation']['clinical_accuracy_preserved']:
-                report += "- ✅ Clinical accuracy preserved\n"
+                report += "- [OK] Clinical accuracy preserved\n"
             else:
-                report += "- ⚠️ Clinical accuracy compromised\n"
+                report += "- [WARNING] Clinical accuracy compromised\n"
 
             report += f"\n---\n*Report generated at {datetime.now(timezone.utc).isoformat()}*\n"
 

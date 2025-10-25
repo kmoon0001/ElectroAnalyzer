@@ -869,13 +869,13 @@ def pytest_terminal_summary(terminalreporter, exitstatus, config):
     terminalreporter.write_sep("-", "Recommendations")
 
     if failed > 0:
-        terminalreporter.write("• Review failed tests and fix issues\n")
+        terminalreporter.write("* Review failed tests and fix issues\n")
 
     if success_rate < 90:
-        terminalreporter.write("• Improve test reliability\n")
+        terminalreporter.write("* Improve test reliability\n")
 
-    terminalreporter.write("• Run tests regularly to catch regressions\n")
-    terminalreporter.write("• Monitor performance metrics for degradation\n")
-    terminalreporter.write("• Update tests when adding new features\n")
+    terminalreporter.write("* Run tests regularly to catch regressions\n")
+    terminalreporter.write("* Monitor performance metrics for degradation\n")
+    terminalreporter.write("* Update tests when adding new features\n")
 
     terminalreporter.write_sep("=", "End of Summary")

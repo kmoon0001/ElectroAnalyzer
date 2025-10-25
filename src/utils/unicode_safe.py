@@ -55,12 +55,12 @@ def _replace_unicode_chars(text: str) -> str:
     """
     replacements = {
         # Common emojis and symbols
-        "✅": "[OK]",
-        "❌": "[FAIL]",
+        "[OK]": "[OK]",
+        "[FAIL]": "[FAIL]",
         "⏰": "[TIMEOUT]",
-        "🔍": "[SEARCH]",
+        "[CHECK]": "[SEARCH]",
         "🛠️": "[TOOLS]",
-        "📊": "[CHART]",
+        "[SUMMARY]": "[CHART]",
         "🎯": "[TARGET]",
         "🚀": "[LAUNCH]",
         "📈": "[TREND]",
@@ -78,7 +78,7 @@ def _replace_unicode_chars(text: str) -> str:
         "🔑": "[KEY]",
         "📁": "[FOLDER]",
         "📝": "[NOTE]",
-        "📄": "[DOCUMENT]",
+        "[REPORT]": "[DOCUMENT]",
         "📌": "[PIN]",
         "📍": "[LOCATION]",
         "📎": "[CLIP]",
@@ -191,11 +191,11 @@ def setup_unicode_safe_environment() -> None:
 def test_unicode_safety() -> None:
     """Test that Unicode characters are handled safely."""
     test_strings = [
-        "✅ Analysis completed successfully",
-        "❌ Analysis failed with error",
+        "[OK] Analysis completed successfully",
+        "[FAIL] Analysis failed with error",
         "⏰ Analysis timed out",
-        "🔍 Searching for issues...",
-        "📊 Generating report",
+        "[CHECK] Searching for issues...",
+        "[SUMMARY] Generating report",
         "🎯 Target achieved",
         "🚀 Launching application",
         "📈 Performance improved",

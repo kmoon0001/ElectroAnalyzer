@@ -8,7 +8,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 try:
-    print("🔍 TESTING FINAL ENHANCEMENTS")
+    print("[CHECK] TESTING FINAL ENHANCEMENTS")
     print("=" * 60)
 
     import asyncio
@@ -23,7 +23,7 @@ try:
     app = QApplication([])
     main_win = UltimateMainWindow()
 
-    print("✅ REPORT FLOW & FORMATTING ENHANCEMENTS:")
+    print("[OK] REPORT FLOW & FORMATTING ENHANCEMENTS:")
 
     # Test report generation methods
     report_methods = [
@@ -41,38 +41,38 @@ try:
                 method = getattr(main_win, method_name)
                 result = method()
                 if result and len(result) > 100:  # Check if method returns substantial content
-                    print(f"   ✅ {description}")
+                    print(f"   [OK] {description}")
                 else:
-                    print(f"   ⚠️ {description} - Content may be empty")
+                    print(f"   [WARNING] {description} - Content may be empty")
             except Exception as e:
-                print(f"   ❌ {description} - Error: {e}")
+                print(f"   [FAIL] {description} - Error: {e}")
         else:
-            print(f"   ❌ Missing method: {method_name}")
+            print(f"   [FAIL] Missing method: {method_name}")
 
-    print("\n✅ TITLE & FORMATTING FIXES:")
-    print("   ✅ Title wrapped to prevent cutoff: 'THERAPY DOCUMENT<br>COMPLIANCE ANALYSIS'")
-    print("   ✅ Enhanced CSS with proper page breaks and responsive design")
-    print("   ✅ Improved section styling with consistent formatting")
-    print("   ✅ Better table formatting with proper spacing")
+    print("\n[OK] TITLE & FORMATTING FIXES:")
+    print("   [OK] Title wrapped to prevent cutoff: 'THERAPY DOCUMENT<br>COMPLIANCE ANALYSIS'")
+    print("   [OK] Enhanced CSS with proper page breaks and responsive design")
+    print("   [OK] Improved section styling with consistent formatting")
+    print("   [OK] Better table formatting with proper spacing")
 
-    print("\n✅ PDF EXPORT ENHANCEMENTS:")
+    print("\n[OK] PDF EXPORT ENHANCEMENTS:")
     export_methods = ["export_pdf", "export_analytics"]
     for method in export_methods:
         if hasattr(main_win, method):
-            print(f"   ✅ {method.replace('_', ' ').title()} - Multiple fallback options")
+            print(f"   [OK] {method.replace('_', ' ').title()} - Multiple fallback options")
         else:
-            print(f"   ❌ Missing: {method}")
+            print(f"   [FAIL] Missing: {method}")
 
-    print("   ✅ WeasyPrint integration with fallbacks")
-    print("   ✅ ReportLab basic PDF generation")
-    print("   ✅ HTML fallback with browser print instructions")
+    print("   [OK] WeasyPrint integration with fallbacks")
+    print("   [OK] ReportLab basic PDF generation")
+    print("   [OK] HTML fallback with browser print instructions")
 
-    print("\n✅ PACIFIC COAST SIGNATURE:")
-    print("   ✅ Proper cursive styling: 'Brush Script MT', cursive")
-    print("   ✅ Italic font style and appropriate sizing")
-    print("   ✅ Positioned inconspicuously at bottom")
+    print("\n[OK] PACIFIC COAST SIGNATURE:")
+    print("   [OK] Proper cursive styling: 'Brush Script MT', cursive")
+    print("   [OK] Italic font style and appropriate sizing")
+    print("   [OK] Positioned inconspicuously at bottom")
 
-    print("\n✅ LOGICAL REPORT FLOW:")
+    print("\n[OK] LOGICAL REPORT FLOW:")
     print("   1. Executive Summary with key metrics")
     print("   2. Document Evidence & Quotations (if enabled)")
     print("   3. Strengths & Weaknesses Analysis (if enabled)")
@@ -83,14 +83,14 @@ try:
     print("   8. AI Ethics & Bias Reduction statement")
     print("   9. Footer with signature")
 
-    print("\n✅ ETHICS & BIAS REDUCTION FEATURES:")
-    print("   ✅ Comprehensive ethics statement")
-    print("   ✅ Bias reduction measures explanation")
-    print("   ✅ Ethical safeguards documentation")
-    print("   ✅ Professional judgment disclaimer")
-    print("   ✅ Transparency and limitations disclosure")
+    print("\n[OK] ETHICS & BIAS REDUCTION FEATURES:")
+    print("   [OK] Comprehensive ethics statement")
+    print("   [OK] Bias reduction measures explanation")
+    print("   [OK] Ethical safeguards documentation")
+    print("   [OK] Professional judgment disclaimer")
+    print("   [OK] Transparency and limitations disclosure")
 
-    print("\n✅ ENHANCED ANALYSIS OPTIONS:")
+    print("\n[OK] ENHANCED ANALYSIS OPTIONS:")
     analysis_options = [
         "enable_fact_check",
         "enable_suggestions",
@@ -104,27 +104,27 @@ try:
         if hasattr(main_win, option):
             checkbox = getattr(main_win, option)
             status = "Enabled" if checkbox.isChecked() else "Available"
-            print(f"   ✅ {option.replace('enable_', '').replace('_', ' ').title()}: {status}")
+            print(f"   [OK] {option.replace('enable_', '').replace('_', ' ').title()}: {status}")
 
     print("\n🎉 ALL FINAL ENHANCEMENTS VERIFIED!")
     print("=" * 60)
     print("🏆 COMPREHENSIVE FEATURE SET COMPLETE:")
-    print("   ✅ Logical report flow with professional formatting")
-    print("   ✅ AI ethics and bias reduction transparency")
-    print("   ✅ Multiple PDF export options with fallbacks")
-    print("   ✅ Fixed title wrapping and responsive design")
-    print("   ✅ Enhanced Pacific Coast signature styling")
-    print("   ✅ Complete toggle system for all report features")
-    print("   ✅ Medicare Part B focused rubric system")
-    print("   ✅ Individual AI model status indicators")
-    print("   ✅ Comprehensive easter egg implementation")
-    print("   ✅ Full menu functionality with keyboard shortcuts")
+    print("   [OK] Logical report flow with professional formatting")
+    print("   [OK] AI ethics and bias reduction transparency")
+    print("   [OK] Multiple PDF export options with fallbacks")
+    print("   [OK] Fixed title wrapping and responsive design")
+    print("   [OK] Enhanced Pacific Coast signature styling")
+    print("   [OK] Complete toggle system for all report features")
+    print("   [OK] Medicare Part B focused rubric system")
+    print("   [OK] Individual AI model status indicators")
+    print("   [OK] Comprehensive easter egg implementation")
+    print("   [OK] Full menu functionality with keyboard shortcuts")
 
     print("\n🚀 PRODUCTION-READY APPLICATION!")
     print("Ready for clinical documentation compliance analysis.")
 
 except Exception as e:
-    print(f"\n❌ Error during testing: {e}")
+    print(f"\n[FAIL] Error during testing: {e}")
     import traceback
 
     traceback.print_exc()

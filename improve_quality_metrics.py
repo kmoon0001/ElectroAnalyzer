@@ -62,7 +62,7 @@ class QualityMetricsImprover:
 
     def analyze_current_state(self) -> Dict[str, Any]:
         """Analyze current codebase state."""
-        print("🔍 Analyzing current codebase state...")
+        print("[CHECK] Analyzing current codebase state...")
 
         analysis = {
             "timestamp": datetime.now().isoformat(),
@@ -433,10 +433,10 @@ python improve_quality_metrics.py --check-quality
 ## Expected Outcomes
 
 After implementing all recommendations:
-- **Performance**: 8.5 → 9.2 (+0.7)
-- **Documentation**: 8.0 → 9.0 (+1.0)
-- **Test Coverage**: 9.2 → 9.8 (+0.6)
-- **Code Quality**: 9.0 → 9.5 (+0.5)
+- **Performance**: 8.5 -> 9.2 (+0.7)
+- **Documentation**: 8.0 -> 9.0 (+1.0)
+- **Test Coverage**: 9.2 -> 9.8 (+0.6)
+- **Code Quality**: 9.0 -> 9.5 (+0.5)
 
 **New Overall Grade**: A+ (9.5+/10)
 """
@@ -445,7 +445,7 @@ After implementing all recommendations:
 
     def check_quality(self) -> Dict[str, Any]:
         """Run quality checks and return results."""
-        print("🔍 Running quality checks...")
+        print("[CHECK] Running quality checks...")
 
         results = {
             "linting": self._run_linting(),
@@ -550,7 +550,7 @@ def main():
     improver = QualityMetricsImprover(project_root)
 
     if args.analyze:
-        print("🔍 Analyzing current state...")
+        print("[CHECK] Analyzing current state...")
         analysis = improver.analyze_current_state()
 
         # Save analysis
@@ -558,8 +558,8 @@ def main():
         with open(analysis_file, 'w') as f:
             json.dump(analysis, f, indent=2)
 
-        print(f"✅ Analysis complete. Results saved to {analysis_file}")
-        print(f"📊 Current overall grade: A- (9.0/10)")
+        print(f"[OK] Analysis complete. Results saved to {analysis_file}")
+        print(f"[SUMMARY] Current overall grade: A- (9.0/10)")
         print(f"🎯 Target grade: A+ (9.5+/10)")
 
     elif args.implement:
@@ -571,7 +571,7 @@ def main():
         with open(results_file, 'w') as f:
             json.dump(results, f, indent=2)
 
-        print(f"✅ Implementation complete. Results saved to {results_file}")
+        print(f"[OK] Implementation complete. Results saved to {results_file}")
 
     elif args.generate_tests:
         print("🧪 Generating test improvements...")
@@ -581,10 +581,10 @@ def main():
         with open(plan_file, 'w') as f:
             f.write(plan)
 
-        print(f"✅ Test improvement plan generated: {plan_file}")
+        print(f"[OK] Test improvement plan generated: {plan_file}")
 
     elif args.check_quality:
-        print("🔍 Running quality checks...")
+        print("[CHECK] Running quality checks...")
         results = improver.check_quality()
 
         # Save results
@@ -592,17 +592,17 @@ def main():
         with open(check_file, 'w') as f:
             json.dump(results, f, indent=2)
 
-        print(f"✅ Quality checks complete. Results saved to {check_file}")
+        print(f"[OK] Quality checks complete. Results saved to {check_file}")
 
     elif args.report:
-        print("📊 Generating quality report...")
+        print("[SUMMARY] Generating quality report...")
         report = improver.generate_quality_report()
 
         report_file = project_root / "QUALITY_IMPROVEMENT_REPORT.md"
         with open(report_file, 'w') as f:
             f.write(report)
 
-        print(f"✅ Quality report generated: {report_file}")
+        print(f"[OK] Quality report generated: {report_file}")
 
     else:
         parser.print_help()

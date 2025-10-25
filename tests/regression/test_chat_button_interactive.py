@@ -22,11 +22,11 @@ def main():
         from src.database import init_db
         from src.gui.main_window import MainApplicationWindow
 
-        print("✅ Imports successful")
+        print("[OK] Imports successful")
 
         # Initialize database
         asyncio.run(init_db())
-        print("✅ Database initialized")
+        print("[OK] Database initialized")
 
         # Create application
         app = QApplication([])
@@ -35,14 +35,14 @@ def main():
         # Start the application (this makes chat button visible)
         main_win.start()
 
-        print("✅ Application started")
+        print("[OK] Application started")
         print("\n" + "=" * 50)
         print("🎯 CHAT BUTTON VERIFICATION")
         print("=" * 50)
 
         if hasattr(main_win, "chat_button"):
             button = main_win.chat_button
-            print("✅ Chat button found")
+            print("[OK] Chat button found")
             print(f"   📐 Size: {button.width()}x{button.height()}")
             print(f"   👁️ Visible: {button.isVisible()}")
             print(f"   ⚡ Enabled: {button.isEnabled()}")
@@ -55,17 +55,17 @@ def main():
             msg.setText("Look for the floating chat button (💬) in the top-right corner!")
             msg.setInformativeText(
                 "The chat button should be:\n"
-                "• Blue circular button with 💬 emoji\n"
-                "• Located in top-right corner\n"
-                "• Draggable around the window\n"
-                "• Clickable to open chat dialog\n\n"
+                "* Blue circular button with 💬 emoji\n"
+                "* Located in top-right corner\n"
+                "* Draggable around the window\n"
+                "* Clickable to open chat dialog\n\n"
                 "Try clicking and dragging it!"
             )
             msg.setStandardButtons(QMessageBox.StandardButton.Ok)
             msg.show()
 
         else:
-            print("❌ Chat button not found!")
+            print("[FAIL] Chat button not found!")
 
         print("\n🎮 INSTRUCTIONS:")
         print("1. Look for the blue 💬 button in the top-right corner")
@@ -77,7 +77,7 @@ def main():
         return app.exec()
 
     except Exception as e:
-        print(f"❌ ERROR: {e}")
+        print(f"[FAIL] ERROR: {e}")
         import traceback
 
         traceback.print_exc()

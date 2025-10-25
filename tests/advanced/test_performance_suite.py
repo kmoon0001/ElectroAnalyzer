@@ -57,7 +57,7 @@ class PerformanceTestSuite:
 
         try:
             # Test 1: Basic System Performance
-            print("\n📊 Test 1: Basic System Performance")
+            print("\n[SUMMARY] Test 1: Basic System Performance")
             basic_result = await self._test_basic_system_performance()
             results["benchmarks"].append(basic_result)
             results["test_summary"]["total_tests"] += 1
@@ -117,7 +117,7 @@ class PerformanceTestSuite:
 
         results["test_summary"]["total_duration"] = time.time() - start_time
 
-        print("\n✅ Performance Test Suite Complete")
+        print("\n[OK] Performance Test Suite Complete")
         print(f"   Total Tests: {results['test_summary']['total_tests']}")
         print(f"   Passed: {results['test_summary']['passed_tests']}")
         print(f"   Failed: {results['test_summary']['failed_tests']}")
@@ -390,7 +390,7 @@ if __name__ == "__main__":
     async def main():
         suite = PerformanceTestSuite()
         results = await suite.run_comprehensive_performance_tests()
-        print("\n📊 Final Results:")
+        print("\n[SUMMARY] Final Results:")
         print(f"   Tests: {results['test_summary']['total_tests']}")
         print(
             f"   Success Rate: {results['test_summary']['passed_tests'] / results['test_summary']['total_tests']:.1%}"

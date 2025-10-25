@@ -62,11 +62,11 @@ class IntegrationValidator:
                     self.validation_results[check_name] = result
                     if result.get('status') == 'passed':
                         passed_checks += 1
-                        logger.info("✅ %s: PASSED", check_name)
+                        logger.info("[OK] %s: PASSED", check_name)
                     else:
-                        logger.warning("⚠️ %s: ISSUES FOUND", check_name)
+                        logger.warning("[WARNING] %s: ISSUES FOUND", check_name)
                 except Exception as e:
-                    logger.error("❌ %s: FAILED - %s", check_name, e)
+                    logger.error("[FAIL] %s: FAILED - %s", check_name, e)
                     self.validation_results[check_name] = {
                         'status': 'failed',
                         'error': str(e)
@@ -553,9 +553,9 @@ class IntegrationValidator:
         total_issues = sum(len(result.get('issues', [])) for result in self.validation_results.values())
 
         if total_issues == 0:
-            recommendations.append("✅ All components properly integrated - system ready for production")
+            recommendations.append("[OK] All components properly integrated - system ready for production")
         else:
-            recommendations.append(f"⚠️ {total_issues} integration issues found - review and fix before deployment")
+            recommendations.append(f"[WARNING] {total_issues} integration issues found - review and fix before deployment")
 
             # Component-specific recommendations
             if any('Component' in str(result.get('issues', [])) for result in self.validation_results.values()):
@@ -570,7 +570,7 @@ class IntegrationValidator:
             if any('test' in str(result.get('issues', [])).lower() for result in self.validation_results.values()):
                 recommendations.append("🧪 Ensure all test files are present and functional")
 
-        recommendations.append("📊 Monitor system performance after deployment")
+        recommendations.append("[SUMMARY] Monitor system performance after deployment")
         recommendations.append("🔄 Implement continuous integration validation")
 
         return recommendations
@@ -581,9 +581,9 @@ class IntegrationValidator:
             summary = validation_results['validation_summary']
 
             report = f"""
-# 🔍 **COMPREHENSIVE INTEGRATION VALIDATION REPORT**
+# [CHECK] **COMPREHENSIVE INTEGRATION VALIDATION REPORT**
 
-## 📊 **Validation Summary**
+## [SUMMARY] **Validation Summary**
 - **Overall Status**: {summary['overall_status'].upper()}
 - **Total Checks**: {summary['total_checks']}
 - **Passed Checks**: {summary['passed_checks']}
@@ -591,11 +591,11 @@ class IntegrationValidator:
 - **Success Rate**: {summary['success_rate']:.1%}
 - **Validation Time**: {summary['validation_time_seconds']:.1f} seconds
 
-## 🔍 **Detailed Results**
+## [CHECK] **Detailed Results**
 """
 
             for check_name, result in validation_results['validation_results'].items():
-                status_icon = "✅" if result.get('status') == 'passed' else "⚠️" if result.get('status') == 'issues_found' else "❌"
+                status_icon = "[OK]" if result.get('status') == 'passed' else "[WARNING]" if result.get('status') == 'issues_found' else "[FAIL]"
                 report += f"\n### {status_icon} {check_name}\n"
                 report += f"- **Status**: {result.get('status', 'unknown')}\n"
 

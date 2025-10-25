@@ -70,9 +70,9 @@ class TestPluginSystemWorkflow:
             assert "metadata" in plugin_details
             assert plugin_details["name"] == plugin_name
 
-            print(f"✅ Plugin '{plugin_name}' details verified")
+            print(f"[OK] Plugin '{plugin_name}' details verified")
 
-        print("✅ Plugin discovery workflow completed")
+        print("[OK] Plugin discovery workflow completed")
 
     @pytest.mark.asyncio
     async def test_plugin_lifecycle_management(self, e2e_helper: E2ETestHelper):
@@ -83,7 +83,7 @@ class TestPluginSystemWorkflow:
 
         plugins = list_response.json()["plugins"]
         if not plugins:
-            print("⚠️ No plugins available for lifecycle testing")
+            print("[WARNING] No plugins available for lifecycle testing")
             return
 
         # Use first available plugin for testing
@@ -115,7 +115,7 @@ class TestPluginSystemWorkflow:
             updated_status = status_response.json()
             assert updated_status["status"] == "loaded"
 
-        print(f"✅ Plugin '{plugin_name}' loaded successfully")
+        print(f"[OK] Plugin '{plugin_name}' loaded successfully")
 
         # Step 3: Test plugin execution (if it has executable functionality)
         print("Step 3: Testing plugin execution...")
@@ -137,7 +137,7 @@ class TestPluginSystemWorkflow:
         final_status = final_status_response.json()
         assert final_status["status"] in ["available", "unloaded"]
 
-        print(f"✅ Plugin '{plugin_name}' lifecycle test completed")
+        print(f"[OK] Plugin '{plugin_name}' lifecycle test completed")
 
     @pytest.mark.asyncio
     async def test_plugin_extension_points(self, e2e_helper: E2ETestHelper):
@@ -163,7 +163,7 @@ class TestPluginSystemWorkflow:
 
             print(f"Extension point: {ext_point['name']}")
 
-        print(f"✅ Found {len(extension_points)} extension points")
+        print(f"[OK] Found {len(extension_points)} extension points")
 
     @pytest.mark.asyncio
     async def test_plugin_batch_operations(self, e2e_helper: E2ETestHelper):
@@ -194,15 +194,15 @@ class TestPluginSystemWorkflow:
 
                 if status_data.get("status") == "completed":
                     assert "results" in status_data
-                    print(f"✅ Batch operation completed: {status_data['results']}")
+                    print(f"[OK] Batch operation completed: {status_data['results']}")
                     break
                 elif status_data.get("status") == "failed":
-                    print(f"⚠️ Batch operation failed: {status_data.get('error')}")
+                    print(f"[WARNING] Batch operation failed: {status_data.get('error')}")
                     break
 
             time.sleep(2)
         else:
-            print("⚠️ Batch operation timed out")
+            print("[WARNING] Batch operation timed out")
 
     @pytest.mark.asyncio
     async def test_plugin_error_handling(self, e2e_helper: E2ETestHelper):
@@ -243,7 +243,7 @@ class TestPluginSystemWorkflow:
                 )
 
             assert response.status_code in test_case["expected_status"]
-            print(f"✅ Error case '{test_case['name']}' handled correctly")
+            print(f"[OK] Error case '{test_case['name']}' handled correctly")
 
     @pytest.mark.asyncio
     async def test_plugin_performance_monitoring(self, e2e_helper: E2ETestHelper, e2e_test_config: dict[str, Any]):
@@ -264,7 +264,7 @@ class TestPluginSystemWorkflow:
         max_discovery_time = e2e_test_config["performance_thresholds"]["api_response"]
         assert discovery_time <= max_discovery_time
 
-        print(f"✅ Plugin discovery completed in {discovery_time:.2f} seconds")
+        print(f"[OK] Plugin discovery completed in {discovery_time:.2f} seconds")
 
         # Test plugin listing performance
         start_time = time.time()
@@ -276,7 +276,7 @@ class TestPluginSystemWorkflow:
         assert list_response.status_code == 200
         assert list_time <= max_discovery_time
 
-        print(f"✅ Plugin listing completed in {list_time:.2f} seconds")
+        print(f"[OK] Plugin listing completed in {list_time:.2f} seconds")
 
     @pytest.mark.asyncio
     async def test_plugin_integration_with_analysis(
@@ -292,7 +292,7 @@ class TestPluginSystemWorkflow:
         plugins = list_response.json()["plugins"]
 
         if not plugins:
-            print("⚠️ No plugins available for integration testing")
+            print("[WARNING] No plugins available for integration testing")
             return
 
         # Load a plugin if available
@@ -302,7 +302,7 @@ class TestPluginSystemWorkflow:
         load_response = e2e_helper.client.post(f"/plugins/{plugin_name}/load", headers=e2e_helper.headers)
 
         if load_response.status_code != 200:
-            print(f"⚠️ Could not load plugin {plugin_name} for integration test")
+            print(f"[WARNING] Could not load plugin {plugin_name} for integration test")
             return
 
         # Now run a document analysis to see if plugins are integrated
@@ -326,7 +326,7 @@ class TestPluginSystemWorkflow:
         # This would depend on the specific plugin's functionality
         # For now, we just verify the analysis worked with plugins loaded
 
-        print(f"✅ Analysis completed successfully with plugin '{plugin_name}' loaded")
+        print(f"[OK] Analysis completed successfully with plugin '{plugin_name}' loaded")
 
         # Clean up - unload plugin
         e2e_helper.client.post(f"/plugins/{plugin_name}/unload", headers=e2e_helper.headers)

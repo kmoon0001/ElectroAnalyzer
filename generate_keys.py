@@ -110,13 +110,13 @@ TESTING=false
     env_file = Path(".env")
     if env_file.exists():
         backup_file = Path(".env.backup")
-        print(f"⚠️  .env file already exists. Creating backup at {backup_file}")
+        print(f"[WARNING]  .env file already exists. Creating backup at {backup_file}")
         env_file.rename(backup_file)
 
     with open(env_file, 'w') as f:
         f.write(env_content)
 
-    print(f"✅ Generated .env file with secure keys")
+    print(f"[OK] Generated .env file with secure keys")
     print()
     print("🔒 Security Notes:")
     print("- Keep your .env file secure and never commit it to version control")

@@ -20,24 +20,24 @@ try:
     from src.database import init_db
 
     # Initialize database
-    print("📊 Initializing database...")
+    print("[SUMMARY] Initializing database...")
     asyncio.run(init_db())
-    print("   ✅ Database ready")
+    print("   [OK] Database ready")
 
     # Create application
     print("🖥️ Creating application...")
     app = QApplication([])
-    print("   ✅ QApplication created")
+    print("   [OK] QApplication created")
 
     # Create main window
     print("🏥 Creating main window...")
     main_win = UltimateMainWindow()
-    print("   ✅ Main window created")
+    print("   [OK] Main window created")
 
     # Start the application
     print("⚡ Starting application...")
     main_win.start()
-    print("   ✅ Application started and visible")
+    print("   [OK] Application started and visible")
 
     print("\n🎉 SUCCESS! Application is running!")
     print("=" * 60)
@@ -49,7 +49,7 @@ try:
     print("   📋 Medicare Part B rubric selector")
     print("   🎮 Easter eggs: Konami code & logo clicks")
     print("   🌴 Pacific Coast signature in cursive")
-    print("   📄 Comprehensive reporting with all features")
+    print("   [REPORT] Comprehensive reporting with all features")
     print("\n🎯 TO TEST:")
     print("   1. Upload a document (drag & drop or click)")
     print("   2. Select Medicare Part B rubric")
@@ -63,7 +63,7 @@ try:
     print("   F5 - Run Analysis")
     print("   Ctrl+T - Chat Assistant")
     print("   F11 - Fullscreen")
-    print("   ↑↑↓↓←→←→BA - Konami Code")
+    print("   ^^vv<--><-->BA - Konami Code")
 
     # Auto-close after showing info
     def close_app():
@@ -77,10 +77,10 @@ try:
     print("\n🔄 Running for 3 seconds to demonstrate...")
     app.exec()
 
-    print("✅ Application closed successfully!")
+    print("[OK] Application closed successfully!")
 
 except Exception as e:
-    print(f"\n❌ Error: {e}")
+    print(f"\n[FAIL] Error: {e}")
     import traceback
 
     traceback.print_exc()

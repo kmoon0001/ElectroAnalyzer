@@ -460,13 +460,13 @@ async def main():
 
     if result.is_success:
         logger.info("Production monitoring started successfully!")
-        print("✅ Production monitoring started successfully!")
+        print("[OK] Production monitoring started successfully!")
 
         # Keep monitoring running
         try:
             while True:
                 status = await monitor.get_monitoring_status()
-                print(f"📊 Monitoring Status: Active={status['monitoring_active']}, Alerts={status['active_alerts']}")
+                print(f"[SUMMARY] Monitoring Status: Active={status['monitoring_active']}, Alerts={status['active_alerts']}")
                 await asyncio.sleep(60)  # Print status every minute
 
         except KeyboardInterrupt:
@@ -476,7 +476,7 @@ async def main():
 
     else:
         logger.error(f"Failed to start monitoring: {result.error}")
-        print(f"❌ Failed to start monitoring: {result.error}")
+        print(f"[FAIL] Failed to start monitoring: {result.error}")
 
 
 if __name__ == "__main__":

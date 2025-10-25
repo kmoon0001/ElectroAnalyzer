@@ -14,16 +14,16 @@ try:
     print("1. Testing PySide6 import...")
     from PySide6.QtWidgets import QApplication
 
-    print("   ✅ PySide6 imported successfully")
+    print("   [OK] PySide6 imported successfully")
 
     print("2. Testing main window import...")
     from src.gui.main_window import MainApplicationWindow
 
-    print("   ✅ Main window imported successfully")
+    print("   [OK] Main window imported successfully")
 
     print("3. Creating QApplication...")
     app = QApplication([])
-    print("   ✅ QApplication created")
+    print("   [OK] QApplication created")
 
     print("4. Testing database init...")
     import asyncio
@@ -31,15 +31,15 @@ try:
     from src.database import init_db
 
     asyncio.run(init_db())
-    print("   ✅ Database initialized")
+    print("   [OK] Database initialized")
 
     print("5. Creating main window...")
     main_win = MainApplicationWindow()
-    print("   ✅ Main window created")
+    print("   [OK] Main window created")
 
     print("6. Starting application...")
     main_win.start()
-    print("   ✅ Application started")
+    print("   [OK] Application started")
 
     print("\n🎉 UI IMPROVEMENTS READY!")
     print("=" * 50)
@@ -59,10 +59,10 @@ try:
     print("   4. ℹ️ Go to Help > About to see Kevin Moon with emoji")
     print("   5. 📏 Try resizing the window smaller")
 
-    print("\n✅ Ready to use! All improvements implemented.")
+    print("\n[OK] Ready to use! All improvements implemented.")
 
 except Exception as e:
-    print(f"\n❌ Error: {e}")
+    print(f"\n[FAIL] Error: {e}")
     import traceback
 
     traceback.print_exc()

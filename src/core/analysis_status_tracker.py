@@ -129,7 +129,7 @@ class AnalysisStatusTracker:
         if old_state != state:
             elapsed = self.get_elapsed_time()
             logger.info(
-                "Analysis state changed: %s → %s | Progress: %s%% | Elapsed: %ss | Analysis: %s",
+                "Analysis state changed: %s -> %s | Progress: %s%% | Elapsed: %ss | Analysis: %s",
                 old_state.value,
                 state.value,
                 self.progress,

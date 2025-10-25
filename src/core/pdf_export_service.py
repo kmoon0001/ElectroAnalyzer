@@ -542,7 +542,7 @@ class PDFExportService:
                 }
 
                 @bottom-center {
-                    content: "CONFIDENTIAL • HIPAA Protected";
+                    content: "CONFIDENTIAL * HIPAA Protected";
                     font-family: 'Segoe UI', Arial, sans-serif;
                     font-size: 9pt;
                     color: #b91c1c;
@@ -774,7 +774,7 @@ class PDFExportService:
 
         footer_html = (
             "<footer class='report-footer'>"
-            "<p><strong>CONFIDENTIAL</strong> – HIPAA Protected Health Information.</p>"
+            "<p><strong>CONFIDENTIAL</strong> - HIPAA Protected Health Information.</p>"
             "<p>This report leverages AI-assisted technology. Review before distribution.</p>"
             "</footer>"
         )

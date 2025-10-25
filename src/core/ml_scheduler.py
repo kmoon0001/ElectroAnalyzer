@@ -215,9 +215,19 @@ class MLScheduler:
             metadata_file = models_dir / "training_metadata.json"
             if metadata_file.exists():
                 import json
+                try:
+                    import aiofiles
+                    async with aiofiles.open(metadata_file) as f:
+                        content = await f.read()
+                        metadata = json.loads(content)
+                except ImportError:
+                    with open(metadata_file) as f:
+                        metadata = json.load(f)
 
-                with open(metadata_file) as f:
-                    metadata = json.load(f)
+                health_status["metadata"] = {
+                    "training_date": metadata.get("training_date", "unknown"),
+                    "model_version": metadata.get("model_version", "unknown"),
+                }
 
                 last_training = datetime.fromisoformat(
                     metadata.get("last_training", "2000-01-01")

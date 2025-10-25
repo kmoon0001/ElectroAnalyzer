@@ -371,8 +371,8 @@ class FeedbackCollector:
             ),
             "calibrated": finding.get("confidence_calibrated", False),
             "buttons": [
-                {"label": "✓ Correct", "value": "correct", "style": "success"},
-                {"label": "✗ Incorrect", "value": "incorrect", "style": "danger"},
+                {"label": "[OK] Correct", "value": "correct", "style": "success"},
+                {"label": "[FAIL] Incorrect", "value": "incorrect", "style": "danger"},
                 {"label": "? Uncertain", "value": "uncertain", "style": "warning"},
             ],
         }

@@ -67,7 +67,7 @@ async def test_xai_system():
         # Generate XAI report
         xai_metrics = xai_engine.generate_xai_report(mock_analysis, mock_entities, mock_rules, mock_trace)
 
-        print(f"✅ XAI Engine: Decision path ({len(xai_metrics.decision_path)} steps)")
+        print(f"[OK] XAI Engine: Decision path ({len(xai_metrics.decision_path)} steps)")
         print(f"   Feature importance: {len(xai_metrics.feature_importance)} features")
         print(f"   Confidence breakdown: {xai_metrics.confidence_breakdown}")
         print(f"   Uncertainty sources: {xai_metrics.uncertainty_sources}")
@@ -79,7 +79,7 @@ async def test_xai_system():
 
         bias_metrics = bias_engine.detect_bias(mock_analysis, mock_entities, "Patient is a difficult case with poor compliance")
 
-        print(f"✅ Bias Engine: Demographic={bias_metrics.demographic_bias_score:.3f}")
+        print(f"[OK] Bias Engine: Demographic={bias_metrics.demographic_bias_score:.3f}")
         print(f"   Linguistic={bias_metrics.linguistic_bias_score:.3f}")
         print(f"   Clinical={bias_metrics.clinical_bias_score:.3f}")
         print(f"   Fairness metrics: {bias_metrics.fairness_metrics}")
@@ -92,7 +92,7 @@ async def test_xai_system():
 
         enhanced_result = accuracy_enhancer.enhance_accuracy(mock_analysis, mock_entities, mock_rules)
 
-        print(f"✅ Accuracy Enhancer: Techniques applied")
+        print(f"[OK] Accuracy Enhancer: Techniques applied")
         print(f"   Expected improvement: {enhanced_result.get('accuracy_enhancement', {}).get('expected_improvement', 0):.3f}")
         print(f"   Enhanced findings: {len(enhanced_result.get('findings', []))}")
 
@@ -119,21 +119,21 @@ async def test_xai_system():
 
         if xai_metrics.decision_path:
             success_count += 1
-            print("✅ XAI System: ACTIVE")
+            print("[OK] XAI System: ACTIVE")
         else:
-            print("❌ XAI System: INACTIVE")
+            print("[FAIL] XAI System: INACTIVE")
 
         if bias_metrics.bias_sources is not None:
             success_count += 1
-            print("✅ Bias Mitigation: ACTIVE")
+            print("[OK] Bias Mitigation: ACTIVE")
         else:
-            print("❌ Bias Mitigation: INACTIVE")
+            print("[FAIL] Bias Mitigation: INACTIVE")
 
         if enhanced_result.get('accuracy_enhancement'):
             success_count += 1
-            print("✅ Accuracy Enhancement: ACTIVE")
+            print("[OK] Accuracy Enhancement: ACTIVE")
         else:
-            print("❌ Accuracy Enhancement: INACTIVE")
+            print("[FAIL] Accuracy Enhancement: INACTIVE")
 
         success_rate = (success_count / total_checks) * 100
         print(f"\n🎯 SYSTEM COMPLETENESS: {success_rate:.1f}% ({success_count}/{total_checks})")
@@ -141,14 +141,14 @@ async def test_xai_system():
         if success_rate >= 80:
             print("🚀 EXCELLENT: All XAI, Ethical AI, and Accuracy systems are operational!")
         elif success_rate >= 60:
-            print("✅ GOOD: Most systems are operational")
+            print("[OK] GOOD: Most systems are operational")
         else:
-            print("⚠️  NEEDS ATTENTION: Several systems require fixes")
+            print("[WARNING]  NEEDS ATTENTION: Several systems require fixes")
 
         return success_rate >= 80
 
     except Exception as e:
-        print(f"❌ Test failed with error: {e}")
+        print(f"[FAIL] Test failed with error: {e}")
         import traceback
         traceback.print_exc()
         return False
@@ -162,7 +162,7 @@ async def main():
         print("🎉 XAI, ETHICAL AI, AND ACCURACY TEST: PASSED")
         print("Your comprehensive XAI, ethical AI, and accuracy enhancement system is working!")
     else:
-        print("❌ XAI, ETHICAL AI, AND ACCURACY TEST: FAILED")
+        print("[FAIL] XAI, ETHICAL AI, AND ACCURACY TEST: FAILED")
         print("Some systems need attention.")
     print("=" * 60)
 
